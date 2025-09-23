@@ -1,0 +1,17 @@
+@Service
+public class CurriculumSeccionService {
+
+    private final CurriculumSeccionRepository repository;
+
+    public CurriculumSeccionService(CurriculumSeccionRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<CurriculumSeccion> obtenerPorUsuario(String usuario) {
+        return repository.findByUsuario(usuario);
+    }
+
+    public Optional<CurriculumSeccion> obtenerPorUsuarioYTitulo(String usuario, String titulo) {
+        return repository.findByUsuarioAndTitulo(usuario, titulo);
+    }
+}
