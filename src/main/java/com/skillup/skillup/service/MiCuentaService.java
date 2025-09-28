@@ -32,7 +32,8 @@ public class MiCuentaService {
         this.curriculumSeccionRepository = curriculumSeccionRepository;
     }
 
-    public Optional<Usuarios> obtenerUsuario(Integer identificacion) {
+    // --- Métodos con String en vez de Integer ---
+    public Optional<Usuarios> obtenerUsuario(String identificacion) {
         return usuariosRepository.findById(identificacion);
     }
 
@@ -40,12 +41,12 @@ public class MiCuentaService {
         return rolRepository.findById(idRol);
     }
 
-    public List<Curso> obtenerCursosPorEstudiante(Integer identificacion) {
+    public List<Curso> obtenerCursosPorEstudiante(String identificacion) {
         return cursoRepository.findByIdentificacion(identificacion);
     }
 
-    public Map<String,String> obtenerContenidoSecciones(Integer identificacion, String... titulos) {
-        Map<String,String> mapa = new HashMap<>();
+    public Map<String, String> obtenerContenidoSecciones(String identificacion, String... titulos) {
+        Map<String, String> mapa = new HashMap<>();
         for (String t : titulos) {
             curriculumSeccionRepository
                     .findByUsuario_IdentificacionAndSeccion(identificacion, t)
@@ -54,7 +55,7 @@ public class MiCuentaService {
         return mapa;
     }
 
-    public void guardarSeccion(Integer identificacion, String seccion, String contenido) {
+    public void guardarSeccion(String identificacion, String seccion, String contenido) {
         Usuarios usuario = usuariosRepository.findById(identificacion)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado: " + identificacion));
 
@@ -71,12 +72,12 @@ public class MiCuentaService {
                 );
     }
 
-    public void eliminarSeccion(Integer identificacion, String seccion) {
+    public void eliminarSeccion(String identificacion, String seccion) {
         curriculumSeccionRepository.findByUsuario_IdentificacionAndSeccion(identificacion, seccion)
                 .ifPresent(curriculumSeccionRepository::delete);
     }
 
-    public void actualizarPerfil(Integer identificacion, String nombre, String apellido1, String apellido2, String correo) {
+    public void actualizarPerfil(String identificacion, String nombre, String apellido1, String apellido2, String correo) {
         Usuarios u = usuariosRepository.findById(identificacion)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado: " + identificacion));
 

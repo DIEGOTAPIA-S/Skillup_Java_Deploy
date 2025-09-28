@@ -27,7 +27,7 @@ public class MiCuentaController {
     // Equivalente a index()
     @GetMapping
     public String index(HttpSession session, Model model) {
-        Integer identificacion = (Integer) session.getAttribute("roles_sistema");
+        String identificacion = (String) session.getAttribute("roles_sistema");
         if (identificacion == null) {
             return "redirect:/login";
         }
@@ -38,7 +38,7 @@ public class MiCuentaController {
         }
 
         Usuarios usuario = optUsuario.get();
-        Rol rol = usuario.getRol();
+        Integer rol = usuario.getIdRol();
         List<Curso> cursos = miCuentaService.obtenerCursosPorEstudiante(identificacion);
 
         Map<String,String> secciones = miCuentaService.obtenerContenidoSecciones(identificacion, "Educación", "Certificaciones");
@@ -57,7 +57,7 @@ public class MiCuentaController {
                                  @RequestParam String seccion,
                                  @RequestParam String contenido,
                                  RedirectAttributes redirectAttributes) {
-        Integer identificacion = (Integer) session.getAttribute("roles_sistema");
+        String identificacion = (String) session.getAttribute("roles_sistema");
         if (identificacion == null) return "redirect:/login";
 
         miCuentaService.guardarSeccion(identificacion, seccion, contenido);
@@ -70,7 +70,7 @@ public class MiCuentaController {
     public String eliminarSeccion(HttpSession session,
                                   @RequestParam String seccion,
                                   RedirectAttributes redirectAttributes) {
-        Integer identificacion = (Integer) session.getAttribute("roles_sistema");
+        String identificacion = (String) session.getAttribute("roles_sistema");
         if (identificacion == null) return "redirect:/login";
 
         miCuentaService.eliminarSeccion(identificacion, seccion);
@@ -81,7 +81,7 @@ public class MiCuentaController {
     // editarPerfil() -> GET /micuenta/editar
     @GetMapping("/editar")
     public String editarPerfil(HttpSession session, Model model) {
-        Integer identificacion = (Integer) session.getAttribute("roles_sistema");
+        String identificacion = (String) session.getAttribute("roles_sistema");
         if (identificacion == null) return "redirect:/login";
 
         Optional<Usuarios> u = miCuentaService.obtenerUsuario(identificacion);
@@ -99,7 +99,7 @@ public class MiCuentaController {
                                 @RequestParam(required = false) String APELLIDO2,
                                 @RequestParam String CORREO,
                                 RedirectAttributes redirectAttributes) {
-        Integer identificacion = (Integer) session.getAttribute("roles_sistema");
+        String identificacion = (String) session.getAttribute("roles_sistema");
         if (identificacion == null) return "redirect:/login";
 
         // Validaciones simples (puedes usar @Valid + DTO si prefieres)
