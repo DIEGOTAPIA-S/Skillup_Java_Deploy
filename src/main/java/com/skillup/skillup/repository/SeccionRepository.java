@@ -1,4 +1,4 @@
-package com.skillup.skillup.repository;
+/*package com.skillup.skillup.repository;
 
 import com.skillup.skillup.model.CurriculumSeccion;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,3 +10,5 @@ public interface SeccionRepository extends JpaRepository<CurriculumSeccion, Long
     // Buscar secciones por usuario (relación ManyToOne con Usuario)
     List<CurriculumSeccion> findByUsuario_Id(Long usuarioId);
 }
+
+ */

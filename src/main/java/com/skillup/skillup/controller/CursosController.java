@@ -1,43 +1,34 @@
 package com.skillup.skillup.controller;
 
-public package com.skillup.skillup.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class CursosController {
 
-    // Página principal de cursos
-    @GetMapping("/estudiante/cursos")
+    @GetMapping("/cursos")
     public String index() {
-        return "estudiante/cursos"; // Se busca en templates/estudiante/cursos.html
+        // Retorna la plantilla en resources/templates/estudiante/cursos.html
+        return "estudiante/cursos";
     }
 
-    // Curso de Negociación
-    @GetMapping("/estudiante/negociacion")
+    @GetMapping("/negociacion")
     public String negociacion() {
-        return "estudiante/negociacion"; // templates/estudiante/negociacion.html
+        return "estudiante/negociacion";
     }
 
-    // Curso de Liderazgo
-    @GetMapping("/estudiante/liderazgo")
+    @GetMapping("/liderazgo")
     public String liderazgo() {
         return "estudiante/liderazgo";
     }
 
-    // Curso de Trabajo en Equipo
-    @GetMapping("/estudiante/trabajoequipo")
+    @GetMapping("/trabajoequipo")
     public String trabajoEquipo() {
         return "estudiante/trabajoequipo";
     }
 
-    // Curso de Comunicación
-    @GetMapping("/estudiante/comunicacion")
+    @GetMapping("/comunicacion")
     public String comunicacion() {
         return "estudiante/comunicacion";
     }
-}
- {
-    
 }

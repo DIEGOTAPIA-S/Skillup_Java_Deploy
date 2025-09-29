@@ -1,4 +1,4 @@
-package com.skillup.skillup.service.impl;
+/*package com.skillup.skillup.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,3 +62,4 @@ public class SeccionServiceImpl implements SeccionService {
         return seccionRepository.findByUsuario_Id(usuarioId);
     }
 }
+*/

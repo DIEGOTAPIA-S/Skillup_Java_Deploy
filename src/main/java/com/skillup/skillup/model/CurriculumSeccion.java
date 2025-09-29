@@ -1,4 +1,4 @@
-package com.skillup.skillup.model;
+/*package com.skillup.skillup.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -57,3 +57,4 @@ public class CurriculumSeccion<Usuario> {
     public LocalDateTime getActualizadoEn() { return actualizadoEn; }
     public void setActualizadoEn(LocalDateTime actualizadoEn) { this.actualizadoEn = actualizadoEn; }
 }
+*/

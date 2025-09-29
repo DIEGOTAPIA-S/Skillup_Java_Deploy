@@ -1,4 +1,4 @@
-package com.skillup.skillup.service;
+/*package com.skillup.skillup.service;
 
 import com.skillup.skillup.model.CurriculumSeccion;
 import com.skillup.skillup.model.Curso;
@@ -89,3 +89,5 @@ public class MiCuentaService {
         usuariosRepository.save(u);
     }
 }
+
+ */

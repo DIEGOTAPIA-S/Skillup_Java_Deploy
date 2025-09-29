@@ -1,4 +1,4 @@
-package com.skillup.skillup.service;
+/*package com.skillup.skillup.service;
 
 import com.skillup.skillup.model.CurriculumSeccion;
 import java.util.List;
@@ -12,3 +12,5 @@ public interface SeccionService {
     List<CurriculumSeccion> obtenerTodas();
     List<CurriculumSeccion> obtenerPorUsuario(Long usuarioId);
 }
+
+ */
