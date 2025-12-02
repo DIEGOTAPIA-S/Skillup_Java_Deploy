@@ -34,6 +34,10 @@ public class HomeAdmin {
     @PostMapping("/administrador/filtrar")
     public String filtrar(@RequestParam("rol") String rol, Model model){
 
+        if("correo".equals(rol)){
+            return "redirect:/correo/enviar";
+        }
+
         if("cursos".equals(rol)){
             return "redirect:/cursosadmin";
         }

@@ -111,15 +111,7 @@ public class AdministradorController {
         return "redirect:/administrador";
     }
 
-    @ModelAttribute
-    public void agregarDatosSesion(Model model, HttpSession session, HttpServletResponse response) throws IOException {
-        Object roles = session.getAttribute("roles_sistema");
-        if (roles == null) {
-            response.sendRedirect("/login");  // redirige si no tiene rol
-            return;
-        }
-        model.addAttribute("nombreUsuario", session.getAttribute("nombre_usuario"));
-    }
+
 
 
     @GetMapping("/exportar/{idRol}")

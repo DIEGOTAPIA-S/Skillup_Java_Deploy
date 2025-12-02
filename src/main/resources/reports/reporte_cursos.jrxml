@@ -1,0 +1,50 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="reporte_cursos" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5e280f45-8c34-439f-9cb5-b885957dff59">
+    <parameter name="TITULO" class="java.lang.String"/>
+    <parameter name="TOTAL_CURSOS" class="java.lang.Integer"/>
+    <parameter name="FECHA_REPORTE" class="java.lang.String"/>
+    <query language="sql"><![CDATA[]]></query>
+    <field name="nombreCurso" class="java.lang.String"/>
+    <field name="totalInscripciones" class="java.lang.Long"/>
+    <background splitType="Stretch"/>
+    <title height="79" splitType="Stretch">
+        <element kind="staticText" uuid="7c782054-7484-43a8-ad6d-e6d86b1ce3c3" x="200" y="-10" width="143" height="30">
+            <text><![CDATA[REPORTE DE CURSOS]]></text>
+        </element>
+        <element kind="textField" uuid="aee9d72b-75dc-411e-9c7b-270b678df000" x="210" y="24" width="100" height="30">
+            <expression><![CDATA[$P{TITULO}]]></expression>
+        </element>
+        <element kind="textField" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f89f" x="20" y="10" width="100" height="30">
+            <expression><![CDATA[$P{FECHA_REPORTE}]]></expression>
+        </element>
+    </title>
+    <pageHeader height="35" splitType="Stretch"/>
+    <columnHeader height="61" splitType="Stretch">
+        <element kind="staticText" uuid="dd890889-9d58-448f-8ea9-68186cfcb139" x="20" y="10" width="178" height="30">
+            <text><![CDATA[NOMBRE DEL CURSO]]></text>
+        </element>
+        <element kind="staticText" uuid="729fb474-e602-44b8-b6b0-dc2bdbebd5a2" x="350" y="15" width="150" height="30">
+            <text><![CDATA[INSCRIPCIONES]]></text>
+        </element>
+    </columnHeader>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <element kind="textField" uuid="4c570905-b5bc-4d28-bee4-add60d30a3fb" x="20" y="10" width="100" height="30">
+                <expression><![CDATA[$F{nombreCurso}]]></expression>
+            </element>
+            <element kind="textField" uuid="86271606-b532-4b54-bf5d-6192c17af7c7" x="350" y="10" width="100" height="30">
+                <expression><![CDATA[$F{totalInscripciones}]]></expression>
+            </element>
+        </band>
+    </detail>
+    <columnFooter height="45" splitType="Stretch"/>
+    <pageFooter height="54" splitType="Stretch"/>
+    <summary height="42" splitType="Stretch">
+        <element kind="staticText" uuid="a48750db-f383-4624-929c-e04e8a2dd03e" x="20" y="6" width="150" height="30">
+            <text><![CDATA[TOTAL DE CURSOS]]></text>
+        </element>
+        <element kind="textField" uuid="f2948f41-b4df-43ae-8312-695fae667cac" x="343" y="6" width="100" height="30">
+            <expression><![CDATA[$P{TOTAL_CURSOS}]]></expression>
+        </element>
+    </summary>
+</jasperReport>

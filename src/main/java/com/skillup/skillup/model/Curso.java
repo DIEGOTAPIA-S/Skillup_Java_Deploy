@@ -11,24 +11,16 @@ public class Curso {
     @Column(name = "ID_CURSOS")
     private Integer id;
 
-    @Column(name = "NOMBRE_CURSO", nullable = false, length = 255)
-    private String nombreCurso;
+    @Column(name = "NOMBRE_CURSO")
+    private String nombre;
 
-    @Column(name = "NIVEL_DIFICULTAD", length = 100)
-    private String nivelDificultad;
+    public Curso() {}
 
-    @Column(name = "DURACION", length = 50)
-    private String duracion;
+    public Curso(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 
-    @Column(name = "ID_EVALUACIONES")
-    private Integer idEvaluaciones;
-
-    // Relación con la tabla Usuarios (IDENTIFICACION)
-    @ManyToOne
-    @JoinColumn(name = "IDENTIFICACION", referencedColumnName = "identificacion")
-    private Usuarios usuario;
-
-    // Getters y Setters
     public Integer getId() {
         return id;
     }
@@ -37,43 +29,11 @@ public class Curso {
         this.id = id;
     }
 
-    public String getNombreCurso() {
-        return nombreCurso;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreCurso(String nombreCurso) {
-        this.nombreCurso = nombreCurso;
-    }
-
-    public String getNivelDificultad() {
-        return nivelDificultad;
-    }
-
-    public void setNivelDificultad(String nivelDificultad) {
-        this.nivelDificultad = nivelDificultad;
-    }
-
-    public String getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(String duracion) {
-        this.duracion = duracion;
-    }
-
-    public Integer getIdEvaluaciones() {
-        return idEvaluaciones;
-    }
-
-    public void setIdEvaluaciones(Integer idEvaluaciones) {
-        this.idEvaluaciones = idEvaluaciones;
-    }
-
-    public Usuarios getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuarios usuario) {
-        this.usuario = usuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

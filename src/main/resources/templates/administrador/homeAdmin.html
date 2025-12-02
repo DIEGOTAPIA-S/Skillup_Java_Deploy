@@ -17,59 +17,78 @@
             ¡Un gusto tenerte en SKILLUP!
         </h1>
         <p class="text-center text-lg text-gray-600 mb-12">
-            Selecciona el tipo de usuario que deseas administrar:
+            Selecciona la accion que deseas realizar
         </p>
 
+        <!-- FORMULARIO PRINCIPAL -->
         <form th:action="@{/administrador/filtrar}" method="post">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
 
-                <!-- Administrador -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-10">
+
+                <!-- Tarjeta -->
                 <label class="cursor-pointer">
                     <input type="radio" name="rol" value="1" class="sr-only peer">
-                    <div class="rounded-xl p-8 text-center border border-purple-300 bg-purple-50 shadow-md transition
-                      peer-checked:bg-purple-200 peer-checked:border-purple-500">
-                        <div class="text-5xl mb-4">🛠️</div>
-                        <h3 class="text-xl font-bold text-purple-800">Administrador</h3>
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">🛠️</div>
+                        <h3 class="text-lg font-bold text-purple-800">Administrador</h3>
                     </div>
                 </label>
 
                 <!-- Estudiante -->
                 <label class="cursor-pointer">
                     <input type="radio" name="rol" value="2" class="sr-only peer">
-                    <div class="rounded-xl p-8 text-center border border-purple-300 bg-purple-50 shadow-md transition
-                      peer-checked:bg-purple-200 peer-checked:border-purple-500">
-                        <div class="text-5xl mb-4">🎓</div>
-                        <h3 class="text-xl font-bold text-purple-800">Estudiante</h3>
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">🎓</div>
+                        <h3 class="text-lg font-bold text-purple-800">Estudiante</h3>
                     </div>
                 </label>
 
                 <!-- Evaluador -->
                 <label class="cursor-pointer">
                     <input type="radio" name="rol" value="3" class="sr-only peer">
-                    <div class="rounded-xl p-8 text-center border border-purple-300 bg-purple-50 shadow-md transition
-                      peer-checked:bg-purple-200 peer-checked:border-purple-500">
-                        <div class="text-5xl mb-4">📝</div>
-                        <h3 class="text-xl font-bold text-purple-800">Evaluador</h3>
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">📝</div>
+                        <h3 class="text-lg font-bold text-purple-800">Evaluador</h3>
                     </div>
                 </label>
 
                 <!-- Cursos -->
                 <label class="cursor-pointer">
                     <input type="radio" name="rol" value="cursos" class="sr-only peer">
-                    <div class="rounded-xl p-8 text-center border border-purple-300 bg-purple-50 shadow-md transition
-                       peer-checked:bg-purple-200 peer-checked:border-purple-500">
-                        <div class="text-5xl mb-4">📚</div>
-                        <h3 class="text-xl font-bold text-purple-800">Cursos</h3>
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">📚</div>
+                        <h3 class="text-lg font-bold text-purple-800">Cursos</h3>
                     </div>
                 </label>
+
+                <!-- Envío de Correos -->
+                <label class="cursor-pointer">
+                    <input type="radio" name="rol" value="correo" class="sr-only peer">
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">✉️</div>
+                        <h3 class="text-lg font-bold text-purple-800">Envío de Correos</h3>
+                    </div>
+                </label>
+
             </div>
 
             <div class="text-center">
                 <button type="submit"
                         class="bg-purple-700 hover:bg-purple-800 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition">
-                    Ver usuarios
+                    Continuar
                 </button>
             </div>
+
         </form>
     </div>
 </main>

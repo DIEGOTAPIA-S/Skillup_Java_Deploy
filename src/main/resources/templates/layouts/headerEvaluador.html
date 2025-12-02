@@ -14,7 +14,7 @@
         <nav class="flex gap-4 items-center font-medium">
             <span class="text-gray-600 text-sm" th:text="${session.nombre_usuario}">Usuario</span>
             <a th:href="@{/evaluador/inicio}" class="text-blue-600 hover:text-blue-800 transition">Inicio</a>
-            <a th:href="@{/login}" class="text-red-600 hover:text-red-800 transition">Cerrar sesión</a>
+            <a th:href="@{/login/salir}" class="text-red-600 hover:text-red-800 transition">Cerrar sesión</a>
         </nav>
     </div>
 </header>

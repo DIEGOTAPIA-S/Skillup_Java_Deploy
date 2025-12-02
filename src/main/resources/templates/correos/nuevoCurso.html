@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Curso Disponible</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #ffd700;
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .course-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .course-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .features {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .features h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            background-color: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .cta-button {
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 30px 0;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .secondary-cta {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .secondary-cta a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 30px 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🎓 Nuevo Curso Disponible</h1>
+        <p>Desarrolla habilidades clave para tu crecimiento profesional</p>
+        <span class="badge">¡ACCESO INMEDIATO!</span>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Course Image -->
+        <div class="course-image">
+            📚
+        </div>
+
+        <!-- Course Title -->
+        <h2 class="course-title">Curso de Habilidades Profesionales Avanzadas</h2>
+
+        <!-- Description -->
+        <p class="description">
+            Estamos emocionados de anunciarte el lanzamiento de nuestro nuevo curso diseñado para
+            impulsar tu carrera al siguiente nivel. Aprende las habilidades más demandadas del mercado
+            actual con contenido actualizado, ejercicios prácticos y certificación profesional.
+        </p>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">12</span>
+                <span class="stat-label">Módulos</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">8h</span>
+                <span class="stat-label">Duración</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Online</span>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <h3>¿Qué incluye este curso?</h3>
+            <div class="feature-item">Acceso ilimitado de por vida al contenido</div>
+            <div class="feature-item">Certificado profesional al finalizar</div>
+            <div class="feature-item">Videos en alta calidad y recursos descargables</div>
+            <div class="feature-item">Ejercicios prácticos y casos reales</div>
+            <div class="feature-item">Comunidad exclusiva de estudiantes</div>
+            <div class="feature-item">Soporte directo de instructores expertos</div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="#" class="cta-button">INSCRÍBETE AHORA</a>
+
+        <!-- Secondary CTA -->
+        <div class="secondary-cta">
+            <a href="#">Ver el temario completo →</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Additional Info -->
+        <p class="description" style="text-align: center;">
+            <strong>💎 Oferta de lanzamiento:</strong> Obtén un 30% de descuento
+            si te inscribes en las próximas 48 horas.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>¿Tienes preguntas?</strong></p>
+        <p>Nuestro equipo está listo para ayudarte</p>
+
+        <div class="social-links">
+            <a href="#">Facebook</a> |
+            <a href="#">Instagram</a> |
+            <a href="#">LinkedIn</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <p>
+            Has recibido este correo porque estás suscrito a nuestras comunicaciones.<br>
+            Si no deseas recibir más correos, puedes <a href="#" style="color: #667eea;">darte de baja aquí</a>.
+        </p>
+
+        <p style="margin-top: 15px;">
+            © 2024 Skillup - Todos los derechos reservados
+        </p>
+    </div>
+</div>
+</body>
+</html>

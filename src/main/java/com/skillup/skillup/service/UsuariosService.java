@@ -15,6 +15,10 @@ public class UsuariosService {
     @Autowired
     private UsuariosRepository usuariosRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+
     public List<Usuarios> findAll() {
         return (List<Usuarios>)usuariosRepository.findAll();
     }
@@ -24,8 +28,17 @@ public class UsuariosService {
     }
 
     @Transactional
-    public Usuarios save(Usuarios usuarios) {
-        return usuariosRepository.save(usuarios);
+    public Usuarios save(Usuarios usuario) {
+
+        Usuarios nuevo = usuariosRepository.save(usuario);
+
+
+        emailService.sendWelcomeEmail(
+                usuario.getCorreo(),
+                usuario.getIdentificacion()  // Cambia por el campo con el nombre real
+        );
+
+        return nuevo;
     }
 
     @Transactional
