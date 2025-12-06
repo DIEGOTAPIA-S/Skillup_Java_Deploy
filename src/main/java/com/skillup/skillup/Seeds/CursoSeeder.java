@@ -1,6 +1,6 @@
 package com.skillup.skillup.Seeds;
 
-/*
+
 import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.repository.CursoRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -19,24 +19,22 @@ public class CursoSeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception{
-        if (cursoRepository.count() == 0) {
+    public void run(String... args) throws Exception {
+        List<String> nuevosCursos = Arrays.asList(
+                "Inteligencia Emocional"
 
-            List<String> nuevosCursos = Arrays.asList(
-                    "Inteligencia Emocional",
-                    "Habilidades interpersonales"
-            );
+        );
 
-            nuevosCursos.forEach(nombre -> {
-                if (!cursoRepository.existsByNombre(nombre)) {
-                    Curso curso = new Curso();
-                    curso.setNombre(nombre);
-                    cursoRepository.save(curso);
-                    System.out.println("Curso agregado: " + nombre);
-                }
-
-            });
-
-        }
+        nuevosCursos.forEach(nombre -> {
+            if (!cursoRepository.existsByNombre(nombre)) {
+                Curso curso = new Curso();
+                curso.setNombre(nombre);
+                cursoRepository.save(curso);
+                System.out.println("Curso agregado: " + nombre);
+            } else {
+                System.out.println("Curso ya existe: " + nombre);
+            }
+        });
     }
-}*/
+
+}

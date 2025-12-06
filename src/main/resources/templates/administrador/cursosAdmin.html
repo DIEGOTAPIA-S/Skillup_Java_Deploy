@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Administrar cursos</title>
+    <title>Administrar Inscripciones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -17,7 +17,7 @@
 <div class="flex-grow flex items-center justify-center my-10">
     <div class="max-w-6xl w-full mx-auto bg-white p-10 rounded-3xl shadow-2xl border border-purple-200">
         <h1 class="text-3xl md:text-4xl font-extrabold text-purple-700 text-center mb-10">
-            Gestión de cursos
+            Gestión de Inscripciones
         </h1>
 
         <!-- FORMULARIO FILTRO -->
@@ -47,45 +47,49 @@
                     class="bg-purple-700 hover:bg-purple-800 text-white font-semibold rounded-xl shadow px-6 py-3">
                 Filtrar
             </button>
-
-
         </form>
+
         <!-- BOTON DE EXPORTAR A EXCEL -->
-        <form th:action="@{/cursosadmin/exportar}" method="get" class="flex">
+        <form th:action="@{/cursosadmin/exportar}" method="get" class="flex mb-6">
             <input type="hidden" name="nombre" th:value="${oldNombre}">
             <input type="hidden" name="estudiante" th:value="${oldEstudiante}">
             <input type="hidden" name="identificacion" th:value="${oldIdentificacion}">
             <button type="submit"
-                    class="bg-purple-700 hover:bg-purple-800 text-white font-semibold rounded-xl shadow px-6 py-3">
-                Exportar Excel
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow px-6 py-3">
+                📊 Exportar a Excel
             </button>
         </form>
-
-
 
         <!-- TABLA DE RESULTADOS -->
         <div class="overflow-x-auto">
             <table class="min-w-full border text-center">
                 <thead>
                 <tr class="bg-purple-200 text-purple-900">
-                    <th class="py-3 px-4 border">ID</th>
+                    <th class="py-3 px-4 border">ID Inscripción</th>
                     <th class="py-3 px-4 border">Curso</th>
-                    <th class="py-3 px-4 border">Nivel</th>
-                    <th class="py-3 px-4 border">Duración (min)</th>
-                    <th class="py-3 px-4 border">Nombre</th>
+                    <th class="py-3 px-4 border">Nombre Estudiante</th>
                     <th class="py-3 px-4 border">Apellido</th>
                     <th class="py-3 px-4 border">Identificación</th>
+                    <th class="py-3 px-4 border">Estado</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="curso : ${cursos}" class="odd:bg-purple-50 even:bg-white">
-                    <td class="py-2 px-4 border" th:text="${curso.idCurso}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.nombreCurso}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.nivelDificultad}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.duracion}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.usuarios.nombre}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.usuarios.apellido1}"></td>
-                    <td class="py-2 px-4 border" th:text="${curso.usuarios.identificacion}"></td>
+                <tr th:each="inscripcion : ${inscripciones}" class="odd:bg-purple-50 even:bg-white">
+                    <td class="py-2 px-4 border" th:text="${inscripcion.id}"></td>
+                    <td class="py-2 px-4 border" th:text="${inscripcion.curso?.nombre ?: 'N/A'}"></td>
+                    <td class="py-2 px-4 border" th:text="${inscripcion.usuario?.nombre ?: 'N/A'}"></td>
+                    <td class="py-2 px-4 border" th:text="${inscripcion.usuario?.apellido1 ?: 'N/A'}"></td>
+                    <td class="py-2 px-4 border" th:text="${inscripcion.usuario?.identificacion ?: 'N/A'}"></td>
+                    <td class="py-2 px-4 border">
+                        <span th:text="${inscripcion.estado}"
+                              th:classappend="${inscripcion.estado == 'inscrito'} ? 'bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold' : 'bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold'">
+                        </span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(inscripciones)}">
+                    <td colspan="6" class="py-6 px-4 text-center text-gray-500">
+                        No se encontraron inscripciones
+                    </td>
                 </tr>
                 </tbody>
             </table>
