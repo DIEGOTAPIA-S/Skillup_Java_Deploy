@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${curso.nombre}">SkillUp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div th:replace="layouts/headerprincipal :: header"></div>
+
+<main class="max-w-4xl mx-auto my-8 p-6 bg-white shadow-md rounded-lg relative">
+    <a th:href="@{/estudiante/cursos}"
+       class="absolute top-4 left-4 text-xs text-blue-500 border border-blue-400 px-2 py-1 rounded hover:bg-blue-100">
+        ← Volver
+    </a>
+
+    <!-- NOMBRE DEL CURSO -->
+    <h2 class="text-3xl font-bold text-center mt-8" th:text="${curso.nombre}">TÍTULO DEL CURSO</h2>
+
+    <!-- DESCRIPCIÓN DEL CURSO (si existe) -->
+    <p class="mt-4 text-gray-700 text-center" th:if="${curso.descripcion != null and !curso.descripcion.isEmpty()}"
+       th:text="${curso.descripcion}">
+        Aquí irá la descripción del curso.
+    </p>
+
+    <!-- IMAGEN DEL CURSO -->
+    <div class="flex justify-center mt-6">
+        <div class="w-full max-h-80 bg-gradient-to-br from-purple-400 to-blue-500 rounded-lg flex items-center justify-center">
+            <span class="text-9xl">📖</span>
+        </div>
+    </div>
+
+    <!-- MÓDULOS DINÁMICOS -->
+    <div class="mt-8">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">📚 Contenido del Curso</h3>
+
+        <div th:if="${curso.modulos != null and !curso.modulos.isEmpty()}" class="space-y-4">
+            <div th:each="modulo, iterStat : ${curso.modulos}"
+                 class="border-2 border-gray-200 rounded-lg overflow-hidden">
+
+                <!-- Header del módulo -->
+                <button type="button"
+                        th:attr="onclick='toggleModulo(' + ${iterStat.index} + ')'"
+                        class="w-full bg-blue-50 hover:bg-blue-100 p-4 flex justify-between items-center transition">
+                    <div class="flex items-center text-left">
+                        <span class="text-xl mr-3 font-bold text-blue-600"
+                              th:text="'▼ MÓDULO ' + ${iterStat.index + 1}">
+                            ▼ MÓDULO 1
+                        </span>
+                        <span class="font-semibold text-gray-800" th:text="${modulo.nombre}">
+                            Nombre del Módulo
+                        </span>
+                    </div>
+                    <span class="text-sm text-gray-600"
+                          th:text="${modulo.contenidos != null ? modulo.contenidos.size() : 0} + ' contenidos'">
+                        0 contenidos
+                    </span>
+                </button>
+
+                <!-- Contenidos del módulo -->
+                <div th:id="'modulo-' + ${iterStat.index}"
+                     class="hidden bg-white p-4 border-t-2 border-gray-200">
+
+                    <!-- Descripción del módulo -->
+                    <div th:if="${modulo.descripcion != null and !modulo.descripcion.isEmpty()}"
+                         class="mb-4 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-gray-700" th:text="${modulo.descripcion}">
+                            Descripción del módulo
+                        </p>
+                    </div>
+
+                    <!-- Contenidos -->
+                    <div th:if="${modulo.contenidos != null and !modulo.contenidos.isEmpty()}"
+                         class="space-y-3">
+                        <div th:each="contenido : ${modulo.contenidos}"
+                             class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h4 class="font-bold text-blue-700 mb-2 flex items-center">
+                                <span class="mr-2">📄</span>
+                                <span th:text="${contenido.titulo}">Título del contenido</span>
+                            </h4>
+                            <p class="text-gray-600 text-sm"
+                               th:if="${contenido.descripcion != null and !contenido.descripcion.isEmpty()}"
+                               th:text="${contenido.descripcion}">
+                                Descripción del contenido
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje si no hay contenidos -->
+                    <div th:if="${modulo.contenidos == null or modulo.contenidos.isEmpty()}"
+                         class="text-center py-4 text-gray-500 italic">
+                        No hay contenidos disponibles para este módulo
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mensaje si no hay módulos -->
+        <div th:if="${curso.modulos == null or curso.modulos.isEmpty()}"
+             class="text-center py-8 text-gray-500">
+            <p class="text-lg">Este curso aún no tiene módulos configurados</p>
+        </div>
+    </div>
+
+    <!-- BOTÓN DE INSCRIPCIÓN -->
+    <div class="mt-8 text-center">
+        <form th:action="@{/estudiante/inscripcion/inscribirse/{id}(id=${curso.id})}"
+              method="post">
+            <button type="submit"
+                    class="bg-green-500 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-green-600 transition text-lg font-semibold">
+                ✓ Inscribirse en este Curso
+            </button>
+        </form>
+    </div>
+
+</main>
+
+<div th:replace="layouts/footer :: footer"></div>
+
+<script>
+    function toggleModulo(index) {
+        var modulo = document.getElementById('modulo-' + index);
+        if (modulo) {
+            if (modulo.classList.contains('hidden')) {
+                modulo.classList.remove('hidden');
+            } else {
+                modulo.classList.add('hidden');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

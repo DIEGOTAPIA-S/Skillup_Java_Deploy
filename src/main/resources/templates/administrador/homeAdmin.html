@@ -12,7 +12,7 @@
 
 <!-- Contenido principal -->
 <main class="flex-grow bg-gradient-to-br from-blue-100 via-white to-purple-50 flex items-center justify-center">
-    <div class="max-w-5xl w-full mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-purple-200 my-10">
+    <div class="max-w-6xl w-full mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-purple-200 my-10">
         <h1 class="text-4xl font-extrabold text-purple-700 text-center mb-6">
             ¡Un gusto tenerte en SKILLUP!
         </h1>
@@ -23,9 +23,9 @@
         <!-- FORMULARIO PRINCIPAL -->
         <form th:action="@{/administrador/filtrar}" method="post">
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-10">
 
-                <!-- Tarjeta -->
+                <!-- Administrador -->
                 <label class="cursor-pointer">
                     <input type="radio" name="rol" value="1" class="sr-only peer">
                     <div class="w-full h-44 flex flex-col items-center justify-center text-center
@@ -66,6 +66,17 @@
             transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
                         <div class="text-5xl mb-2">📚</div>
                         <h3 class="text-lg font-bold text-purple-800">Cursos</h3>
+                    </div>
+                </label>
+
+                <!-- Crear Curso -->
+                <label class="cursor-pointer">
+                    <input type="radio" name="rol" value="crearCurso" class="sr-only peer">
+                    <div class="w-full h-44 flex flex-col items-center justify-center text-center
+            rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
+            transition peer-checked:bg-purple-200 peer-checked:border-purple-500 hover:shadow-xl">
+                        <div class="text-5xl mb-2">➕</div>
+                        <h3 class="text-lg font-bold text-purple-800">Crear Curso</h3>
                     </div>
                 </label>
 

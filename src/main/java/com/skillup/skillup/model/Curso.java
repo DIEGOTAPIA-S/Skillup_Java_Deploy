@@ -2,6 +2,11 @@ package com.skillup.skillup.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "cursos")
 public class Curso {
@@ -14,13 +19,18 @@ public class Curso {
     @Column(name = "NOMBRE_CURSO")
     private String nombre;
 
+    @Column(name = "DESCRIPCION", columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "IMAGEN_URL")
+    private String imagenUrl;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Modulo> modulos = new HashSet<>();
+
     public Curso() {}
 
-    public Curso(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-
+    // Getters y Setters
     public Integer getId() {
         return id;
     }
@@ -35,5 +45,29 @@ public class Curso {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+
+    public Set<Modulo> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(Set<Modulo> modulos) {
+        this.modulos = modulos;
     }
 }

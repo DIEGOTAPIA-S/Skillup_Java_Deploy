@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillUp</title>
+    <title>SkillUp - Cursos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
@@ -13,62 +13,53 @@
     <h1 class="text-2xl font-bold">Da tus primeros pasos.</h1>
     <p class="text-gray-600">Descubre cursos de expertos del mundo.</p>
 
-    <!-- Lista de cursos -->
+    <!-- Lista de cursos DINÁMICA desde la BD -->
     <section class="mt-6 space-y-6">
 
-        <!-- Negociación -->
-        <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
-            <img th:src="@{/images/Junta.png}" alt="Negociación" class="w-12 h-12">
-            <div class="flex-1">
-                <strong class="bg-gray-200 px-2 py-1 rounded">Negociación</strong>
-                <p class="text-gray-700">Negociar con confianza y estrategia...</p>
+        <!-- Iterar sobre los cursos de la base de datos -->
+        <div th:each="curso : ${cursos}" class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+            <!-- Imagen del curso (puedes agregar un campo imagenUrl en la entidad Curso) -->
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-blue-500 rounded-lg flex items-center justify-center text-2xl">
+                📚
             </div>
-            <a th:href="@{/estudiante/negociacion}" class="bg-blue-500 text-white px-4 py-2 rounded">
+
+            <div class="flex-1">
+                <strong class="bg-gray-200 px-2 py-1 rounded" th:text="${curso.nombre}">
+                    Nombre del Curso
+                </strong>
+                <p class="text-gray-700 mt-1">
+                    <span th:if="${curso.modulos != null}"
+                          th:text="${curso.modulos.size()} + ' módulos disponibles'">
+                        Módulos disponibles
+                    </span>
+                    <span th:unless="${curso.modulos != null}">
+                        Curso completo de habilidades blandas
+                    </span>
+                </p>
+            </div>
+
+            <a th:href="@{/estudiante/cursos/{id}(id=${curso.id})}"
+               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
                 Saber Más
             </a>
         </div>
 
-        <!-- Liderazgo -->
-        <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
-            <img th:src="@{/images/Lider.png}" alt="Liderazgo" class="w-12 h-12">
-            <div class="flex-1">
-                <strong class="bg-gray-200 px-2 py-1 rounded">Liderazgo</strong>
-                <p class="text-gray-700">Desarrolla tu capacidad de liderazgo...</p>
-            </div>
-            <a th:href="@{/estudiante/liderazgo}" class="bg-blue-500 text-white px-4 py-2 rounded">
-                Saber Más
-            </a>
-        </div>
-
-        <!-- Trabajo en equipo -->
-        <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
-            <img th:src="@{/images/Equipo.png}" alt="Trabajo en equipo" class="w-12 h-12">
-            <div class="flex-1">
-                <strong class="bg-gray-200 px-2 py-1 rounded">Trabajo en equipo</strong>
-                <p class="text-gray-700">Fortalece tu capacidad de colaboración...</p>
-            </div>
-            <a th:href="@{/estudiante/trabajoequipo}" class="bg-blue-500 text-white px-4 py-2 rounded">
-                Saber Más
-            </a>
-        </div>
-
-        <!-- Comunicación -->
-        <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
-            <img th:src="@{/images/Comunicacion.png}" alt="Comunicación" class="w-12 h-12">
-            <div class="flex-1">
-                <strong class="bg-gray-200 px-2 py-1 rounded">Comunicación</strong>
-                <p class="text-gray-700">Mejora tu habilidad para expresarte...</p>
-            </div>
-            <a th:href="@{/estudiante/comunicacion}" class="bg-blue-500 text-white px-4 py-2 rounded">
-                Saber Más
-            </a>
+        <!-- Mensaje si no hay cursos -->
+        <div th:if="${cursos == null or cursos.isEmpty()}"
+             class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+            <p class="text-yellow-800 font-semibold">
+                📚 No hay cursos disponibles en este momento
+            </p>
+            <p class="text-yellow-600 text-sm mt-2">
+                Pronto habrá nuevos cursos para ti
+            </p>
         </div>
 
     </section>
 </main>
+
 <!-- Footer -->
 <div th:replace="layouts/footer :: footer"></div>
 
 </body>
 </html>
-

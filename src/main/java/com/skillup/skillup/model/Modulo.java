@@ -2,6 +2,9 @@ package com.skillup.skillup.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "modulos")
 public class Modulo {
@@ -18,8 +21,16 @@ public class Modulo {
     @Column(name = "NOMBRE_MODULO")
     private String nombre;
 
+    @Column(name = "DESCRIPCION", columnDefinition = "TEXT")
+    private String descripcion;
+
     @Column(name = "ORDEN")
     private Integer orden;
+
+    @OneToMany(mappedBy = "modulo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contenido> contenidos = new HashSet<>();
+
+    public Modulo() {}
 
     public Integer getId() {
         return id;
@@ -45,11 +56,27 @@ public class Modulo {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Integer getOrden() {
         return orden;
     }
 
     public void setOrden(Integer orden) {
         this.orden = orden;
+    }
+
+    public Set<Contenido> getContenidos() {
+        return contenidos;
+    }
+
+    public void setContenidos(Set<Contenido> contenidos) {
+        this.contenidos = contenidos;
     }
 }

@@ -29,6 +29,11 @@ public class HomeAdmin {
         return "administrador/homeAdmin";
     }
 
+    @GetMapping("/cursos/crear")
+    public String crearCurso() {
+        return "administrador/crearCurso";
+    }
+
 
 
     @PostMapping("/administrador/filtrar")
@@ -40,6 +45,10 @@ public class HomeAdmin {
 
         if("cursos".equals(rol)){
             return "redirect:/cursosadmin";
+        }
+
+        if("crearCurso".equals(rol)){
+            return "redirect:/cursos/crear";
         }
 
         List<Usuarios> usuariosFiltrados;
