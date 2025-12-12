@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CursoService {
 
@@ -47,5 +49,10 @@ public class CursoService {
 
     public Curso obtenerCursoEntity(Integer id) {
         return obtenerCursoConModulos(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Curso> obtenerTodos() {
+        return cursoRepository.findAll();
     }
 }

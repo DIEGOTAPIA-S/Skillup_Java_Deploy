@@ -11,7 +11,7 @@
 <body class="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-purple-50">
 
 <!-- Header -->
-<div th:replace="layouts/headerAdministrador :: header"></div>
+<div th:replace="layouts/headerEvaluador :: header"></div>
 
 <!-- Contenedor centrado -->
 <div class="flex-grow flex items-center justify-center my-10">
@@ -21,7 +21,7 @@
         </h1>
 
         <!-- FORMULARIO FILTRO -->
-        <form th:action="@{/cursosadmin/filtrar}" method="post"
+        <form th:action="@{/cursoseval/filtrar}" method="post"
               class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
             <!-- NOMBRE CURSO -->
@@ -49,27 +49,16 @@
             </button>
         </form>
 
-        <!-- BOTONES DE EXPORTACIÓN -->
-        <div class="flex gap-4 mb-6">
-
-            <!-- Exportar a Excel -->
-            <form th:action="@{/cursoseval/exportar}" method="get">
-                <input type="hidden" name="nombre" th:value="${oldNombre}">
-                <input type="hidden" name="estudiante" th:value="${oldEstudiante}">
-                <input type="hidden" name="identificacion" th:value="${oldIdentificacion}">
-                <button type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow px-6 py-3 flex items-center gap-2">
-                    📊 <span>Exportar a Excel</span>
-                </button>
-            </form>
-
-            <!-- Exportar PDF -->
-            <a href="/api/reportes/cursos/pdf"
-               class="bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow px-6 py-3 flex items-center gap-2">
-                📄 <span>Generar Reporte PDF</span>
-            </a>
-
-        </div>
+        <!-- BOTON DE EXPORTAR A EXCEL -->
+        <form th:action="@{/cursoseval/exportar}" method="get" class="flex mb-6">
+            <input type="hidden" name="nombre" th:value="${oldNombre}">
+            <input type="hidden" name="estudiante" th:value="${oldEstudiante}">
+            <input type="hidden" name="identificacion" th:value="${oldIdentificacion}">
+            <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow px-6 py-3">
+                📊 Exportar a Excel
+            </button>
+        </form>
 
         <!-- TABLA DE RESULTADOS -->
         <div class="overflow-x-auto">
@@ -108,7 +97,7 @@
 
         <!-- Botón Volver -->
         <div class="text-center mt-10">
-            <a th:href="@{/cursosadmin}"
+            <a th:href="@{/evaluador/cursosEval}"
                class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-xl shadow">
                 ← Volver
             </a>

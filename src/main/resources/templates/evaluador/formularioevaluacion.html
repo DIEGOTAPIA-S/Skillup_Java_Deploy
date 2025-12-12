@@ -4,79 +4,82 @@
     <meta charset="UTF-8">
     <title>Registrar Evaluación - SkillUp</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function agregarPregunta() {
+            const container = document.getElementById("preguntas-container");
+            const index = container.children.length;
+            const template = `
+                <div class="mb-6 border p-4 rounded-lg bg-purple-50">
+                    <label class="block font-bold mb-2">Pregunta ${index + 1}</label>
+                    <input name="preguntas[${index}].pregunta" placeholder="Texto de la pregunta"
+                        class="w-full mb-2 p-2 border rounded" required />
+                    <input name="preguntas[${index}].opcionA" placeholder="Opción A"
+                        class="w-full mb-2 p-2 border rounded" required />
+                    <input name="preguntas[${index}].opcionB" placeholder="Opción B"
+                        class="w-full mb-2 p-2 border rounded" required />
+                    <input name="preguntas[${index}].opcionC" placeholder="Opción C"
+                        class="w-full mb-2 p-2 border rounded" required />
+                    <input name="preguntas[${index}].opcionD" placeholder="Opción D"
+                        class="w-full mb-2 p-2 border rounded" required />
+                    <label class="block mb-2">Respuesta correcta:</label>
+                    <select name="preguntas[${index}].respuestaCorrecta" class="p-2 border rounded" required>
+                        <option value="">Selecciona</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', template);
+        }
+    </script>
 </head>
+<body class="flex flex-col min-h-screen">
 
-<body class="bg-gradient-to-br from-blue-100 via-white to-purple-50 min-h-screen flex flex-col">
+<!-- Header fijo arriba -->
+<header class="w-full bg-purple-700 text-white">
+    <div th:replace="layouts/headerEvaluador :: headerEvaluador"></div>
+</header>
 
-<!-- Header -->
-<div th:replace="layouts/headerEvaluador :: headerEvaluador"></div>
+<!-- Contenido principal: ocupa todo el espacio restante -->
+<main class="flex-grow bg-gradient-to-br from-blue-100 via-white to-purple-50 p-10">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
 
-<!-- Contenido -->
-<main class="flex-grow max-w-4xl mx-auto p-8">
-    <h1 class="text-3xl font-bold mb-10 text-center text-purple-700">
-        Registrar Evaluación
-    </h1>
+        <h1 class="text-3xl font-bold mb-6 text-purple-700 text-center">Registrar Evaluación</h1>
 
-    <!-- Formulario -->
-    <form th:action="@{/evaluador/guardarevaluacion}" method="post"
-          class="bg-white p-8 rounded-2xl shadow-lg space-y-6 border border-purple-200">
+        <form th:action="@{/evaluador/crearEvaluacion}" method="post">
 
-        <!-- Campo oculto: evaluadorId (lo pasamos desde el controlador) -->
-        <input type="hidden" name="evaluadorId" th:value="${evaluadorId}"/>
-
-        <!-- Estudiante -->
-        <div>
-            <label class="block font-semibold text-gray-700">Estudiante</label>
-            <select name="estudiante" required
-                    class="w-full border border-purple-300 p-2 rounded focus:ring-2 focus:ring-purple-400">
-                <option value="">Seleccione un estudiante</option>
-                <option th:each="e : ${estudiantes}"
-                        th:value="${e.identificacion}"
-                        th:text="${e.nombre} + ' ' + ${e.apellido1} + ' ' + ${e.apellido2}">
-                </option>
+            <label class="block font-bold mb-2">Seleccionar Curso:</label>
+            <select name="idCurso" class="w-full mb-4 p-2 border rounded" required>
+                <option value="">--Selecciona un curso--</option>
+                <option th:each="curso : ${cursos}"
+                        th:value="${curso.id}"
+                        th:text="${curso.nombre}"></option>
             </select>
-        </div>
 
-        <!-- Curso -->
-        <div>
-            <label class="block font-semibold text-gray-700">Curso</label>
-            <select name="curso" required
-                    class="w-full border border-purple-300 p-2 rounded focus:ring-2 focus:ring-purple-400">
-                <option value="">Seleccione un curso</option>
-                <option th:each="c : ${cursos}"
-                        th:value="${c.idCurso}"
-                        th:text="${c.nombreCurso}">
-                </option>
-            </select>
-        </div>
+            <label class="block font-bold mb-2">Comentarios:</label>
+            <textarea name="comentarios" class="w-full mb-4 p-2 border rounded" rows="3"></textarea>
 
-        <!-- Resultado -->
-        <div>
-            <label class="block font-semibold text-gray-700">Resultado (%)</label>
-            <input type="number" name="resultado" step="0.01" min="0" max="100" required
-                   class="w-full border border-purple-300 p-2 rounded focus:ring-2 focus:ring-purple-400">
-        </div>
+            <h2 class="text-xl font-bold mb-2">Preguntas:</h2>
+            <div id="preguntas-container"></div>
 
-        <!-- Comentario -->
-        <div>
-            <label class="block font-semibold text-gray-700">Comentario</label>
-            <textarea name="comentario" rows="4"
-                      class="w-full border border-purple-300 p-2 rounded focus:ring-2 focus:ring-purple-400"
-                      placeholder="Observaciones o retroalimentación..."></textarea>
-        </div>
-
-        <!-- Botón -->
-        <div>
-            <button type="submit"
-                    class="bg-purple-500 text-white font-semibold py-2 px-4 rounded-lg w-full hover:bg-purple-600 transition">
-                Guardar Evaluación
+            <button type="button" onclick="agregarPregunta()"
+                    class="mb-4 bg-purple-500 hover:bg-purple-700 text-white px-4 py-2 rounded">
+                + Agregar Pregunta
             </button>
-        </div>
-    </form>
+
+            <button type="submit"
+                    class="bg-green-500 hover:bg-green-700 text-white px-6 py-2 rounded">
+                Crear Evaluación
+            </button>
+        </form>
+    </div>
 </main>
 
-<!-- Footer -->
-<div th:replace="layouts/footer :: footer"></div>
+<!-- Footer fijo abajo -->
+<footer class="w-full bg-purple-700 text-white mt-auto">
+    <div th:replace="layouts/footer :: footer"></div>
+</footer>
 
 </body>
 </html>
