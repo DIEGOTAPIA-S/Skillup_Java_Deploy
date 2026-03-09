@@ -39,11 +39,11 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         // 2. CARGAR USUARIOS DE PRUEBA
         // Admin
-        crearUsuarioSiNoExiste("1001", "Admin", "Skillup", "Admin123*", 1, "admin@skillup.com");
+        crearUsuarioSiNoExiste("100100", "Admin", "Skillup", "Admin123*", 1, "admin@skillup.com");
         // Estudiante
-        crearUsuarioSiNoExiste("3003", "Juan", "Estudiante", "Estudiante123*", 2, "estudiante@skillup.com");
+        crearUsuarioSiNoExiste("300300", "Juan", "Estudiante", "Estudiante123*", 2, "estudiante@skillup.com");
         // Evaluador
-        crearUsuarioSiNoExiste("2002", "Marta", "Evaluadora", "Evaluador123*", 3, "evaluador@skillup.com");
+        crearUsuarioSiNoExiste("200200", "Marta", "Evaluadora", "Evaluador123*", 3, "evaluador@skillup.com");
 
         // 3. CARGAR CURSOS DE PRUEBA
         if (!cursoRepository.existsByNombre("Inteligencia Emocional")) {
