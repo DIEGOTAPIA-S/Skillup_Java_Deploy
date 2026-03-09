@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RegistrarseRepository extends JpaRepository<Registrarse, Long> {
+public interface RegistrarseRepository extends JpaRepository<Registrarse, String> {
 
     boolean existsByIdentificacion(String identificacion);
 
