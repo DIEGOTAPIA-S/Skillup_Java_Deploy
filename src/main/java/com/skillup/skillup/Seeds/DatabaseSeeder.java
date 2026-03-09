@@ -40,18 +40,38 @@ public class DatabaseSeeder implements CommandLineRunner {
         // 2. CARGAR USUARIOS DE PRUEBA
         // Admin
         crearUsuarioSiNoExiste("100100", "Admin", "Skillup", "Admin123*", 1, "admin@skillup.com");
-        // Estudiante
-        crearUsuarioSiNoExiste("300300", "Juan", "Estudiante", "Estudiante123*", 2, "estudiante@skillup.com");
         // Evaluador
         crearUsuarioSiNoExiste("200200", "Marta", "Evaluadora", "Evaluador123*", 3, "evaluador@skillup.com");
 
+        // 10 Estudiantes
+        crearUsuarioSiNoExiste("300300", "Juan", "Perez", "Estudiante123*", 2, "juan.perez@skillup.com");
+        crearUsuarioSiNoExiste("300301", "Maria", "Garcia", "Estudiante123*", 2, "maria.garcia@skillup.com");
+        crearUsuarioSiNoExiste("300302", "Carlos", "Rodriguez", "Estudiante123*", 2, "carlos.rod@skillup.com");
+        crearUsuarioSiNoExiste("300303", "Ana", "Martinez", "Estudiante123*", 2, "ana.mtz@skillup.com");
+        crearUsuarioSiNoExiste("300304", "Luis", "Lopez", "Estudiante123*", 2, "luis.lopez@skillup.com");
+        crearUsuarioSiNoExiste("300305", "Elena", "Sanchez", "Estudiante123*", 2, "elena.sanchez@skillup.com");
+        crearUsuarioSiNoExiste("300306", "Diego", "Torres", "Estudiante123*", 2, "diego.torres@skillup.com");
+        crearUsuarioSiNoExiste("300307", "Sofia", "Ramirez", "Estudiante123*", 2, "sofia.ram@skillup.com");
+        crearUsuarioSiNoExiste("300308", "Jorge", "Ruiz", "Estudiante123*", 2, "jorge.ruiz@skillup.com");
+        crearUsuarioSiNoExiste("300309", "Lucia", "Castro", "Estudiante123*", 2, "lucia.castro@skillup.com");
+
         // 3. CARGAR CURSOS DE PRUEBA
-        if (!cursoRepository.existsByNombre("Inteligencia Emocional")) {
-            Curso curso = new Curso();
-            curso.setNombre("Inteligencia Emocional");
-            cursoRepository.save(curso);
-            System.out.println("Curso de prueba cargado.");
-        }
+        List<String> cursosNombres = Arrays.asList(
+                "Inteligencia Emocional",
+                "Programacion en Java",
+                "Diseno de Interfaces (UI/UX)",
+                "Gestion de Proyectos Agiles",
+                "Comunicacion Asertiva",
+                "Introduccion a Spring Boot");
+
+        cursosNombres.forEach(nombre -> {
+            if (!cursoRepository.existsByNombre(nombre)) {
+                Curso curso = new Curso();
+                curso.setNombre(nombre);
+                cursoRepository.save(curso);
+                System.out.println("Curso agregado: " + nombre);
+            }
+        });
     }
 
     private void crearUsuarioSiNoExiste(String id, String nombre, String apellido, String pass, Integer rol,
