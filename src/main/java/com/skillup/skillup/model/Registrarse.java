@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "roles_sistema")
-public class Registrarse {
+public class Registrarse implements java.io.Serializable {
 
     @Id
     @Column(name = "IDENTIFICACION")

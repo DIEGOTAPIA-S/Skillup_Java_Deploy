@@ -125,8 +125,14 @@ public class RegistrarseService {
         usuario.setCorreo(dto.getCorreo());
         usuario.setContraseña(dto.getContraseña()); // Sin encriptar por ahora
         usuario.setIdRol(2); // Rol por defecto
+        usuario.setMfaSecret(null); // Asegurar que sea null explícitamente
 
-        registrarseRepository.save(usuario);
+        try {
+            registrarseRepository.save(usuario);
+        } catch (Exception e) {
+            System.err.println("ERROR AL GUARDAR USUARIO: " + e.getMessage());
+            throw e;
+        }
     }
 
 
