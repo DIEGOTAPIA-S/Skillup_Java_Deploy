@@ -132,11 +132,13 @@ public class RegistrarseService {
         usuario.setMfaSecret(null); // Asegurar que sea null explícitamente
 
         System.out.println("INTENTANDO GUARDAR USUARIO EN BD... ID: " + usuario.getIdentificacion());
+        System.out.println("DATOS: Nombre=" + usuario.getNombre() + ", Correo=" + usuario.getCorreo() + ", Rol=" + usuario.getIdRol());
         try {
-            registrarseRepository.save(usuario);
-            System.out.println("USUARIO GUARDADO EXITOSAMENTE");
+            Usuario guardado = registrarseRepository.save(usuario);
+            System.out.println("USUARIO GUARDADO EXITOSAMENTE CON ID: " + guardado.getIdentificacion());
         } catch (Exception e) {
-            System.err.println("ERROR AL GUARDAR USUARIO: " + e.getMessage());
+            System.err.println("ERROR CRÍTICO AL GUARDAR USUARIO: " + e.getMessage());
+            e.printStackTrace();
             throw e;
         }
     }
