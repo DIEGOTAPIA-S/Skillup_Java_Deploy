@@ -96,12 +96,12 @@ public class RegistrarseService {
 
         // Validar formato de contraseña
         if (!PATTERN_CONTRASEÑA.matcher(contraseña).matches()) {
-            errores.add(messageSource.getMessage("error.contraseña.formato", null, locale));
+            errores.add(messageSource.getMessage("error.contrasena.formato", null, locale));
         }
 
         // Validar que las contraseñas coincidan
         if (!contraseña.equals(confirmarContraseña)) {
-            errores.add(messageSource.getMessage("error.contraseñas.nocoinciden", null, locale));
+            errores.add(messageSource.getMessage("error.contrasenas.nocoinciden", null, locale));
         }
 
         // Validar si el usuario ya existe
