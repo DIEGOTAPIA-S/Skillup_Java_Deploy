@@ -3,7 +3,7 @@ package com.skillup.skillup.service;
 
 import com.skillup.skillup.Dto.NotificacionRequest;
 import com.skillup.skillup.Dto.Response.ApiResponse;
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.UsuariosRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,9 +31,9 @@ public class NotificacionService {
 
             int rolEstudiante = 2;
 
-            List<Usuarios> estudiantes = usuariosRepository.findByIdRol(rolEstudiante);
+            List<Usuario> estudiantes = usuariosRepository.findByIdRol(rolEstudiante);
 
-            for (Usuarios estud : estudiantes) {
+            for (Usuario estud : estudiantes) {
 
                 String email = estud.getCorreo();
 

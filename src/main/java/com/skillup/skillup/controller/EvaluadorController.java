@@ -2,7 +2,7 @@ package com.skillup.skillup.controller;
 
 
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.UsuariosRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class EvaluadorController {
         }
 
         // Obtener datos del evaluador para mostrar en la vista
-        Optional<Usuarios> evaluador = usuariosRepository.findById(evaluadorId);
+        Optional<Usuario> evaluador = usuariosRepository.findById(evaluadorId);
         if (evaluador.isPresent()) {
             model.addAttribute("nombreEvaluador",
                     evaluador.get().getNombre() + " " + evaluador.get().getApellido1());
@@ -57,7 +57,7 @@ public class EvaluadorController {
         }
 
         // Obtener todos los estudiantes (rol 2)
-        List<Usuarios> estudiantes = usuariosRepository.findByIdRol(2);
+        List<Usuario> estudiantes = usuariosRepository.findByIdRol(2);
         model.addAttribute("estudiantes", estudiantes);
 
         return "evaluador/listaestudiantes";

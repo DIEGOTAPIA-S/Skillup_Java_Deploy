@@ -2,7 +2,7 @@ package com.skillup.skillup.service;
 
 import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.model.Inscripcion;
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.CursoRepository;
 import com.skillup.skillup.repository.InscripcionRepository;
 import com.skillup.skillup.repository.ModuloRepository;
@@ -39,7 +39,7 @@ public class InscripcionService{
 
         // Buscar curso y usuario
         Curso curso = cursoRepo.findById(idCurso).orElseThrow();
-        Usuarios usuario = usuariosRepo
+        Usuario usuario = usuariosRepo
                 .findByIdentificacion(identificacionUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 

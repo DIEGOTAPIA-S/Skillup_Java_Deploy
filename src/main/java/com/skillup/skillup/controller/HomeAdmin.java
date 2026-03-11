@@ -2,7 +2,7 @@ package com.skillup.skillup.controller;
 
 
 import com.skillup.skillup.model.Rol;
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.RolRepository;
 import com.skillup.skillup.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class HomeAdmin {
             return "redirect:/administrador/cursos/listar";
         }
 
-        List<Usuarios> usuariosFiltrados;
+        List<Usuario> usuariosFiltrados;
 
         try{
             int idRol = Integer.parseInt(rol);

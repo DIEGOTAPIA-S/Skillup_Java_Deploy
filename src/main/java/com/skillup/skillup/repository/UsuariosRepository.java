@@ -1,6 +1,6 @@
 package com.skillup.skillup.repository;
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsuariosRepository extends JpaRepository<Usuarios, String> {
+public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
- List<Usuarios> findByIdRol(Integer idRol);
+ List<Usuario> findByIdRol(Integer idRol);
 
-    Optional<Usuarios> findByIdentificacion(String identificacion);
+    Optional<Usuario> findByIdentificacion(String identificacion);
 
-    List<Usuarios> idRol(Integer idRol);
+    List<Usuario> idRol(Integer idRol);
 }

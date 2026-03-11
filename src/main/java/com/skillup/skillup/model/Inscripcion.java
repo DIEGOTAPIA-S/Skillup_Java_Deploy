@@ -21,7 +21,7 @@ public class Inscripcion {
 
     @ManyToOne
     @JoinColumn(name = "IDENTIFICACION")
-    private Usuarios usuario;
+    private Usuario usuario;
 
     @Column(name = "ESTADO")
     private String estado = "inscrito";
@@ -45,11 +45,11 @@ public class Inscripcion {
         this.curso = curso;
     }
 
-    public Usuarios getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuarios usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 

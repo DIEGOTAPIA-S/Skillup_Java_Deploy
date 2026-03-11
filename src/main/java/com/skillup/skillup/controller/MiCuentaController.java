@@ -2,7 +2,7 @@ package com.skillup.skillup.controller;
 
 import com.skillup.skillup.model.Evaluacion;
 import com.skillup.skillup.model.Inscripcion;
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.EvaluacionRepository;
 import com.skillup.skillup.repository.InscripcionRepository;
 import com.skillup.skillup.repository.ProgresoModuloRepository;
@@ -45,7 +45,7 @@ public class MiCuentaController {
         Integer idUsuario = Integer.parseInt(identificacion);
 
         // Obtener usuario
-        Usuarios usuario = usuariosRepository.findByIdentificacion(identificacion)
+        Usuario usuario = usuariosRepository.findByIdentificacion(identificacion)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // ========== ESTADÍSTICAS DEL USUARIO ==========
@@ -118,7 +118,7 @@ public class MiCuentaController {
             String identificacion = (String) session.getAttribute("roles_sistema");
             Integer idUsuario = Integer.parseInt(identificacion);
 
-            Usuarios usuario = usuariosRepository.findByIdentificacion(identificacion)
+            Usuario usuario = usuariosRepository.findByIdentificacion(identificacion)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // Actualizar datos
@@ -154,7 +154,7 @@ public class MiCuentaController {
             String identificacion = (String) session.getAttribute("roles_sistema");
             Integer idUsuario = Integer.parseInt(identificacion);
 
-            Usuarios usuario = usuariosRepository.findByIdentificacion(identificacion)
+            Usuario usuario = usuariosRepository.findByIdentificacion(identificacion)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // ✅ Verificar contraseña actual (sin encriptación - comparación directa)

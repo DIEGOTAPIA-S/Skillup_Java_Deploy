@@ -1,6 +1,6 @@
 package com.skillup.skillup.service;
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,18 +19,18 @@ public class UsuariosService {
     private EmailService emailService;
 
 
-    public List<Usuarios> findAll() {
-        return (List<Usuarios>)usuariosRepository.findAll();
+    public List<Usuario> findAll() {
+        return (List<Usuario>)usuariosRepository.findAll();
     }
 
-    public Optional<Usuarios> findById(String id) {
+    public Optional<Usuario> findById(String id) {
         return usuariosRepository.findById(id);
     }
 
     @Transactional
-    public Usuarios save(Usuarios usuario) {
+    public Usuario save(Usuario usuario) {
 
-        Usuarios nuevo = usuariosRepository.save(usuario);
+        Usuario nuevo = usuariosRepository.save(usuario);
 
 
         emailService.sendWelcomeEmail(
@@ -46,7 +46,7 @@ public class UsuariosService {
         usuariosRepository.deleteById(idRol);
     }
 
-    public List<Usuarios> findByRol(Integer idRol) {
+    public List<Usuario> findByRol(Integer idRol) {
         return usuariosRepository.findByIdRol(idRol);
     }
 }
