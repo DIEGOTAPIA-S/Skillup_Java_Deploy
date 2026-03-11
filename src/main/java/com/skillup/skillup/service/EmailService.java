@@ -23,8 +23,11 @@ public class EmailService {
         try {
             ClassPathResource resource =
                     new ClassPathResource("templates/correos/" + templateName + ".html");
-
-            return new String(Files.readAllBytes(resource.getFile().toPath()), "UTF-8");
+            
+            try (java.io.InputStream inputStream = resource.getInputStream()) {
+                byte[] bytes = inputStream.readAllBytes();
+                return new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar la plantilla: " + templateName, e);
