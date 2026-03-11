@@ -15,15 +15,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
+    @Autowired
+    private CustomSuccessHandler successHandler;
 
     @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return new CustomSuccessHandler();
-    }
+    public UserDetailsService userDetailsService() {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -59,7 +55,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login/acceder")
                         .usernameParameter("usuario")
                         .passwordParameter("password")
-                        .successHandler(successHandler())
+                        .successHandler(successHandler)
                         .failureUrl("/login?error")
                 )
 
