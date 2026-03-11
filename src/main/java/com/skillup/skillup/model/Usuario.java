@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "roles_sistema")
+@Table(name = "usuarios")
 public class Usuario implements Serializable {
 
     @Id
