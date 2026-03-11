@@ -1,6 +1,6 @@
 package com.skillup.skillup.controller;
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.service.LoginService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

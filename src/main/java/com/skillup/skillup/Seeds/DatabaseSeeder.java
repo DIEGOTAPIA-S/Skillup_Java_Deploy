@@ -3,9 +3,13 @@ package com.skillup.skillup.Seeds;
 import com.skillup.skillup.model.Rol;
 import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.model.Curso;
+import com.skillup.skillup.model.Modulo;
+import com.skillup.skillup.model.Contenido;
 import com.skillup.skillup.repository.RolRepository;
 import com.skillup.skillup.repository.RegistrarseRepository;
 import com.skillup.skillup.repository.CursoRepository;
+import com.skillup.skillup.repository.ModuloRepository;
+import com.skillup.skillup.repository.ContenidoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
