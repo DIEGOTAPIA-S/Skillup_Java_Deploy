@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -67,6 +69,33 @@ public class NuevoCursoController {
             e.printStackTrace();
             response.put("success", false);
             response.put("message", "Error al crear el curso: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @PutMapping("/actualizar/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> actualizarCurso(
+            @PathVariable Integer id,
+            @Valid @RequestBody CursoDTO cursoDTO,
+            BindingResult bindingResult) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            response.put("success", false);
+            response.put("message", "Errores de validación");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        try {
+            cursoService.actualizarCurso(id, cursoDTO);
+            response.put("success", true);
+            response.put("message", "Curso actualizado correctamente");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }

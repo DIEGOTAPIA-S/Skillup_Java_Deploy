@@ -59,4 +59,23 @@ public class CursoService {
     public List<Curso> obtenerTodos() {
         return cursoRepository.findAll();
     }
+
+    @Transactional
+    public void eliminarCurso(Integer id) {
+        if (!cursoRepository.existsById(id)) {
+            throw new IllegalArgumentException("El curso no existe");
+        }
+        cursoRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Curso actualizarCurso(Integer id, CursoDTO cursoDTO) {
+        Curso curso = cursoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+        
+        curso.setNombre(cursoDTO.getNombre());
+        curso.setImagenUrl(cursoDTO.getImagenUrl());
+        
+        return cursoRepository.save(curso);
+    }
 }
