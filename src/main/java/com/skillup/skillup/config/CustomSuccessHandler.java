@@ -1,3 +1,5 @@
+package com.skillup.skillup.config;
+
 import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.LoginRepository;
 import jakarta.servlet.http.HttpServletResponse;

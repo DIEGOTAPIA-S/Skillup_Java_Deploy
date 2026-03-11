@@ -1,5 +1,6 @@
 package com.skillup.skillup.Seeds;
 
+import java.util.List;
 import com.skillup.skillup.model.Rol;
 import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.model.Curso;
