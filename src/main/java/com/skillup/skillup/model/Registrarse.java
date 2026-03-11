@@ -42,6 +42,9 @@ public class Registrarse {
     @NotNull(message = "El rol es obligatorio.")
     private Integer idRol;
 
+    @Column(name = "mfa_secret")
+    private String mfaSecret;
+
     // Constructor vacío
     public Registrarse() {}
 
@@ -112,5 +115,13 @@ public class Registrarse {
 
     public void setIdRol(Integer idRol) {
         this.idRol = idRol;
+    }
+
+    public String getMfaSecret() {
+        return mfaSecret;
+    }
+
+    public void setMfaSecret(String mfaSecret) {
+        this.mfaSecret = mfaSecret;
     }
 }

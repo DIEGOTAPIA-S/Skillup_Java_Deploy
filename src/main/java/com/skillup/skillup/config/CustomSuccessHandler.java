@@ -40,21 +40,15 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         session.setAttribute("nombre_usuario", usuario.getNombre());
         session.setAttribute("correo_usuario", usuario.getCorreo());
 
-
+        // --- INTERCEPCIÓN MFA ---
         String rol = authentication.getAuthorities().iterator().next().getAuthority();
+        session.setAttribute("mfa_correo_pendiente", correo);
+        session.setAttribute("mfa_rol_pendiente", rol);
 
-        switch (rol) {
-            case "ROLE_1":
-                response.sendRedirect("/administrador/seleccionar");
-                break;
-            case "ROLE_2":
-                response.sendRedirect("/estudiante/lobby");
-                break;
-            case "ROLE_3":
-                response.sendRedirect("/evaluador/inicio");
-                break;
-            default:
-                response.sendRedirect("/login");
+        if (usuario.getMfaSecret() == null || usuario.getMfaSecret().isEmpty()) {
+            response.sendRedirect("/mfa/configurar");
+        } else {
+            response.sendRedirect("/mfa/verificar");
         }
     }
 }

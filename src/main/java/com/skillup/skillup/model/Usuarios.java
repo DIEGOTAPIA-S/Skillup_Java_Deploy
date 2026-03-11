@@ -33,6 +33,9 @@ public class Usuarios implements Serializable {
     @Column(name = "CORREO")
     private String correo;
 
+    @Column(name = "mfa_secret")
+    private String mfaSecret;
+
 
     public String getIdentificacion() {
         return identificacion;
@@ -89,5 +92,13 @@ public class Usuarios implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getMfaSecret() {
+        return mfaSecret;
+    }
+
+    public void setMfaSecret(String mfaSecret) {
+        this.mfaSecret = mfaSecret;
     }
 }
