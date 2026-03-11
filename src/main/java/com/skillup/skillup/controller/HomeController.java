@@ -12,4 +12,9 @@ public class HomeController {
         model.addAttribute("title", "SkillUp");
         return "home";
     }
+
+    @GetMapping("/check")
+    public String check(Model model) {
+        return "login"; // Or just return a string if it's a @RestController, but this is @Controller
+    }
 }
