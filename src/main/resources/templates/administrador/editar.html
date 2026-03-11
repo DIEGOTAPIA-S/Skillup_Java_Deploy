@@ -32,8 +32,14 @@
               method="post" th:object="${usuarios}"
               class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <!-- Campo oculto con el idRol -->
-            <input type="hidden" name="idRol" th:value="${usuarios.idRol}" />
+            <!-- Rol -->
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+                <select th:field="*{idRol}"
+                        class="w-full rounded-xl border border-gray-300 p-3 shadow focus:ring-purple-500 focus:border-purple-500">
+                    <option th:each="rol : ${roles}" th:value="${rol.idRol}" th:text="${rol.descripcion}"></option>
+                </select>
+            </div>
 
             <!-- Identificación -->
             <div>

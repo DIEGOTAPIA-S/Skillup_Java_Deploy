@@ -102,6 +102,7 @@ public class AdministradorController {
         usuarioBD.setApellido2(usuarioForm.getApellido2());
         usuarioBD.setContrasena(usuarioForm.getContrasena());
         usuarioBD.setCorreo(usuarioForm.getCorreo());
+        usuarioBD.setIdRol(usuarioForm.getIdRol()); // AHORA SÍ ACTUALIZA EL ROL
 
         usuariosService.save(usuarioBD);
 
@@ -112,7 +113,7 @@ public class AdministradorController {
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable String id, RedirectAttributes redirectAttributes){
-        usuariosService.deleteByIdRol(id);
+        usuariosService.eliminarUsuario(id);
         redirectAttributes.addFlashAttribute("mensaje", "Usuario eliminado exitosamente");
         return "redirect:/administrador";
     }

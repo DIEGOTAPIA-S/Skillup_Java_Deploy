@@ -48,8 +48,9 @@ public class UsuariosService {
     }
 
     @Transactional
-    public void deleteByIdRol(String idRol) {
-        usuariosRepository.deleteById(idRol);
+    public void eliminarUsuario(String identificacion) {
+        System.out.println("DEBUG: UsuariosService eliminando identificación: " + identificacion);
+        usuariosRepository.deleteById(identificacion);
     }
 
     public List<Usuario> findByRol(Integer idRol) {
