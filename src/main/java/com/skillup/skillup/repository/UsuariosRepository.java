@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, String> {
+public interface UsuariosRepository extends JpaRepository<Usuario, String> {
 
  List<Usuario> findByIdRol(Integer idRol);
 

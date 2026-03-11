@@ -23,7 +23,7 @@ public class EvaluacionService {
     private final RespuestaEvaluacionRepository respuestaRepository;
 
     public EvaluacionService(CursoRepository cursoRepository,
-                             UsuariosRepository usuarioRepository,
+                             UsuarioRepository usuarioRepository,
                              PreguntaEvaluacionRepository preguntaRepository,
                              EvaluacionRepository evaluacionRepository,
                              RespuestaEvaluacionRepository respuestaRepository) {
