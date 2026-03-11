@@ -43,6 +43,12 @@
         Sesión cerrada correctamente.
     </div>
 
+    <!-- MENSAJE DE ÉXITO REGISTRO -->
+    <div th:if="${mensaje}"
+         class="mb-4 p-3 rounded bg-green-100 text-green-700 border border-green-300 text-center">
+        <span th:text="${mensaje}"></span>
+    </div>
+
     <!-- FORMULARIO -->
     <form method="post" th:action="@{/login/acceder}" class="space-y-5" novalidate>
 
