@@ -64,8 +64,16 @@ public class AdministradorController {
 
     @PostMapping("/guardar")
     public String guardar (@ModelAttribute Usuario usuarios, RedirectAttributes redirectAttributes){
-        usuariosService.save(usuarios);
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado exitosamente");
+        System.out.println("DEBUG: Iniciando guardado de usuario desde Administrador: " + usuarios.getIdentificacion());
+        try {
+            usuariosService.save(usuarios);
+            System.out.println("DEBUG: Guardado exitoso en Administrador");
+            redirectAttributes.addFlashAttribute("mensaje", "Usuario guardado exitosamente");
+        } catch (Exception e) {
+            System.err.println("DEBUG: ERROR AL GUARDAR EN ADMINISTRADOR: " + e.getMessage());
+            e.printStackTrace();
+            throw e; // Lanza para que aparezca en el log de Railway
+        }
         return "redirect:/administrador";
     }
 

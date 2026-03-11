@@ -29,14 +29,20 @@ public class UsuariosService {
 
     @Transactional
     public Usuario save(Usuario usuario) {
-
+        System.out.println("DEBUG: UsuariosService intentando guardar en DB...");
         Usuario nuevo = usuariosRepository.save(usuario);
+        System.out.println("DEBUG: Guardado en DB OK. Intentando enviar correo...");
 
-
-        emailService.sendWelcomeEmail(
-                usuario.getCorreo(),
-                usuario.getIdentificacion()
-        );
+        try {
+            emailService.sendWelcomeEmail(
+                    usuario.getCorreo(),
+                    usuario.getIdentificacion()
+            );
+            System.out.println("DEBUG: Llamada a correo realizada.");
+        } catch (Exception e) {
+            System.err.println("DEBUG: Error (no crítico) enviando correo: " + e.getMessage());
+            // No relanzamos para que no haga rollback si falla solo el correo
+        }
 
         return nuevo;
     }
