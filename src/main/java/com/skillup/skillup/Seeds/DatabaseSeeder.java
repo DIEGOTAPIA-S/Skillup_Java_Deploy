@@ -95,49 +95,49 @@ public class DatabaseSeeder implements CommandLineRunner {
                     curso.setImagenUrl("https://images.unsplash.com/photo-1521791136064-7986c2923216?w=800&q=80");
                 else if (nombre.contains("Equipo"))
                     curso.setImagenUrl("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80");
-                else if (nombre.contains("Negociación"))
+                else if (nombre.contains("Negociación") && !nombre.contains("Persuasión"))
                     curso.setImagenUrl("https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80");
+                else if (nombre.contains("Tiempo"))
+                    curso.setImagenUrl("https://images.unsplash.com/photo-1508962914676-134849a727f0?w=800&q=80");
                 else
                     curso.setImagenUrl("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80");
 
                 cursoRepository.save(curso);
 
-                // Estructura para el curso principal
-                if (nombre.equals("Inteligencia Emocional")) {
-                    cargarEstructuraCurso(curso);
-                }
+                // Estructura básica para todos los cursos para que no se vean vacíos
+                cargarEstructuraGenerica(curso, nombre);
             }
         });
     }
 
-    private void cargarEstructuraCurso(Curso curso) {
-        // Módulo 1
+    private void cargarEstructuraGenerica(Curso curso, String nombreCurso) {
+        // Módulo 1: Fundamentos
         Modulo m1 = new Modulo();
         m1.setCurso(curso);
-        m1.setNombre("Introducción a la Inteligencia Emocional");
-        m1.setDescripcion("Conceptos básicos y pilares de la IE.");
+        m1.setNombre("Introducción a " + nombreCurso);
+        m1.setDescripcion("Conceptos fundamentales y su importancia en el entorno profesional.");
         m1.setOrden(1);
         moduloRepository.save(m1);
 
         Contenido c1 = new Contenido();
         c1.setModulo(m1);
-        c1.setTitulo("¿Qué es la Inteligencia Emocional?");
-        c1.setDescripcion("La inteligencia emocional es la capacidad de reconocer sentimientos propios y ajenos.");
+        c1.setTitulo("¿Qué es " + nombreCurso + "?");
+        c1.setDescripcion("Definición y pilares básicos de esta competencia.");
         c1.setOrden(1);
         contenidoRepository.save(c1);
 
-        // Módulo 2
+        // Módulo 2: Aplicación Práctica
         Modulo m2 = new Modulo();
         m2.setCurso(curso);
-        m2.setNombre("Autoconocimiento y Autorregulación");
-        m2.setDescripcion("Aprende a identificar tus emociones en tiempo real.");
+        m2.setNombre("Estrategias y Técnicas");
+        m2.setDescripcion("Cómo aplicar " + nombreCurso + " en el día a día.");
         m2.setOrden(2);
         moduloRepository.save(m2);
 
         Contenido c2 = new Contenido();
         c2.setModulo(m2);
-        c2.setTitulo("Técnicas de Respiración");
-        c2.setDescripcion("Ejercicios prácticos para mantener la calma bajo presión.");
+        c2.setTitulo("Ejercicios de Aplicación");
+        c2.setDescripcion("Guía paso a paso para fortalecer esta habilidad.");
         c2.setOrden(1);
         contenidoRepository.save(c2);
     }

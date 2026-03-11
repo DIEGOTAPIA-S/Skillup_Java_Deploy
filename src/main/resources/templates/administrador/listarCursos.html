@@ -77,13 +77,18 @@
                 <!-- Botones de acción -->
                 <div class="flex gap-2">
                     <a th:href="@{/administrador/cursos/{id}/modulos(id=${curso.id})}"
-                       class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition text-center">
-                        📚 Ver Módulos
+                       class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition text-center text-sm">
+                        📚 Módulos
                     </a>
-                    <button onclick="alert('Función de editar en desarrollo')"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition">
+                    <a th:href="@{/administrador/cursos/editar/{id}(id=${curso.id})}"
+                       class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center">
                         ✏️
-                    </button>
+                    </a>
+                    <a th:href="@{/administrador/cursos/eliminar/{id}(id=${curso.id})}"
+                       onclick="return confirm('¿Estás seguro de eliminar este curso? Se borrarán sus módulos y contenidos.')"
+                       class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center">
+                        🗑️
+                    </a>
                 </div>
             </div>
         </div>
