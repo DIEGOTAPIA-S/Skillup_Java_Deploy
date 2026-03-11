@@ -44,6 +44,11 @@
     </div>
 
     <!-- MENSAJE DE ÉXITO REGISTRO -->
+    <div th:if="${param.exito}"
+         class="mb-4 p-3 rounded bg-green-100 text-green-700 border border-green-300 text-center">
+        <span>¡Cuenta creada con éxito! Ya puedes iniciar sesión.</span>
+    </div>
+
     <div th:if="${mensaje}"
          class="mb-4 p-3 rounded bg-green-100 text-green-700 border border-green-300 text-center">
         <span th:text="${mensaje}"></span>

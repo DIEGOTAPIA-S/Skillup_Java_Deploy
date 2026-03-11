@@ -34,6 +34,7 @@ public class RegistrarseController {
                                  RedirectAttributes redirectAttributes,
                                  Locale locale) {
 
+        System.out.println("RECIBIDA PETICIÓN DE REGISTRO PARA: " + registroDTO.getCorreo());
         // Validar los datos del DTO
         List<String> errores = registrarseService.validarRegistro(registroDTO);
 
@@ -50,7 +51,8 @@ public class RegistrarseController {
 
             String mensajeExito = messageSource.getMessage("mensaje.registro.exito", null, locale);
             redirectAttributes.addFlashAttribute("mensaje", mensajeExito);
-            return "redirect:/login";
+            System.out.println("REGISTRO EXITOSO, REDIRIGIENDO A LOGIN");
+            return "redirect:/login?exito";
 
         } catch (Exception e) {
             String mensajeError = messageSource.getMessage("error.registro.general", null, locale);

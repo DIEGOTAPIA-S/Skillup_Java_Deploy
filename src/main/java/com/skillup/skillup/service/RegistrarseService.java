@@ -39,6 +39,7 @@ public class RegistrarseService {
         List<String> errores = new ArrayList<>();
         Locale locale = Locale.getDefault();
 
+        System.out.println("INICIANDO VALIDACIÓN PARA: " + dto.getCorreo());
         // Normalizar campos
         String identificacion = normalizar(dto.getIdentificacion());
         String nombre = normalizar(dto.getNombre());
@@ -113,6 +114,7 @@ public class RegistrarseService {
             errores.add(messageSource.getMessage("error.correo.existe", null, locale));
         }
 
+        System.out.println("VALIDACIÓN COMPLETADA. Errores encontrados: " + errores.size());
         return errores;
     }
 
@@ -129,8 +131,10 @@ public class RegistrarseService {
         usuario.setIdRol(2); // Rol por defecto
         usuario.setMfaSecret(null); // Asegurar que sea null explícitamente
 
+        System.out.println("INTENTANDO GUARDAR USUARIO EN BD... ID: " + usuario.getIdentificacion());
         try {
             registrarseRepository.save(usuario);
+            System.out.println("USUARIO GUARDADO EXITOSAMENTE");
         } catch (Exception e) {
             System.err.println("ERROR AL GUARDAR USUARIO: " + e.getMessage());
             throw e;
