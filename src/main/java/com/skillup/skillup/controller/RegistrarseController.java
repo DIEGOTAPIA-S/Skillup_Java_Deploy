@@ -49,9 +49,7 @@ public class RegistrarseController {
             // Guardar el usuario
             registrarseService.guardarUsuario(registroDTO);
 
-            String mensajeExito = messageSource.getMessage("mensaje.registro.exito", null, locale);
-            redirectAttributes.addFlashAttribute("mensaje", mensajeExito);
-            System.out.println("REGISTRO EXITOSO, REDIRIGIENDO A LOGIN");
+            System.out.println("REGISTRO EXITOSO PARA: " + registroDTO.getCorreo() + ". REDIRIGIENDO A /login?exito");
             return "redirect:/login?exito";
 
         } catch (Exception e) {
