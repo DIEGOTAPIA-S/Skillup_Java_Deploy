@@ -12,6 +12,7 @@ import com.skillup.skillup.repository.CursoRepository;
 import com.skillup.skillup.repository.ModuloRepository;
 import com.skillup.skillup.repository.ContenidoRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -24,21 +25,33 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final CursoRepository cursoRepository;
     private final ModuloRepository moduloRepository;
     private final ContenidoRepository contenidoRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     public DatabaseSeeder(RolRepository rolRepository,
             RegistrarseRepository registrarseRepository,
             CursoRepository cursoRepository,
             ModuloRepository moduloRepository,
-            ContenidoRepository contenidoRepository) {
+            ContenidoRepository contenidoRepository,
+            JdbcTemplate jdbcTemplate) {
         this.rolRepository = rolRepository;
         this.registrarseRepository = registrarseRepository;
         this.cursoRepository = cursoRepository;
         this.moduloRepository = moduloRepository;
         this.contenidoRepository = contenidoRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        // --- LIMPIEZA DE TABLA OBSOLETA ---
+        try {
+            System.out.println("Intentando borrar tabla 'usuarios'...");
+            jdbcTemplate.execute("DROP TABLE IF EXISTS usuarios");
+            System.out.println("✅ Tabla 'usuarios' eliminada (si existía).");
+        } catch (Exception e) {
+            System.out.println("⚠️ Nota: No se pudo borrar 'usuarios' (posiblemente ya no existe): " + e.getMessage());
+        }
+
         // 1. CARGAR ROLES
         if (rolRepository.count() == 0) {
             rolRepository.saveAll(Arrays.asList(
