@@ -3,11 +3,12 @@ package com.skillup.skillup.service;
 
 
 import com.skillup.skillup.Dto.RegistroDTO;
-import com.skillup.skillup.model.Registrarse;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.RegistrarseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,14 +117,15 @@ public class RegistrarseService {
     }
 
 
+    @Transactional
     public void guardarUsuario(RegistroDTO dto) {
-        Registrarse usuario = new Registrarse();
+        Usuario usuario = new Usuario();
         usuario.setIdentificacion(dto.getIdentificacion());
         usuario.setNombre(dto.getNombre());
         usuario.setApellido1(dto.getApellido1());
         usuario.setApellido2(dto.getApellido2().isEmpty() ? null : dto.getApellido2());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setContraseña(dto.getContraseña()); // Sin encriptar por ahora
+        usuario.setContrasena(dto.getContraseña()); // Sin encriptar por ahora
         usuario.setIdRol(2); // Rol por defecto
         usuario.setMfaSecret(null); // Asegurar que sea null explícitamente
 

@@ -1,7 +1,7 @@
 package com.skillup.skillup.Seeds;
 
 import com.skillup.skillup.model.Rol;
-import com.skillup.skillup.model.Registrarse;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.repository.RolRepository;
 import com.skillup.skillup.repository.RegistrarseRepository;
@@ -140,13 +140,13 @@ public class DatabaseSeeder implements CommandLineRunner {
     private void crearUsuarioSiNoExiste(String id, String nombre, String apellido, String pass, Integer rol,
             String correo) {
         if (!registrarseRepository.existsByIdentificacion(id)) {
-            Registrarse u = new Registrarse();
+            Usuario u = new Usuario();
             u.setIdentificacion(id);
             u.setNombre(nombre);
             u.setApellido1(apellido);
             u.setApellido2("");
             u.setCorreo(correo);
-            u.setContraseña(pass);
+            u.setContrasena(pass);
             u.setIdRol(rol);
             registrarseRepository.save(u);
             System.out.println("Usuario de prueba creado: " + nombre + " (" + id + ")");

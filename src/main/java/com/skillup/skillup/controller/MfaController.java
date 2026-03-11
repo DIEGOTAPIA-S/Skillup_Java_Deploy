@@ -1,6 +1,6 @@
 package com.skillup.skillup.controller;
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.LoginRepository;
 import com.skillup.skillup.service.MfaService;
 import dev.samstevens.totp.exceptions.QrGenerationException;
@@ -28,7 +28,7 @@ public class MfaController {
         String correo = (String) session.getAttribute("mfa_correo_pendiente");
         if (correo == null) return "redirect:/login";
 
-        Usuarios usuario = loginRepository.findByCorreo(correo)
+        Usuario usuario = loginRepository.findByCorreo(correo)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // Generar nuevo secreto si no tiene
@@ -65,7 +65,7 @@ public class MfaController {
         String correo = (String) session.getAttribute("mfa_correo_pendiente");
         if (correo == null) return "redirect:/login";
 
-        Usuarios usuario = loginRepository.findByCorreo(correo)
+        Usuario usuario = loginRepository.findByCorreo(correo)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (mfaService.isCodeValid(usuario.getMfaSecret(), codigo)) {

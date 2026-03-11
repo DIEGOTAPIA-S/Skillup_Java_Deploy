@@ -1,17 +1,17 @@
 package com.skillup.skillup.repository;
 
-import com.skillup.skillup.model.Registrarse;
+import com.skillup.skillup.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RegistrarseRepository extends JpaRepository<Registrarse, String> {
+public interface RegistrarseRepository extends JpaRepository<Usuario, String> {
 
     boolean existsByIdentificacion(String identificacion);
 
     boolean existsByCorreo(String correo);
 
-    Registrarse findByIdentificacion(String identificacion);
+    Usuario findByIdentificacion(String identificacion);
 
-    Registrarse findByCorreo(String correo);
+    Usuario findByCorreo(String correo);
 }

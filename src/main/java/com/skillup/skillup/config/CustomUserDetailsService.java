@@ -1,6 +1,6 @@
 package com.skillup.skillup.config;
 
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
 
-        Usuarios usuario = loginRepository.findByCorreo(correo)
+        Usuario usuario = loginRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         return new User(

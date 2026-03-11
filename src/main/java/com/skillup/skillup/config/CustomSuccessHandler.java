@@ -1,9 +1,5 @@
-package com.skillup.skillup.config;
-
-
-import com.skillup.skillup.model.Usuarios;
+import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.LoginRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private LoginRepository loginRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
+    public void onAuthenticationSuccess(jakarta.servlet.http.HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
@@ -31,7 +27,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         String correo = authentication.getName();
 
 
-        Usuarios usuario = loginRepository.findByCorreo(correo)
+        Usuario usuario = loginRepository.findByCorreo(correo)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado en BD"));
 
 
