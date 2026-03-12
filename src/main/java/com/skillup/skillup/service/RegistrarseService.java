@@ -7,6 +7,7 @@ import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.RegistrarseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
 
 @Service
 public class RegistrarseService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RegistrarseRepository registrarseRepository;
@@ -129,7 +132,10 @@ public class RegistrarseService {
         usuario.setCorreo(dto.getCorreo());
         usuario.setContrasena(dto.getContraseña()); // Sin encriptar por ahora
         usuario.setIdRol(2); // Rol por defecto
-        usuario.setMfaSecret(null); // Asegurar que sea null explícitamente
+        usuario.setMfaSecret(null);// Asegurar que sea null explícitamente
+
+        String passwordEncriptada = passwordEncoder.encode(dto.getContraseña());
+        usuario.setContrasena(passwordEncriptada);
 
         System.out.println("INTENTANDO GUARDAR USUARIO EN BD... ID: " + usuario.getIdentificacion());
         System.out.println("DATOS: Nombre=" + usuario.getNombre() + ", Correo=" + usuario.getCorreo() + ", Rol=" + usuario.getIdRol());

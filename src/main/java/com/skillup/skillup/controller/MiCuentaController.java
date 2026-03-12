@@ -9,6 +9,7 @@ import com.skillup.skillup.repository.ProgresoModuloRepository;
 import com.skillup.skillup.repository.UsuariosRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,11 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/estudiante/mi-cuenta")
-public class MiCuentaController {
+public class
+MiCuentaController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsuariosRepository usuariosRepository;
@@ -158,7 +163,7 @@ public class MiCuentaController {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // ✅ Verificar contraseña actual (sin encriptación - comparación directa)
-            if (!passwordActual.equals(usuario.getContrasena())) {
+            if (!passwordEncoder.matches(passwordActual,usuario.getContrasena())) {
                 redirectAttributes.addFlashAttribute("errorPassword", "❌ La contraseña actual es incorrecta");
                 return "redirect:/estudiante/mi-cuenta";
             }
@@ -182,8 +187,8 @@ public class MiCuentaController {
             }
 
             // ✅ Actualizar contraseña (sin encriptar - texto plano)
-            usuario.setContrasena(passwordNueva);
-            usuariosRepository.save(usuario);
+            String nuevaPasswordEncriptada = passwordEncoder.encode(passwordNueva);
+            usuario.setContrasena(nuevaPasswordEncriptada);
 
             redirectAttributes.addFlashAttribute("successPassword", "✅ Contraseña actualizada correctamente");
 
