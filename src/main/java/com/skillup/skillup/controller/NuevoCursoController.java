@@ -73,11 +73,11 @@ public class NuevoCursoController {
         }
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PostMapping("/actualizar/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> actualizarCurso(
             @PathVariable Integer id,
-            @Valid @RequestBody CursoDTO cursoDTO,
+            @Valid CursoDTO cursoDTO,
             BindingResult bindingResult) {
 
         Map<String, Object> response = new HashMap<>();
@@ -98,5 +98,13 @@ public class NuevoCursoController {
             response.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarCurso(@PathVariable Integer id) {
+
+        cursoService.eliminarCurso(id);
+
+        return "redirect:administrador/cursos";
     }
 }
