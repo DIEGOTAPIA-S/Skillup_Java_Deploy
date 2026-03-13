@@ -1,6 +1,7 @@
 package com.skillup.skillup.service;
 
 import com.skillup.skillup.Dto.CursoDTO;
+import com.skillup.skillup.Dto.ModuloDTO;
 import com.skillup.skillup.mapper.CursoMapper;
 import com.skillup.skillup.model.Contenido;
 import com.skillup.skillup.model.Curso;
@@ -61,21 +62,39 @@ public class CursoService {
     }
 
     @Transactional
-    public void eliminarCurso(Integer id) {
-        if (!cursoRepository.existsById(id)) {
-            throw new IllegalArgumentException("El curso no existe");
+    public void eliminarCurso(Integer id){
+
+        if(!cursoRepository.existsById(id)){
+            throw new RuntimeException("Curso no existe");
         }
+
         cursoRepository.deleteById(id);
     }
 
     @Transactional
-    public Curso actualizarCurso(Integer id, CursoDTO cursoDTO) {
+    public Curso actualizarCurso(Integer id, CursoDTO cursoDTO){
+
         Curso curso = cursoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
-        
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+
         curso.setNombre(cursoDTO.getNombre());
         curso.setImagenUrl(cursoDTO.getImagenUrl());
-        
+        curso.setDescripcion(cursoDTO.getDescripcion());
+
+        if(cursoDTO.getModulos()!=null){
+            for (ModuloDTO moduloDTO : cursoDTO.getModulos()) {
+                Modulo modulo = new Modulo();
+
+                modulo.setNombre(moduloDTO.getNombre());
+                modulo.setDescripcion(moduloDTO.getDescripcion());
+                modulo.setOrden(moduloDTO.getOrden());
+
+                // relación con curso
+                modulo.setCurso(curso);
+
+                curso.getModulos().add(modulo);
+            }
+        }
         return cursoRepository.save(curso);
     }
 }

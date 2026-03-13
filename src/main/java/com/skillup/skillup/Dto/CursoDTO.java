@@ -12,7 +12,7 @@ public class CursoDTO {
     @NotBlank(message = "El nombre del curso es obligatorio")
     @Size(min = 3, max = 150, message = "El nombre debe tener entre 3 y 150 caracteres")
     private String nombre;
-
+    private String descripcion;
     private String imagenUrl;
 
     @Valid
@@ -24,6 +24,8 @@ public class CursoDTO {
         return nombre;
     }
 
+    public String getDescripcion(){return descripcion;}
+
 
     public String getImagenUrl() {
         return imagenUrl;
@@ -32,6 +34,8 @@ public class CursoDTO {
     public void setImagenUrl(String imagenUrl) {
         this.imagenUrl = imagenUrl;
     }
+
+    public void setDescripcion(String descripcion){this.descripcion = descripcion;}
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

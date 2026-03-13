@@ -5,80 +5,284 @@
     <title>Editar Curso - SKILLUP</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="flex flex-col min-h-screen bg-gradient-to-br from-blue-100 via-white to-purple-50">
 
 <div th:replace="layouts/headerAdministrador :: header"></div>
 
 <main class="flex-grow py-10">
-    <div class="max-w-4xl w-full mx-auto px-4">
+    <div class="max-w-6xl w-full mx-auto px-4">
 
         <div class="mb-6">
             <a th:href="@{/administrador/cursos/listar}"
                class="inline-flex items-center text-purple-700 hover:text-purple-900 font-medium transition">
-                ← Volver a la lista
+                ← Volver
             </a>
         </div>
 
         <div class="bg-white rounded-2xl shadow-2xl border border-purple-200 p-10">
-            <h1 class="text-3xl font-extrabold text-purple-700 mb-6">Editar Curso</h1>
 
-            <form th:action="@{/cursos/guardar-edicion (id=${curso.id})}" method="post">
-                <input type="hidden" name="id" th:value="${curso.id}" id="cursoId">
+            <h1 class="text-4xl font-extrabold text-purple-700 mb-2">
+                Editar Curso
+            </h1>
 
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Título del Curso</label>
-                        <input type="text" name="nombre" th:value="${curso.nombre}" id="nombre"
-                               class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none">
+            <input type="hidden" id="cursoId" th:value="${curso.id}">
+
+            <form id="formCurso">
+
+                <!-- INFORMACION CURSO -->
+                <div class="mb-8 p-6 bg-purple-50 rounded-xl border-2 border-purple-200">
+
+                    <h2 class="text-2xl font-bold text-purple-800 mb-4">
+                        📝 Información del Curso
+                    </h2>
+
+                    <div class="mb-4">
+
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Título del Curso
+                        </label>
+
+                        <input type="text"
+                               id="nombre"
+                               th:value="${curso.nombre}"
+                               class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl">
+
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">URL de la Imagen</label>
-                        <input type="text" name="imagenUrl" th:value="${curso.imagenUrl}" id="imagenUrl"
-                               class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none">
+
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Descripción
+                        </label>
+
+                        <textarea
+                                id="descripcion"
+                                rows="3"
+                                class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl"
+                                th:text="${curso.descripcion}">
+</textarea>
+
                     </div>
 
-                    <div class="pt-6 border-t border-gray-100 flex gap-4">
-                        <button type="button" id="btnActualizar"
-                                class="flex-1 bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg">
-                            💾 Guardar Cambios
-                        </button>
-                        <a th:href="@{/administrador/cursos/listar}"
-                           class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 px-6 rounded-xl transition text-center">
-                            Cancelar
-                        </a>
-                    </div>
                 </div>
+
+                <!-- IMAGEN -->
+
+                <div class="mb-8 p-6 bg-blue-50 rounded-xl border-2 border-blue-200">
+
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">
+                        🖼️ Imagen del Curso
+                    </h2>
+
+                    <div class="flex flex-col md:flex-row gap-6">
+
+                        <div class="flex-1">
+
+                            <input type="text"
+                                   id="imagenUrl"
+                                   th:value="${curso.imagenUrl}"
+                                   class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl">
+
+                        </div>
+
+                        <div id="preview"
+                             class="w-48 h-32 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center overflow-hidden">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- MODULOS -->
+
+                <div class="mb-8 p-6 bg-green-50 rounded-xl border-2 border-green-200">
+
+                    <div class="flex justify-between items-center mb-4">
+
+                        <h2 class="text-2xl font-bold text-green-800">
+                            📚 Módulos
+                        </h2>
+
+                        <button type="button"
+                                id="btnAgregarModulo"
+                                class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                            + Agregar Módulo
+                        </button>
+
+                    </div>
+
+                    <div id="modulosContainer" class="space-y-4"></div>
+
+                </div>
+
+                <div class="flex gap-4 pt-6 border-t">
+
+                    <button type="button"
+                            id="btnActualizar"
+                            class="flex-1 bg-purple-700 text-white py-3 rounded-xl">
+
+                        💾 Guardar Cambios
+
+                    </button>
+
+                    <a th:href="@{/administrador/cursos/listar}"
+                       class="flex-1 bg-gray-200 py-3 rounded-xl text-center">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
             </form>
+
         </div>
     </div>
 </main>
 
 <script>
-    document.getElementById('btnActualizar').addEventListener('click', function() {
-        const id = document.getElementById('cursoId').value;
-        const data = {
-            nombre: document.getElementById('nombre').value,
-            imagenUrl: document.getElementById('imagenUrl').value,
-            modulos: [] // No editamos módulos aquí por ahora para simplificar
+
+    var moduloCount = 0;
+
+    function agregarModulo(nombre="",descripcion=""){
+
+        moduloCount++;
+
+        var container=document.getElementById("modulosContainer");
+
+        var div=document.createElement("div");
+
+        div.id="modulo-"+moduloCount;
+
+        div.className="border-2 border-green-300 p-5 rounded-xl bg-white";
+
+        div.innerHTML=`
+<div class="flex justify-between mb-3">
+
+<h3 class="font-bold">MÓDULO ${moduloCount}</h3>
+
+<button type="button" onclick="eliminarModulo(${moduloCount})"
+class="text-red-500">Eliminar</button>
+
+</div>
+
+<input type="text"
+value="${nombre}"
+placeholder="Nombre del módulo"
+class="w-full border-2 border-green-200 p-2 rounded-lg mb-2"
+name="modulo-nombre-${moduloCount}">
+
+<textarea
+placeholder="Descripción"
+class="w-full border-2 border-green-200 p-2 rounded-lg"
+name="modulo-descripcion-${moduloCount}">${descripcion}</textarea>
+`;
+
+        container.appendChild(div);
+
+    }
+
+    function eliminarModulo(id){
+
+        var m=document.getElementById("modulo-"+id);
+
+        if(m) m.remove();
+
+    }
+
+    function actualizarCurso(){
+
+        const id=document.getElementById("cursoId").value;
+
+        const titulo=document.getElementById("nombre").value;
+
+        const descripcion=document.getElementById("descripcion").value;
+
+        const imagenUrl=document.getElementById("imagenUrl").value;
+
+        var modulos=[];
+
+        document.querySelectorAll('[id^="modulo-"]').forEach(function(modulo,index){
+
+            var nombre=modulo.querySelector("input").value;
+
+            var desc=modulo.querySelector("textarea").value;
+
+            modulos.push({
+
+                nombre:nombre,
+
+                descripcion:desc,
+
+                orden:index+1,
+
+                contenidos:[]
+
+            });
+
+        });
+
+        const data={
+
+            nombre:titulo,
+
+            descripcion:descripcion,
+
+            imagenUrl:imagenUrl,
+
+            modulos:modulos
+
         };
 
-        fetch('/cursos/actualizar/' + id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+        fetch(`/cursos/actualizar/curso/${id}`,{
+
+            method:'POST',
+
+            headers:{'Content-Type':'application/json'},
+
+            body:JSON.stringify(data)
+
         })
-        .then(res => res.json())
-        .then(result => {
-            if (result.success) {
-                alert('Curso actualizado con éxito');
-                window.location.href = '/administrador/cursos/listar';
-            } else {
-                alert('Error: ' + result.message);
-            }
-        })
-        .catch(err => alert('Error de conexión'));
+
+            .then(res=>res.json())
+
+            .then(result=>{
+
+                if(result.success){
+
+                    alert("Curso actualizado correctamente");
+
+                    window.location.href="/administrador/cursos/listar";
+
+                }else{
+
+                    alert(result.message);
+
+                }
+
+            })
+
+            .catch(err=>{
+
+                console.error(err);
+
+                alert("Error al actualizar");
+
+            });
+
+    }
+
+    document.addEventListener("DOMContentLoaded",function(){
+
+        document.getElementById("btnAgregarModulo")
+            .addEventListener("click",()=>agregarModulo());
+
+        document.getElementById("btnActualizar")
+            .addEventListener("click",actualizarCurso);
+
     });
+
 </script>
 
 </body>

@@ -25,6 +25,7 @@ public class CursoMapper {
         curso.setNombre(dto.getNombre());
 
         curso.setImagenUrl(dto.getImagenUrl());
+        curso.setDescripcion(dto.getDescripcion());
 
         if (dto.getModulos() != null && !dto.getModulos().isEmpty()) {
             Set<Modulo> modulos = dto.getModulos().stream()

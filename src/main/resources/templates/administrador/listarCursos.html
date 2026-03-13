@@ -69,8 +69,8 @@
                 <!-- Estadísticas -->
                 <div class="flex gap-4 mb-4 text-sm">
                     <div class="flex items-center text-gray-600">
-                        <span class="mr-1">📖</span>
-                        <span th:text="${curso.modulos != null ? curso.modulos.size() : 0}">0</span> módulos
+                        <span class="mr-1">📖 </span>
+                        <span th:text="${curso.modulos != null ? curso.modulos.size() : 0 }"> 0 </span> módulos
                     </div>
                 </div>
 
@@ -80,15 +80,20 @@
                        class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition text-center text-sm">
                         📚 Módulos
                     </a>
-                    <a th:href="@{/administrador/cursos/editar/{id}(id=${curso.id})}"
+                    <a th:href="@{/cursos/editar/curso/{id}(id=${curso.id})}"
                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center">
                         ✏️
                     </a>
-                    <a th:href="@{/administrador/cursos/eliminar/{id}(id=${curso.id})}"
-                       onclick="return confirm('¿Estás seguro de eliminar este curso? Se borrarán sus módulos y contenidos.')"
-                       class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center">
-                        🗑️
-                    </a>
+                    <form th:action="@{/cursos/eliminar/{id}(id=${curso.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Estás seguro de eliminar este curso?')">
+
+                        <button type="submit"
+                                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center">
+                            🗑️
+                        </button>
+
+                    </form>
                 </div>
             </div>
         </div>
