@@ -1,9 +1,7 @@
 package com.skillup.skillup.controller;
 
-import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.model.Inscripcion;
 import com.skillup.skillup.repository.InscripcionRepository;
-import com.skillup.skillup.service.CursoService;
 import com.skillup.skillup.service.InscripcionService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Row;

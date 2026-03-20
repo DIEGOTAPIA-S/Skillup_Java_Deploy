@@ -4,7 +4,6 @@ import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.model.Evaluacion;
 import com.skillup.skillup.model.Inscripcion;
 import com.skillup.skillup.model.ProgresoModulo;
-import com.skillup.skillup.repository.CursoRepository;
 import com.skillup.skillup.repository.InscripcionRepository;
 import com.skillup.skillup.repository.ProgresoModuloRepository;
 import com.skillup.skillup.service.CursoService;
@@ -27,9 +26,6 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/estudiante")
 public class CursoController {
-
-    @Autowired
-    private CursoRepository cursoRepo;
 
     @Autowired
     private CursoService cursoService;

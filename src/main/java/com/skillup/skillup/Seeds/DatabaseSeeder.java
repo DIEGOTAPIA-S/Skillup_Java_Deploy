@@ -14,6 +14,7 @@ import com.skillup.skillup.repository.ContenidoRepository;
 import com.skillup.skillup.repository.ProgresoModuloRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -45,6 +46,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         // 1. CARGAR ROLES
         if (rolRepository.count() == 0) {
@@ -121,13 +123,18 @@ public class DatabaseSeeder implements CommandLineRunner {
                 
                 List<Modulo> modulosExistentes = moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId());
                 
-                // LIMPIAR PROGRESO antes de borrar módulos (Evita error de FK en Railway)
+                // LIMPIAR DEPENDENCIAS (Evita error de FK en Railway)
                 for (Modulo m : modulosExistentes) {
+                    // 1. Borrar progreso de este módulo
                     progresoModuloRepository.deleteByModuloId(m.getId());
+                    // 2. Borrar contenidos de este módulo (aunque tiene cascade, lo hacemos explícito para asegurar orden)
                     contenidoRepository.deleteAll(contenidoRepository.findByModulo_IdOrderByOrdenAsc(m.getId()));
                 }
                 
+                // Asegurar que las eliminaciones se envíen a la BD antes de borrar los módulos
+                moduloRepository.flush(); 
                 moduloRepository.deleteAll(modulosExistentes);
+                moduloRepository.flush();
                 
                 if (nombre.equals("Inteligencia Emocional")) seedInteligenciaEmocional(curso);
                 else if (nombre.equals("Liderazgo Efectivo")) seedLiderazgoEfectivo(curso);

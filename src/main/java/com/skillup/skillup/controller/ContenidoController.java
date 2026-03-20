@@ -3,14 +3,12 @@ package com.skillup.skillup.controller;
 import com.skillup.skillup.model.Contenido;
 import com.skillup.skillup.model.Modulo;
 import com.skillup.skillup.service.ContenidoService;
-import com.skillup.skillup.service.FileStorageService;
 import com.skillup.skillup.service.ModuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +23,6 @@ public class ContenidoController {
 
     @Autowired
     private ModuloService moduloService;
-
-    @Autowired
-    private FileStorageService fileStorageService;
 
     // Ver gestión de contenidos de un módulo
     @GetMapping("/modulo/{idModulo}")

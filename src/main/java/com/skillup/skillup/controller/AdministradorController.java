@@ -5,7 +5,6 @@ import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.service.RolService;
 import com.skillup.skillup.service.UsuariosService;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
