@@ -24,17 +24,20 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final CursoRepository cursoRepository;
     private final ModuloRepository moduloRepository;
     private final ContenidoRepository contenidoRepository;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public DatabaseSeeder(RolRepository rolRepository,
             RegistrarseRepository registrarseRepository,
             CursoRepository cursoRepository,
             ModuloRepository moduloRepository,
-            ContenidoRepository contenidoRepository) {
+            ContenidoRepository contenidoRepository,
+            org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
         this.rolRepository = rolRepository;
         this.registrarseRepository = registrarseRepository;
         this.cursoRepository = cursoRepository;
         this.moduloRepository = moduloRepository;
         this.contenidoRepository = contenidoRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -80,63 +83,81 @@ public class DatabaseSeeder implements CommandLineRunner {
                 "Empatía en el Entorno Laboral");
 
         habilidadesBlandas.forEach(nombre -> {
-            Curso curso;
-            if (!cursoRepository.existsByNombre(nombre)) {
+            Curso curso = cursoRepository.findByNombre(nombre).orElse(null);
+            
+            if (curso == null) {
                 curso = new Curso();
                 curso.setNombre(nombre);
-                curso.setDescripcion("Fortalece tus competencias en " + nombre + " con este programa diseñado por expertos.");
-
-                // Imágenes temáticas
-                if (nombre.contains("Inteligencia"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80");
-                else if (nombre.contains("Liderazgo"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80");
-                else if (nombre.contains("Comunicación"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1521791136064-7986c2923216?w=800&q=80");
-                else
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80");
-
                 cursoRepository.save(curso);
-                cargarEstructuraGenerica(curso, nombre);
-            } else {
-                curso = cursoRepository.findByNombre(nombre).orElse(null);
             }
 
-            // CONTENIDO PREMIUM PARA DEMO (Actualizar si tienen pocos módulos)
-            if (curso != null) {
-                if (nombre.equals("Inteligencia Emocional") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
-                    seedInteligenciaEmocional(curso);
-                } else if (nombre.equals("Liderazgo Efectivo") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
-                    seedLiderazgoEfectivo(curso);
-                } else if (nombre.equals("Comunicación Asertiva") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
-                    seedComunicacionAsertiva(curso);
+            // Actualizamos la descripción a una más profesional
+            String desc = "Fortalece tus competencias en " + nombre + " con este programa experto.";
+            String img = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800";
+            
+            if (nombre.equals("Inteligencia Emocional")) {
+                desc = "Domina tus emociones y mejora tus relaciones interpersonales con técnicas de Daniel Goleman.";
+                img = "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800";
+            } else if (nombre.equals("Liderazgo Efectivo")) {
+                desc = "Aprende a guiar equipos de alto rendimiento, delegar con confianza y ser un líder inspirador.";
+                img = "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800";
+            } else if (nombre.equals("Comunicación Asertiva")) {
+                desc = "Expresa tus ideas con seguridad y respeto. Aprende a decir no sin culpa y dar feedback constructivo.";
+                img = "https://images.unsplash.com/photo-1521791136064-7986c2923216?w=800";
+            }
+            
+            curso.setDescripcion(desc);
+            curso.setImagenUrl(img);
+            cursoRepository.save(curso);
+
+            // Evitar duplicados: Limpiamos y recargamos solo los 3 cursos principales del demo
+            if (nombre.equals("Inteligencia Emocional") || 
+                nombre.equals("Liderazgo Efectivo") || 
+                nombre.equals("Comunicación Asertiva")) {
+                
+                moduloRepository.deleteAll(moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()));
+                
+                if (nombre.equals("Inteligencia Emocional")) seedInteligenciaEmocional(curso);
+                else if (nombre.equals("Liderazgo Efectivo")) seedLiderazgoEfectivo(curso);
+                else if (nombre.equals("Comunicación Asertiva")) seedComunicacionAsertiva(curso);
+            } else {
+                // Para los demás cursos, si no tienen módulos, ponemos la estructura genérica
+                if (moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).isEmpty()) {
+                    cargarEstructuraGenerica(curso, nombre);
                 }
             }
         });
     }
 
     private void seedInteligenciaEmocional(Curso curso) {
-        Modulo m1 = crearModulo(curso, "Fundamentos de la Inteligencia Emocional", "Conoce qué es la IE y por qué es clave en el siglo XXI.", 1);
-        crearContenido(m1, "Bienvenida e Introducción", "https://www.youtube.com/watch?v=1-S90HOnu9M", 1);
-        crearContenido(m1, "Los 5 Pilares de Daniel Goleman", "Guía detallada sobre Autoconocimiento, Autocontrol, Automotivación, Empatía y Habilidades Sociales.", 2);
+        Modulo m1 = crearModulo(curso, "1. Introducción a la IE", "Conoce qué es la IE y por qué es clave en el siglo XXI.", 1);
+        crearContenido(m1, "Bienvenida e Introducción", "https://www.youtube.com/watch?v=SePZ660-MIs", 1);
+        crearContenido(m1, "Los 5 Pilares de Daniel Goleman", "https://es.wikipedia.org/wiki/Inteligencia_emocional#Los_cinco_elementos_de_la_inteligencia_emocional", 2);
 
-        Modulo m2 = crearModulo(curso, "Autoconocimiento y Autorregulación", "Aprende a identificar tus disparadores emocionales.", 2);
-        crearContenido(m2, "Técnicas de Respiración y Calma", "https://www.youtube.com/watch?v=8Vw_v4_7RQA", 1);
+        Modulo m2 = crearModulo(curso, "2. Autoconocimiento y Autorregulación", "Aprende a identificar tus disparadores emocionales.", 2);
+        crearContenido(m2, "Técnicas de Respiración y Calma", "https://www.youtube.com/watch?v=3n-vT_6G5Ac", 1);
+        crearContenido(m2, "Diario de Emociones", "https://psicologiaymente.com/blog/diario-de-emociones", 2);
+
+        Modulo m3 = crearModulo(curso, "3. Empatía y Habilidades Sociales", "Cómo conectar con los demás de forma sana.", 3);
+        crearContenido(m3, "Escucha Activa y Empatía", "https://www.youtube.com/watch?v=fS8mYiv1v28", 1);
     }
 
     private void seedLiderazgoEfectivo(Curso curso) {
-        Modulo m1 = crearModulo(curso, "El Líder Moderno", "Diferencia entre jefe y líder. Estilos de liderazgo.", 1);
-        crearContenido(m1, "Simon Sinek: Los líderes comen al final", "https://www.youtube.com/watch?v=hZ_vR_0Yqas", 1);
+        Modulo m1 = crearModulo(curso, "1. El Líder Moderno", "Diferencia entre jefe y líder. Estilos de liderazgo.", 1);
+        crearContenido(m1, "Simon Sinek: Empieza con el porqué", "https://www.youtube.com/watch?v=ReRcHdeUG9Y", 1);
         
-        Modulo m2 = crearModulo(curso, "Liderazgo Situacional", "Cómo adaptar tu estilo según el equipo.", 2);
+        Modulo m2 = crearModulo(curso, "2. Liderazgo Situacional", "Cómo adaptar tu estilo según el equipo.", 2);
         crearContenido(m2, "Delegación Efectiva", "https://www.youtube.com/watch?v=Xp0N1f8J55c", 1);
+
+        Modulo m3 = crearModulo(curso, "3. Motivación de Equipos", "Mantener el compromiso y la energía alta.", 3);
+        crearContenido(m3, "La ciencia de la motivación", "https://www.youtube.com/watch?v=u6XAPnuFjJc", 1);
     }
 
     private void seedComunicacionAsertiva(Curso curso) {
-        Modulo m1 = crearModulo(curso, "Bases de la Comunicación", "Escucha activa y lenguaje no verbal.", 1);
-        crearContenido(m1, "El poder del lenguaje corporal", "https://www.youtube.com/watch?v=Ks-_Mh1QhMc", 1);
+        Modulo m1 = crearModulo(curso, "1. Bases de la Comunicación", "Escucha activa y lenguaje no verbal.", 1);
+        crearContenido(m1, "El poder del lenguaje corporal - TED", "https://www.youtube.com/watch?v=P2fV6j1Z_I8", 1);
 
-        Modulo m2 = crearModulo(curso, "Comunicación Asertiva vs Agresiva", "Cómo decir 'No' y feedback constructivo.", 2);
+        Modulo m2 = crearModulo(curso, "2. Comunicación Asertiva vs Agresiva", "Cómo decir 'No' y feedback constructivo.", 2);
         crearContenido(m2, "El método del sándwich para feedback", "https://www.youtube.com/watch?v=FjIuCqDIs6o", 1);
     }
 
@@ -199,8 +220,9 @@ public class DatabaseSeeder implements CommandLineRunner {
             u.setApellido1(apellido);
             u.setApellido2("");
             u.setCorreo(correo);
-            u.setContrasena(pass);
+            u.setContrasena(passwordEncoder.encode(pass));
             u.setIdRol(rol);
+            u.setMfaSecret(null); // Para que el usuario deba configurarlo al primer login
             registrarseRepository.save(u);
             System.out.println("Usuario de prueba creado: " + nombre + " (" + id + ")");
         }

@@ -52,7 +52,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/login/**", "/images/**", "/css/**", "/home", "/registro", "/js/**", "/registro/**", "/api/reportes/cursos/pdf**", "/mfa/**").permitAll()
+                        .requestMatchers("/", "/login", "/login/**", "/images/**", "/css/**", "/home", "/registro", "/js/**", "/registro/**", "/api/reportes/cursos/pdf**", "/mfa/**", "/uploads/**").permitAll()
                         .requestMatchers("/administrador/**").hasRole("1")
                         .requestMatchers("/estudiante/**").hasRole("2")
                         .requestMatchers("/evaluador/**").hasRole("3")

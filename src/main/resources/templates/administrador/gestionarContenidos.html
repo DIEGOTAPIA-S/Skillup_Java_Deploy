@@ -31,7 +31,7 @@
                 </p>
             </div>
             <div class="flex justify-end">
-                <button onclick="mostrarFormulario()"
+                <button onclick="prepararNuevoContenido()"
                         class="bg-purple-700 hover:bg-purple-800 text-white
                                px-7 py-3 rounded-xl font-semibold shadow-lg
                                transition transform hover:-translate-y-0.5 hover:shadow-xl
@@ -52,7 +52,8 @@
                     Nuevo Contenido
                 </h2>
 
-                <form id="formCrearContenido" class="space-y-5">
+                <!-- Formulario Robusto -->
+                <form id="formCrearContenido" class="space-y-4" method="POST" th:action="@{/administrador/contenidos/crear}">
                     <input type="hidden" name="idModulo" th:value="${modulo.id}">
                     <input type="hidden" name="descripcion" id="descripcionFinal">
 
@@ -73,12 +74,14 @@
                     <div>
                         <p class="font-semibold mb-2">Tipo de contenido</p>
                         <div class="flex gap-3">
-                            <button type="button" class="tab tab-active"
+                            <button type="button" id="tab-video" class="tab tab-active"
                                     onclick="cambiarTipo('video', this)">🎥 Video</button>
-                            <button type="button" class="tab"
+                            <button type="button" id="tab-pdf" class="tab"
                                     onclick="cambiarTipo('pdf', this)">📄 PDF</button>
-                            <button type="button" class="tab"
-                                    onclick="cambiarTipo('link', this)">🔗 Recurso</button>
+                            <button type="button" id="tab-link" class="tab"
+                                    onclick="cambiarTipo('link', this)">🔗 Enlace</button>
+                            <button type="button" id="tab-text" class="tab"
+                                    onclick="cambiarTipo('texto', this)">📝 Texto</button>
                         </div>
                     </div>
 
@@ -117,17 +120,26 @@
                                oninput="actualizarPreview()">
                     </div>
 
-                    <div class="flex gap-4 pt-6">
-                        <button type="submit"
-                                class="bg-purple-700 hover:bg-purple-800 text-white
-                                       px-6 py-3 rounded-xl font-semibold shadow">
-                            Guardar
-                        </button>
-                        <button type="button" onclick="ocultarFormulario()"
-                                class="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl">
-                            Cancelar
-                        </button>
+                    <!-- Campo Texto -->
+                    <div id="campoTexto" class="hidden">
+                        <label class="block mb-2 font-semibold">Escribe el contenido</label>
+                        <textarea id="textoCuerpo"
+                                  rows="6"
+                                  placeholder="Escribe aquí el artículo o descripción..."
+                                  class="w-full px-4 py-3 border rounded-xl"
+                                  oninput="actualizarPreview()"></textarea>
                     </div>
+
+                    <div class="flex gap-4 pt-4">
+                    <button type="submit" id="btnGuardar"
+                            class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                        Guardar
+                    </button>
+                    <button type="button" onclick="cancelarEdicion()"
+                            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl transition">
+                        Cancelar
+                    </button>
+                </div>
                 </form>
             </div>
 
@@ -181,10 +193,10 @@
 
                 <div class="flex gap-2">
                     <button
-                            th:attr="data-id=${contenido.id},
-                                 data-titulo=${contenido.titulo},
-                                 data-descripcion=${contenido.descripcion},
-                                 data-orden=${contenido.orden}"
+                            th:data-id="${contenido.id}"
+                            th:data-titulo="${contenido.titulo}"
+                            th:data-descripcion="${contenido.descripcion}"
+                            th:data-orden="${contenido.orden}"
                             onclick="editarContenidoData(this)"
                             class="px-4 py-2 rounded-lg bg-blue-50 text-blue-600
                                hover:bg-blue-100 hover:text-blue-800 transition font-semibold">
@@ -222,13 +234,36 @@
 
     function mostrarFormulario() {
         document.getElementById('formularioContenido').classList.remove('hidden');
+    }
+
+    function prepararNuevoContenido() {
         limpiarFormulario();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Volver la acción a CREAR
+        document.getElementById('formCrearContenido').action = '/administrador/contenidos/crear';
+        
+        document.getElementById('tituloFormulario').textContent = '➕ Nuevo Contenido';
+        document.getElementById('btnGuardar').textContent = 'Guardar';
+        mostrarFormulario();
+        
+        // Scroll al formulario
+        document.getElementById('formularioContenido').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelarEdicion() {
+        document.getElementById('formCrearContenido').action = '/administrador/contenidos/crear';
+        document.getElementById('formCrearContenido').reset();
+        document.getElementById('tituloFormulario').textContent = 'Nuevo Contenido';
+        document.getElementById('btnGuardar').textContent = 'Guardar';
+        document.getElementById('descripcionFinal').value = '';
+        pdfUrlSubido = null;
+        
+        ocultarFormulario();
+        actualizarPreview();
     }
 
     function ocultarFormulario() {
         document.getElementById('formularioContenido').classList.add('hidden');
-        limpiarFormulario();
         idContenidoEditar = null;
     }
 
@@ -247,12 +282,14 @@
         document.getElementById('campoVideo').classList.add('hidden');
         document.getElementById('campoPdf').classList.add('hidden');
         document.getElementById('campoLink').classList.add('hidden');
+        document.getElementById('campoTexto').classList.add('hidden');
 
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
 
         if (tipo === 'video') document.getElementById('campoVideo').classList.remove('hidden');
         if (tipo === 'pdf') document.getElementById('campoPdf').classList.remove('hidden');
         if (tipo === 'link') document.getElementById('campoLink').classList.remove('hidden');
+        if (tipo === 'texto') document.getElementById('campoTexto').classList.remove('hidden');
 
         btn.classList.add('tab-active');
         actualizarPreview();
@@ -263,42 +300,68 @@
             document.getElementById('tituloInput').value || 'Título del contenido';
 
         if (tipoActual === 'video') {
-            const url = document.getElementById('videoUrl').value;
+            const url = document.getElementById('videoUrl').value.trim();
             document.getElementById('descripcionFinal').value = url;
 
             if (url) {
-                let embedUrl = url;
-                if (url.includes('youtube.com/watch?v=')) {
-                    embedUrl = url.replace('watch?v=', 'embed/');
-                } else if (url.includes('youtu.be/')) {
-                    const videoId = url.split('youtu.be/')[1].split('?')[0];
-                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                }
+                // REGEX Robusto para extraer ID de YouTube
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                const videoId = (match && match[2].length == 11) ? match[2] : null;
 
-                document.getElementById('previewContenido').innerHTML =
-                    `<iframe class="w-full h-56 rounded-lg"
-                            src="${embedUrl}"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>`;
+                if (videoId) {
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    document.getElementById('previewContenido').innerHTML =
+                        `<div class="space-y-3">
+                            <iframe class="w-full h-56 rounded-lg shadow-inner bg-black"
+                                    src="${embedUrl}"
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            <div class="flex justify-center">
+                                <a href="${url}" target="_blank" 
+                                   class="text-xs text-purple-600 hover:text-purple-800 hover:underline flex items-center gap-1">
+                                    📺 Abrir en pestaña nueva si no carga
+                                </a>
+                            </div>
+                         </div>`;
+                } else {
+                    document.getElementById('previewContenido').innerHTML =
+                        '<div class="p-4 bg-red-50 text-red-600 rounded-lg border border-red-200 text-sm">⚠️ URL de YouTube no válida</div>';
+                }
             } else {
                 document.getElementById('previewContenido').innerHTML =
-                    '<p class="text-gray-500">Ingresa una URL de YouTube</p>';
+                    '<div class="p-8 border-2 border-dashed border-gray-200 rounded-lg text-center text-gray-400">Ingresa una URL de YouTube</div>';
             }
         }
 
         if (tipoActual === 'link') {
             const url = document.getElementById('linkUrl').value;
             document.getElementById('descripcionFinal').value = url;
-            document.getElementById('previewContenido').innerHTML =
-                url ? `<a href="${url}" target="_blank"
+            
+            if (url && url.startsWith('http')) {
+                document.getElementById('previewContenido').innerHTML =
+                    `<a href="${url}" target="_blank"
                         class="inline-flex items-center gap-2 text-purple-700 hover:text-purple-900 font-semibold underline">
                         🔗 Abrir recurso externo
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
-                    </a>`
-                    : '<p class="text-gray-500">Ingresa un enlace externo</p>';
+                    </a>`;
+            } else {
+                document.getElementById('previewContenido').innerHTML =
+                    url ? `<p class="text-gray-700 bg-gray-50 p-3 rounded-lg border border-dashed border-gray-300 italic">⚠️ Ingresa una URL válida (http...) o usa la pestaña 'Texto'</p>`
+                        : '<p class="text-gray-500">Ingresa un enlace</p>';
+            }
+        }
+
+        if (tipoActual === 'texto') {
+            const texto = document.getElementById('textoCuerpo').value;
+            document.getElementById('descripcionFinal').value = texto;
+            document.getElementById('previewContenido').innerHTML =
+                texto ? `<div class="text-gray-800 leading-relaxed whitespace-pre-wrap">${texto}</div>`
+                      : '<p class="text-gray-500">Escribe algo...</p>';
         }
     }
 
@@ -365,82 +428,65 @@
             });
     }
 
+    // Manejo de Sumit (Simplificado al máximo para evitar errores)
     document.getElementById('formCrearContenido').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const descripcion = document.getElementById('descripcionFinal').value;
-        if (!descripcion || descripcion.trim() === '') {
-            alert('❌ Por favor, ingresa el contenido (video, PDF o enlace)');
-            return;
+        if (!document.getElementById('descripcionFinal').value) {
+            alert('Por favor, completa el contenido antes de guardar.');
+            e.preventDefault();
         }
-
-        const formData = new FormData(this);
-
-        const url = idContenidoEditar
-            ? `/administrador/contenidos/actualizar/${idContenidoEditar}`
-            : '/administrador/contenidos/crear';
-
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.json();
-            })
-            .then(result => {
-                if (result.success) {
-                    alert(result.message || '✅ Contenido guardado exitosamente');
-                    location.reload();
-                } else {
-                    alert('❌ ' + (result.message || 'Error al guardar'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('❌ Error al guardar el contenido. Por favor, intenta de nuevo.');
-            });
     });
 
     function editarContenidoData(btn) {
-        idContenidoEditar = btn.dataset.id;
-        document.getElementById('tituloInput').value = btn.dataset.titulo;
-
+        const id = btn.dataset.id;
+        const titulo = btn.dataset.titulo;
         const descripcion = btn.dataset.descripcion;
         const orden = btn.dataset.orden;
 
-        if (descripcion.includes('youtube') || descripcion.includes('youtu.be')) {
-            cambiarTipo('video', document.querySelector('[onclick*="video"]'));
-            document.getElementById('videoUrl').value = descripcion;
-        } else if (descripcion.includes('/uploads/pdfs/')) {
-            cambiarTipo('pdf', document.querySelector('[onclick*="pdf"]'));
-            pdfUrlSubido = descripcion;
-
-            document.getElementById('previewContenido').innerHTML =
-                `<div class="border-2 border-gray-200 rounded-lg overflow-hidden">
-                    <div class="bg-gray-100 p-3 flex items-center justify-between border-b">
-                        <span class="text-sm font-semibold text-gray-700">📄 PDF Actual</span>
-                        <a href="${descripcion}" target="_blank"
-                           class="text-purple-600 hover:text-purple-800 text-sm font-semibold">
-                            Abrir PDF ↗
-                        </a>
-                    </div>
-                    <iframe src="${descripcion}"
-                            class="w-full h-96"
-                            frameborder="0"></iframe>
-                </div>`;
-        } else if (descripcion.startsWith('http')) {
-            cambiarTipo('link', document.querySelector('[onclick*="link"]'));
-            document.getElementById('linkUrl').value = descripcion;
-        }
-
+        // Configurar el formulario para edición (CAMBIO CRÍTICO DE URL)
+        const form = document.getElementById('formCrearContenido');
+        form.action = `/administrador/contenidos/actualizar/${id}`;
+        
+        document.getElementById('tituloInput').value = titulo;
         document.querySelector('[name="orden"]').value = orden;
         document.getElementById('descripcionFinal').value = descripcion;
-        document.getElementById('tituloFormulario').textContent = 'Editar Contenido';
 
+        // Detectar tipo y activar pestaña
+        if (descripcion.includes('youtube') || descripcion.includes('youtu.be')) {
+            cambiarTipo('video', document.getElementById('tab-video'));
+            document.getElementById('videoUrl').value = descripcion;
+        } else if (descripcion.includes('/uploads/pdfs/')) {
+            cambiarTipo('pdf', document.getElementById('tab-pdf'));
+        } else if (descripcion.startsWith('http')) {
+            cambiarTipo('link', document.getElementById('tab-link'));
+            document.getElementById('linkUrl').value = descripcion;
+        } else {
+            cambiarTipo('texto', document.getElementById('tab-text'));
+            document.getElementById('textoCuerpo').value = descripcion;
+        }
+
+        // UI Feedback
+        document.getElementById('tituloFormulario').textContent = '✏️ Editando Contenido';
+        document.getElementById('btnGuardar').textContent = 'Actualizar Contenido';
+        
         mostrarFormulario();
+        actualizarPreview();
+
+        // Scroll suave al formulario
+        const formEl = document.getElementById('formularioContenido');
+        if (formEl) {
+            formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function cancelarEdicion() {
+        document.getElementById('idContenidoInput').value = '';
+        document.getElementById('formCrearContenido').reset();
+        document.getElementById('tituloFormulario').textContent = 'Nuevo Contenido';
+        document.getElementById('btnGuardar').textContent = 'Guardar';
+        document.getElementById('descripcionFinal').value = '';
+        pdfUrlSubido = null;
+        
+        ocultarFormulario();
         actualizarPreview();
     }
 

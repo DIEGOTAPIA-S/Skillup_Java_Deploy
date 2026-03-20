@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### SkillUp Local Data ###
+skillup.mv.db
+skillup.trace.db
+src/main/resources/static/uploads/pdfs/*
+!src/main/resources/static/uploads/pdfs/.gitkeep

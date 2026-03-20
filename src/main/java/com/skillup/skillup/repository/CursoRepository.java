@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
     boolean existsByNombre(String nombre);
+    Optional<Curso> findByNombre(String nombre);
 
 
 

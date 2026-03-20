@@ -3,12 +3,14 @@ package com.skillup.skillup.controller;
 import com.skillup.skillup.model.Contenido;
 import com.skillup.skillup.model.Modulo;
 import com.skillup.skillup.service.ContenidoService;
+import com.skillup.skillup.service.FileStorageService;
 import com.skillup.skillup.service.ModuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,9 @@ public class ContenidoController {
     @Autowired
     private ModuloService moduloService;
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
     // Ver gestión de contenidos de un módulo
     @GetMapping("/modulo/{idModulo}")
     public String gestionarContenidos(@PathVariable Integer idModulo, Model model) {
@@ -36,59 +41,42 @@ public class ContenidoController {
             return "administrador/gestionarContenidos";
 
         } catch (Exception e) {
+            System.err.println("ERROR en gestionarContenidos: " + e.getMessage());
+            e.printStackTrace();
             model.addAttribute("error", "Error: " + e.getMessage());
-            return "redirect:/administrador/modulosCursos";
+            return "redirect:/administrador/cursos/listar";
         }
     }
 
     @PostMapping("/crear")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> crearContenido(
+    public String crearContenido(
+            @RequestParam Integer idModulo,
+            @RequestParam String titulo,
+            @RequestParam String descripcion,
+            @RequestParam(required = false) Integer orden,
+            Model model) {
+
+        try {
+            contenidoService.crearContenido(idModulo, titulo, descripcion, orden);
+            return "redirect:/administrador/contenidos/modulo/" + idModulo;
+        } catch (Exception e) {
+            return "redirect:/administrador/contenidos/modulo/" + idModulo + "?error=" + e.getMessage();
+        }
+    }
+
+    @PostMapping("/actualizar/{idContenido}")
+    public String actualizarContenido(
+            @PathVariable Integer idContenido,
             @RequestParam Integer idModulo,
             @RequestParam String titulo,
             @RequestParam String descripcion,
             @RequestParam(required = false) Integer orden) {
 
-        Map<String, Object> response = new HashMap<>();
-
         try {
-            contenidoService.crearContenido(idModulo, titulo, descripcion, orden);
-
-            response.put("success", true);
-            response.put("message", "Contenido creado exitosamente");
-
-            return ResponseEntity.ok(response);
-
+            contenidoService.actualizarContenido(idContenido, titulo, descripcion, orden);
+            return "redirect:/administrador/contenidos/modulo/" + idModulo;
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "Error: " + e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
-
-    // Actualizar contenido
-    @PostMapping("/actualizar/{idContenido}")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> actualizarContenido(
-            @PathVariable Integer idContenido,
-            @RequestParam String titulo,
-            @RequestParam String descripcion,
-            @RequestParam(required = false) Integer orden) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            Contenido contenido = contenidoService.actualizarContenido(idContenido, titulo, descripcion, orden);
-
-            response.put("success", true);
-            response.put("message", "Contenido actualizado exitosamente");
-            response.put("contenido", contenido);
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "Error: " + e.getMessage());
-            return ResponseEntity.badRequest().body(response);
+            return "redirect:/administrador/contenidos/modulo/" + idModulo + "?error=" + e.getMessage();
         }
     }
 
