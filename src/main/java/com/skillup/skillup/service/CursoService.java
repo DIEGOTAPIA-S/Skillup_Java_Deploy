@@ -72,8 +72,7 @@ public class CursoService {
     }
 
     @Transactional
-    public Curso actualizarCurso(Integer id, CursoDTO cursoDTO){
-
+    public Curso actualizarCurso(Integer id, CursoDTO cursoDTO) {
         Curso curso = cursoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
@@ -81,17 +80,17 @@ public class CursoService {
         curso.setImagenUrl(cursoDTO.getImagenUrl());
         curso.setDescripcion(cursoDTO.getDescripcion());
 
-        if(cursoDTO.getModulos()!=null){
+        // Sincronización robusta de módulos
+        if (cursoDTO.getModulos() != null) {
+            // En este flujo sencillo, si el DTO trae módulos, reemplazamos los existentes
+            // o los actualizamos. Para simplificar el demo y evitar errores de duplicidad:
+            curso.getModulos().clear();
             for (ModuloDTO moduloDTO : cursoDTO.getModulos()) {
                 Modulo modulo = new Modulo();
-
                 modulo.setNombre(moduloDTO.getNombre());
                 modulo.setDescripcion(moduloDTO.getDescripcion());
                 modulo.setOrden(moduloDTO.getOrden());
-
-                // relación con curso
                 modulo.setCurso(curso);
-
                 curso.getModulos().add(modulo);
             }
         }

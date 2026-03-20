@@ -83,31 +83,75 @@ public class DatabaseSeeder implements CommandLineRunner {
             if (!cursoRepository.existsByNombre(nombre)) {
                 Curso curso = new Curso();
                 curso.setNombre(nombre);
-                curso.setDescripcion("Este curso está diseñado para fortalecer tus competencias en " + nombre
-                        + ", una de las habilidades blandas más valoradas en el mercado laboral actual.");
+                curso.setDescripcion("Fortalece tus competencias en " + nombre + " con este programa diseñado por expertos.");
 
-                // Imágenes temáticas según el curso
+                // Imágenes temáticas
                 if (nombre.contains("Inteligencia"))
                     curso.setImagenUrl("https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80");
                 else if (nombre.contains("Liderazgo"))
                     curso.setImagenUrl("https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80");
                 else if (nombre.contains("Comunicación"))
                     curso.setImagenUrl("https://images.unsplash.com/photo-1521791136064-7986c2923216?w=800&q=80");
-                else if (nombre.contains("Equipo"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80");
-                else if (nombre.contains("Negociación") && !nombre.contains("Persuasión"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80");
-                else if (nombre.contains("Tiempo"))
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1508962914676-134849a727f0?w=800&q=80");
                 else
-                    curso.setImagenUrl("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80");
+                    curso.setImagenUrl("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80");
 
                 cursoRepository.save(curso);
 
-                // Estructura básica para todos los cursos para que no se vean vacíos
-                cargarEstructuraGenerica(curso, nombre);
+                // CONTENIDO PREMIUM PARA DEMO (Cursos específicos)
+                if (nombre.equals("Inteligencia Emocional")) {
+                    seedInteligenciaEmocional(curso);
+                } else if (nombre.equals("Liderazgo Efectivo")) {
+                    seedLiderazgoEfectivo(curso);
+                } else if (nombre.equals("Comunicación Asertiva")) {
+                    seedComunicacionAsertiva(curso);
+                } else {
+                    cargarEstructuraGenerica(curso, nombre);
+                }
             }
         });
+    }
+
+    private void seedInteligenciaEmocional(Curso curso) {
+        Modulo m1 = crearModulo(curso, "Fundamentos de la Inteligencia Emocional", "Conoce qué es la IE y por qué es clave en el siglo XXI.", 1);
+        crearContenido(m1, "Bienvenida e Introducción", "https://www.youtube.com/watch?v=1-S90HOnu9M", 1);
+        crearContenido(m1, "Los 5 Pilares de Daniel Goleman", "Guía detallada sobre Autoconocimiento, Autocontrol, Automotivación, Empatía y Habilidades Sociales.", 2);
+
+        Modulo m2 = crearModulo(curso, "Autoconocimiento y Autorregulación", "Aprende a identificar tus disparadores emocionales.", 2);
+        crearContenido(m2, "Técnicas de Respiración y Calma", "https://www.youtube.com/watch?v=8Vw_v4_7RQA", 1);
+    }
+
+    private void seedLiderazgoEfectivo(Curso curso) {
+        Modulo m1 = crearModulo(curso, "El Líder Moderno", "Diferencia entre jefe y líder. Estilos de liderazgo.", 1);
+        crearContenido(m1, "Simon Sinek: Los líderes comen al final", "https://www.youtube.com/watch?v=hZ_vR_0Yqas", 1);
+        
+        Modulo m2 = crearModulo(curso, "Liderazgo Situacional", "Cómo adaptar tu estilo según el equipo.", 2);
+        crearContenido(m2, "Delegación Efectiva", "https://www.youtube.com/watch?v=Xp0N1f8J55c", 1);
+    }
+
+    private void seedComunicacionAsertiva(Curso curso) {
+        Modulo m1 = crearModulo(curso, "Bases de la Comunicación", "Escucha activa y lenguaje no verbal.", 1);
+        crearContenido(m1, "El poder del lenguaje corporal", "https://www.youtube.com/watch?v=Ks-_Mh1QhMc", 1);
+
+        Modulo m2 = crearModulo(curso, "Comunicación Asertiva vs Agresiva", "Cómo decir 'No' y feedback constructivo.", 2);
+        crearContenido(m2, "El método del sándwich para feedback", "https://www.youtube.com/watch?v=FjIuCqDIs6o", 1);
+    }
+
+    private Modulo crearModulo(Curso curso, String nombre, String desc, int orden) {
+        Modulo m = new Modulo();
+        m.setCurso(curso);
+        m.setNombre(nombre);
+        m.setDescripcion(desc);
+        m.setOrden(orden);
+        return moduloRepository.save(m);
+    }
+
+    private void crearContenido(Modulo m, String titulo, String desc, int orden) {
+        Contenido c = new Contenido();
+        c.setModulo(m);
+        c.setTitulo(titulo);
+        c.setDescripcion(desc);
+        c.setOrden(orden);
+        contenidoRepository.save(c);
     }
 
     private void cargarEstructuraGenerica(Curso curso, String nombreCurso) {

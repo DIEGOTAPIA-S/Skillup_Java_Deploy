@@ -275,6 +275,11 @@ name="modulo-descripcion-${moduloCount}">${descripcion}</textarea>
 
     document.addEventListener("DOMContentLoaded",function(){
 
+        // Precargar módulos existentes
+        /*[# th:each="mod : ${curso.modulos}"]*/
+        agregarModulo(/*[[${mod.nombre}]]*/ "", /*[[${mod.descripcion}]]*/ "");
+        /*[/]*/
+
         document.getElementById("btnAgregarModulo")
             .addEventListener("click",()=>agregarModulo());
 
