@@ -65,9 +65,17 @@
             <!-- Botón enviar -->
             <div class="text-center">
                 <button type="submit"
-                        class="bg-purple-700 hover:bg-purple-800 text-white text-lg font-semibold py-3 px-10 rounded-xl shadow-lg transition">
+                        class="bg-purple-700 hover:bg-purple-800 text-white text-lg font-semibold py-3 px-10 rounded-xl shadow-lg transition transform hover:-translate-y-1">
                     🚀 Enviar Correo
                 </button>
+            </div>
+            
+            <!-- Botón Volver -->
+            <div class="text-center mt-6">
+                <a th:href="@{/administrador/seleccionar}"
+                   class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-10 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                    ← Volver al Panel
+                </a>
             </div>
         </form>
 

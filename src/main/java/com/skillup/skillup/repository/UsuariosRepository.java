@@ -14,5 +14,10 @@ public interface UsuariosRepository extends JpaRepository<Usuario, String> {
 
     Optional<Usuario> findByIdentificacion(String identificacion);
 
-    List<Usuario> idRol(Integer idRol);
+    // Búsqueda para filtros
+    List<Usuario> findByIdRolAndIdentificacionContaining(Integer idRol, String identificacion);
+    
+    List<Usuario> findByIdRolAndNombreContainingIgnoreCase(Integer idRol, String nombre);
+
+    List<Usuario> findByIdRolAndIdentificacionContainingAndNombreContainingIgnoreCase(Integer idRol, String identificacion, String nombre);
 }

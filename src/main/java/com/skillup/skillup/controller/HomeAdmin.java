@@ -37,7 +37,11 @@ public class HomeAdmin {
 
 
     @PostMapping("/administrador/filtrar")
-    public String filtrar(@RequestParam("rol") String rol, Model model){
+    public String filtrar(
+            @RequestParam("rol") String rol,
+            @RequestParam(value = "nombre", required = false) String nombre,
+            @RequestParam(value = "identificacion", required = false) String identificacion,
+            Model model){
 
         if("correo".equals(rol)){
             return "redirect:/correo/enviar";
@@ -55,19 +59,34 @@ public class HomeAdmin {
         }
 
         List<Usuario> usuariosFiltrados;
+        Integer idRol = null;
 
         try{
-            int idRol = Integer.parseInt(rol);
-            usuariosFiltrados = usuariosRepository.findByIdRol(idRol);
+            idRol = Integer.parseInt(rol);
+            
+            boolean hasNombre = nombre != null && !nombre.trim().isEmpty();
+            boolean hasIdentificacion = identificacion != null && !identificacion.trim().isEmpty();
+
+            if (hasNombre && hasIdentificacion) {
+                usuariosFiltrados = usuariosRepository.findByIdRolAndIdentificacionContainingAndNombreContainingIgnoreCase(idRol, identificacion.trim(), nombre.trim());
+            } else if (hasNombre) {
+                usuariosFiltrados = usuariosRepository.findByIdRolAndNombreContainingIgnoreCase(idRol, nombre.trim());
+            } else if (hasIdentificacion) {
+                usuariosFiltrados = usuariosRepository.findByIdRolAndIdentificacionContaining(idRol, identificacion.trim());
+            } else {
+                usuariosFiltrados = usuariosRepository.findByIdRol(idRol);
+            }
         }catch (NumberFormatException e){
             usuariosFiltrados = Collections.emptyList();
             System.err.println("Error al obtener el rol "+rol);
-
         }
 
         List<Rol> roles = rolRepository.findAll();
         model.addAttribute("usuariosFiltrados", usuariosFiltrados);
         model.addAttribute("roles", roles);
+        model.addAttribute("currentRol", rol);
+        model.addAttribute("oldNombre", nombre);
+        model.addAttribute("oldIdentificacion", identificacion);
 
         return "administrador/administrador";
     }
