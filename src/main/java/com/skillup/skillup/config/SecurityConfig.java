@@ -84,7 +84,7 @@ public class SecurityConfig {
                                                 "img-src 'self' data: https:;"
                                 )
                         )
-                )
+                );
 
         return http.build();
     }
