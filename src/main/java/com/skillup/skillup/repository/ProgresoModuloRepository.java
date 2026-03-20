@@ -2,9 +2,11 @@ package com.skillup.skillup.repository;
 
 import com.skillup.skillup.model.ProgresoModulo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,4 +24,9 @@ public interface ProgresoModuloRepository extends JpaRepository<ProgresoModulo, 
 
     @Query("SELECT COUNT(pm) FROM ProgresoModulo pm WHERE pm.idUsuario = :idUsuario AND pm.completado = :completado")
     long countByIdUsuarioAndCompletado(@Param("idUsuario") Integer idUsuario, @Param("completado") boolean completado);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ProgresoModulo pm WHERE pm.modulo.id = :idModulo")
+    void deleteByModuloId(@Param("idModulo") Integer idModulo);
 }

@@ -11,6 +11,7 @@ import com.skillup.skillup.repository.RegistrarseRepository;
 import com.skillup.skillup.repository.CursoRepository;
 import com.skillup.skillup.repository.ModuloRepository;
 import com.skillup.skillup.repository.ContenidoRepository;
+import com.skillup.skillup.repository.ProgresoModuloRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final CursoRepository cursoRepository;
     private final ModuloRepository moduloRepository;
     private final ContenidoRepository contenidoRepository;
+    private final ProgresoModuloRepository progresoModuloRepository;
     private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public DatabaseSeeder(RolRepository rolRepository,
@@ -31,12 +33,14 @@ public class DatabaseSeeder implements CommandLineRunner {
             CursoRepository cursoRepository,
             ModuloRepository moduloRepository,
             ContenidoRepository contenidoRepository,
+            ProgresoModuloRepository progresoModuloRepository,
             org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
         this.rolRepository = rolRepository;
         this.registrarseRepository = registrarseRepository;
         this.cursoRepository = cursoRepository;
         this.moduloRepository = moduloRepository;
         this.contenidoRepository = contenidoRepository;
+        this.progresoModuloRepository = progresoModuloRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -115,7 +119,15 @@ public class DatabaseSeeder implements CommandLineRunner {
                 nombre.equals("Liderazgo Efectivo") || 
                 nombre.equals("Comunicación Asertiva")) {
                 
-                moduloRepository.deleteAll(moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()));
+                List<Modulo> modulosExistentes = moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId());
+                
+                // LIMPIAR PROGRESO antes de borrar módulos (Evita error de FK en Railway)
+                for (Modulo m : modulosExistentes) {
+                    progresoModuloRepository.deleteByModuloId(m.getId());
+                    contenidoRepository.deleteAll(contenidoRepository.findByModulo_IdOrderByOrdenAsc(m.getId()));
+                }
+                
+                moduloRepository.deleteAll(modulosExistentes);
                 
                 if (nombre.equals("Inteligencia Emocional")) seedInteligenciaEmocional(curso);
                 else if (nombre.equals("Liderazgo Efectivo")) seedLiderazgoEfectivo(curso);
