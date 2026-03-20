@@ -80,8 +80,9 @@ public class DatabaseSeeder implements CommandLineRunner {
                 "Empatía en el Entorno Laboral");
 
         habilidadesBlandas.forEach(nombre -> {
+            Curso curso;
             if (!cursoRepository.existsByNombre(nombre)) {
-                Curso curso = new Curso();
+                curso = new Curso();
                 curso.setNombre(nombre);
                 curso.setDescripcion("Fortalece tus competencias en " + nombre + " con este programa diseñado por expertos.");
 
@@ -96,16 +97,19 @@ public class DatabaseSeeder implements CommandLineRunner {
                     curso.setImagenUrl("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80");
 
                 cursoRepository.save(curso);
+                cargarEstructuraGenerica(curso, nombre);
+            } else {
+                curso = cursoRepository.findByNombre(nombre).orElse(null);
+            }
 
-                // CONTENIDO PREMIUM PARA DEMO (Cursos específicos)
-                if (nombre.equals("Inteligencia Emocional")) {
+            // CONTENIDO PREMIUM PARA DEMO (Actualizar si tienen pocos módulos)
+            if (curso != null) {
+                if (nombre.equals("Inteligencia Emocional") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
                     seedInteligenciaEmocional(curso);
-                } else if (nombre.equals("Liderazgo Efectivo")) {
+                } else if (nombre.equals("Liderazgo Efectivo") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
                     seedLiderazgoEfectivo(curso);
-                } else if (nombre.equals("Comunicación Asertiva")) {
+                } else if (nombre.equals("Comunicación Asertiva") && moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).size() <= 2) {
                     seedComunicacionAsertiva(curso);
-                } else {
-                    cargarEstructuraGenerica(curso, nombre);
                 }
             }
         });
