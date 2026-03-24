@@ -153,10 +153,6 @@ public class LobbyController {
         //  ACTIVIDAD RECIENTE (Últimas 3 acciones)
         List<Map<String, Object>> actividadReciente = new ArrayList<>();
 
-        // Obtener últimos módulos completados
-        List<ProgresoModulo> progresos = progresoModuloRepository
-                .findByIdUsuarioAndModulo_Curso_Id(idUsuario, null);
-
         // Filtrar solo completados y ordenar por fecha descendente
         List<ProgresoModulo> ultimosCompletados = new ArrayList<>();
         for (Inscripcion inscripcion : inscripciones) {

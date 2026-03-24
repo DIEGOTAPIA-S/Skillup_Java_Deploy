@@ -4,14 +4,10 @@ import com.skillup.skillup.Dto.EvaluacionFormDTO;
 import com.skillup.skillup.model.PreguntaEvaluacion;
 import com.skillup.skillup.service.CursoService;
 import com.skillup.skillup.service.EvaluacionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-
-import java.security.Principal;
 import java.util.List;
 
 

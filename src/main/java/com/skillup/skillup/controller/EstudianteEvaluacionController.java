@@ -27,9 +27,6 @@ public class EstudianteEvaluacionController {
     private ProgresoModuloService progresoService;
 
     @Autowired
-    private CursoService cursoService;
-    
-    @Autowired
     private InscripcionRepository inscripcionRepository;
     
     @Autowired
@@ -185,7 +182,7 @@ public class EstudianteEvaluacionController {
             }
 
             // Guardar evaluación
-            Evaluacion evaluacion = evaluacionService.guardarEvaluacionEstudiante(
+            evaluacionService.guardarEvaluacionEstudiante(
                     idUsuario,
                     idCurso,
                     respuestas

@@ -30,7 +30,7 @@ public class ProgresoController {
         try {
             Integer idUsuario = Integer.parseInt(authentication.getName());
 
-            ProgresoModulo progreso = progresoService.marcarModuloCompletado(idUsuario, idModulo);
+            progresoService.marcarModuloCompletado(idUsuario, idModulo);
 
             response.put("success", true);
             response.put("message", "Módulo completado exitosamente");
