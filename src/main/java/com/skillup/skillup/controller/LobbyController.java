@@ -7,7 +7,6 @@ import com.skillup.skillup.model.ProgresoModulo;
 import com.skillup.skillup.repository.EvaluacionRepository;
 import com.skillup.skillup.repository.InscripcionRepository;
 import com.skillup.skillup.repository.ProgresoModuloRepository;
-import com.skillup.skillup.service.CursoService;
 import com.skillup.skillup.service.EvaluacionService;
 import com.skillup.skillup.service.ProgresoModuloService;
 import jakarta.servlet.http.HttpSession;

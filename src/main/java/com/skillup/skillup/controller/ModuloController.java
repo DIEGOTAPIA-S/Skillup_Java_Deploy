@@ -1,6 +1,5 @@
 package com.skillup.skillup.controller;
 
-import com.skillup.skillup.model.Modulo;
 import com.skillup.skillup.service.ModuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

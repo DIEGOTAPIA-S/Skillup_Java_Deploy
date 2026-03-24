@@ -3,7 +3,6 @@ package com.skillup.skillup.service;
 import com.skillup.skillup.Dto.EvaluacionFormDTO;
 import com.skillup.skillup.model.*;
 import com.skillup.skillup.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +16,15 @@ import java.util.Map;
 public class EvaluacionService {
 
     private final CursoRepository cursoRepository;
-    private final UsuariosRepository usuarioRepository;
     private final PreguntaEvaluacionRepository preguntaRepository;
     private final EvaluacionRepository evaluacionRepository;
     private final RespuestaEvaluacionRepository respuestaRepository;
 
     public EvaluacionService(CursoRepository cursoRepository,
-                             UsuariosRepository usuarioRepository,
                              PreguntaEvaluacionRepository preguntaRepository,
                              EvaluacionRepository evaluacionRepository,
                              RespuestaEvaluacionRepository respuestaRepository) {
         this.cursoRepository = cursoRepository;
-        this.usuarioRepository = usuarioRepository;
         this.preguntaRepository = preguntaRepository;
         this.evaluacionRepository = evaluacionRepository;
         this.respuestaRepository = respuestaRepository;

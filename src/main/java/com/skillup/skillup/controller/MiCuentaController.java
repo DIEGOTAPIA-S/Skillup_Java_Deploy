@@ -121,7 +121,6 @@ MiCuentaController {
 
         try {
             String identificacion = (String) session.getAttribute("roles_sistema");
-            Integer idUsuario = Integer.parseInt(identificacion);
 
             Usuario usuario = usuariosRepository.findByIdentificacion(identificacion)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -157,7 +156,6 @@ MiCuentaController {
 
         try {
             String identificacion = (String) session.getAttribute("roles_sistema");
-            Integer idUsuario = Integer.parseInt(identificacion);
 
             Usuario usuario = usuariosRepository.findByIdentificacion(identificacion)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
