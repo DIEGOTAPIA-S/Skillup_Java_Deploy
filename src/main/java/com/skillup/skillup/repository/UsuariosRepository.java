@@ -2,6 +2,8 @@ package com.skillup.skillup.repository;
 
 import com.skillup.skillup.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,12 +16,12 @@ public interface UsuariosRepository extends JpaRepository<Usuario, String> {
 
     Optional<Usuario> findByIdentificacion(String identificacion);
 
-    // Búsqueda para filtros
-    List<Usuario> findByIdRolAndIdentificacionContaining(Integer idRol, String identificacion);
-    
-    List<Usuario> findByIdRolAndNombreContainingIgnoreCase(Integer idRol, String nombre);
-
-    List<Usuario> findByIdRolAndIdentificacionContainingAndNombreContainingIgnoreCase(Integer idRol, String identificacion, String nombre);
+    @Query("SELECT u FROM Usuario u WHERE u.idRol = :idRol AND " +
+           "(:identificacion IS NULL OR u.identificacion LIKE %:identificacion%) AND " +
+           "(:nombre IS NULL OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :nombre, '%')))")
+    List<Usuario> buscarUsuarios(@Param("idRol") Integer idRol, 
+                                @Param("identificacion") String identificacion, 
+                                @Param("nombre") String nombre);
 
     Optional<Usuario> findByCorreo(String correo);
 

@@ -1,22 +1,25 @@
 package com.skillup.skillup.service;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    @Value("${RESEND_API_KEY:}")
+    private String resendApiKey;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender; // CONFIGURADO POR application.properties
-    }
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public String loadHtmlTemplate(String templateName) {
         try {
@@ -33,41 +36,41 @@ public class EmailService {
         }
     }
 
-
-
     @Async
     public void sendHtmlEmail(String to, String subject, String htmlBody) {
+        if (resendApiKey == null || resendApiKey.isEmpty()) {
+            System.err.println("ERROR: RESEND_API_KEY no configurada en Render. No se puede enviar correo.");
+            return;
+        }
 
         try {
-            System.out.println("Enviando correo a " + to);
+            System.out.println("Enviando correo vía Resend API a: " + to);
 
-            MimeMessage message = mailSender.createMimeMessage();
+            String url = "https://api.resend.com/emails";
 
-            MimeMessageHelper helper = new MimeMessageHelper(
-                    message,
-                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    "UTF-8"
-            );
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(resendApiKey);
 
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(htmlBody, true);
+            Map<String, Object> body = new HashMap<>();
+            body.put("from", "SkillUp <onboarding@resend.dev>");
+            body.put("to", Collections.singletonList(to));
+            body.put("subject", subject);
+            body.put("html", htmlBody);
 
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+            restTemplate.postForEntity(url, request, String.class);
 
-            mailSender.send(message);
+            System.out.println("¡Correo enviado con éxito vía API!");
 
-        } catch (MessagingException e) {
-            throw new RuntimeException("Error enviando correo a " + to, e);
+        } catch (Exception e) {
+            System.err.println("Error al enviar correo vía Resend: " + e.getMessage());
         }
     }
 
     public void sendWelcomeEmail(String to, String nombreUsuario) {
-
         String html = loadHtmlTemplate("bienvenida");
-
-        // Reemplazar variable del HTML
         html = html.replace("{{nombre}}", nombreUsuario);
-
         sendHtmlEmail(to, "¡Bienvenido a SkillUp! 🎉", html);
     }
 

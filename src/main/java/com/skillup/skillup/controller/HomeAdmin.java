@@ -64,18 +64,10 @@ public class HomeAdmin {
         try{
             idRol = Integer.parseInt(rol);
             
-            boolean hasNombre = nombre != null && !nombre.trim().isEmpty();
-            boolean hasIdentificacion = identificacion != null && !identificacion.trim().isEmpty();
+            String searchIdentificacion = (hasIdentificacion) ? identificacion.trim() : null;
+            String searchNombre = (hasNombre) ? nombre.trim() : null;
 
-            if (hasNombre && hasIdentificacion) {
-                usuariosFiltrados = usuariosRepository.findByIdRolAndIdentificacionContainingAndNombreContainingIgnoreCase(idRol, identificacion.trim(), nombre.trim());
-            } else if (hasNombre) {
-                usuariosFiltrados = usuariosRepository.findByIdRolAndNombreContainingIgnoreCase(idRol, nombre.trim());
-            } else if (hasIdentificacion) {
-                usuariosFiltrados = usuariosRepository.findByIdRolAndIdentificacionContaining(idRol, identificacion.trim());
-            } else {
-                usuariosFiltrados = usuariosRepository.findByIdRol(idRol);
-            }
+            usuariosFiltrados = usuariosRepository.buscarUsuarios(idRol, searchIdentificacion, searchNombre);
         }catch (NumberFormatException e){
             usuariosFiltrados = Collections.emptyList();
             System.err.println("Error al obtener el rol "+rol);
