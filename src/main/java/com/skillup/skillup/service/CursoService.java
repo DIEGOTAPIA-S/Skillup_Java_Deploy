@@ -3,7 +3,6 @@ package com.skillup.skillup.service;
 import com.skillup.skillup.Dto.CursoDTO;
 import com.skillup.skillup.Dto.ModuloDTO;
 import com.skillup.skillup.mapper.CursoMapper;
-import com.skillup.skillup.model.Contenido;
 import com.skillup.skillup.model.Curso;
 import com.skillup.skillup.model.Modulo;
 import com.skillup.skillup.repository.CursoRepository;

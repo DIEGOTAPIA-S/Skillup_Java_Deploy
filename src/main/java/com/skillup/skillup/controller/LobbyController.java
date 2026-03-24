@@ -43,9 +43,6 @@ public class LobbyController {
     @Autowired
     private ProgresoModuloService progresoModuloService;
 
-    @Autowired
-    private CursoService cursoService;
-
     @GetMapping("/lobby")
     public String mostrarLobby(HttpSession session, Model model) {
         // Obtener identificación del usuario

@@ -1,6 +1,5 @@
 package com.skillup.skillup.controller;
 
-import com.skillup.skillup.model.ProgresoModulo;
 import com.skillup.skillup.service.ProgresoModuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

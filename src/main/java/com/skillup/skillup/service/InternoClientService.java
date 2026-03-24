@@ -25,9 +25,10 @@ public class InternoClientService {
     }
 
     // Consumir detalle de cursos
-    public List<Map> consumirDetalle() {
+    public List<Map<String, Object>> consumirDetalle() {
         String url = "http://localhost:8080/api/miscursos/detalle";
-        ResponseEntity<List> resp = restTemplate.getForEntity(url, List.class);
+        @SuppressWarnings("unchecked")
+        ResponseEntity<List<Map<String, Object>>> resp = (ResponseEntity<List<Map<String, Object>>>) (ResponseEntity<?>) restTemplate.getForEntity(url, List.class);
         return resp.getBody();
     }
 }
