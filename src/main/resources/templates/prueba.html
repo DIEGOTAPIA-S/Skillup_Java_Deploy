@@ -9,7 +9,7 @@
 <body class="min-h-screen bg-gradient-to-br from-purple-200 via-white to-blue-100 flex flex-col">
 
 <!-- Header opcional -->
-<div th:replace="layouts/headerAdministrador :: header"></div>
+<div th:replace="~{layouts/headerAdministrador :: header}"></div>
 
 <main class="flex-grow py-12">
     <div class="max-w-4xl mx-auto px-6">
@@ -53,7 +53,7 @@
 </main>
 
 <!-- Footer opcional -->
-<div th:replace="layouts/footer :: footer"></div>
+<div th:replace="~{layouts/footer :: footer}"></div>
 
 </body>
 </html>
