@@ -41,6 +41,12 @@ public class Usuario implements Serializable {
     @Column(name = "mfa_secret")
     private String mfaSecret;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    @Column(name = "reset_password_token_expiry")
+    private java.time.LocalDateTime resetPasswordTokenExpiry;
+
     public Usuario() {}
 
     // Getters y Setters
@@ -67,4 +73,10 @@ public class Usuario implements Serializable {
 
     public String getMfaSecret() { return mfaSecret; }
     public void setMfaSecret(String mfaSecret) { this.mfaSecret = mfaSecret; }
+
+    public String getResetPasswordToken() { return resetPasswordToken; }
+    public void setResetPasswordToken(String resetPasswordToken) { this.resetPasswordToken = resetPasswordToken; }
+
+    public java.time.LocalDateTime getResetPasswordTokenExpiry() { return resetPasswordTokenExpiry; }
+    public void setResetPasswordTokenExpiry(java.time.LocalDateTime resetPasswordTokenExpiry) { this.resetPasswordTokenExpiry = resetPasswordTokenExpiry; }
 }

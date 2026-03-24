@@ -86,10 +86,15 @@
                         class="absolute right-3 top-3 text-sm text-purple-600 hover:text-purple-800">
                     Mostrar
                 </button>
+                <div class="text-sm mt-2 text-right">
+                    <a th:href="@{/forgot-password}" class="font-medium text-purple-600 hover:text-purple-500">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
             </div>
         </div>
 
-        <!-- Recordarme + Olvido contraseña -->
+        <!-- Recordarme -->
         <div class="flex justify-between text-sm text-gray-600">
             <label><input type="checkbox" name="remember" class="mr-1"> Recordarme</label>
             <a href="#" class="text-purple-600 hover:underline">Olvidé mi contraseña</a>

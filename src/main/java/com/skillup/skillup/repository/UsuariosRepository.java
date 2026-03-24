@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UsuariosRepository extends JpaRepository<Usuario, String> {
 
- List<Usuario> findByIdRol(Integer idRol);
+    List<Usuario> findByIdRol(Integer idRol);
 
     Optional<Usuario> findByIdentificacion(String identificacion);
 
@@ -20,4 +20,8 @@ public interface UsuariosRepository extends JpaRepository<Usuario, String> {
     List<Usuario> findByIdRolAndNombreContainingIgnoreCase(Integer idRol, String nombre);
 
     List<Usuario> findByIdRolAndIdentificacionContainingAndNombreContainingIgnoreCase(Integer idRol, String identificacion, String nombre);
+
+    Optional<Usuario> findByCorreo(String correo);
+
+    Optional<Usuario> findByResetPasswordToken(String token);
 }

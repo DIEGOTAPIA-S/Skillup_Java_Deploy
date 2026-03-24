@@ -70,4 +70,10 @@ public class EmailService {
 
         sendHtmlEmail(to, "¡Bienvenido a SkillUp! 🎉", html);
     }
+
+    public void sendResetPasswordEmail(String to, String resetLink) {
+        String html = loadHtmlTemplate("restablecer");
+        html = html.replace("{{link}}", resetLink);
+        sendHtmlEmail(to, "Restablecer tu contraseña - SkillUp", html);
+    }
 }
