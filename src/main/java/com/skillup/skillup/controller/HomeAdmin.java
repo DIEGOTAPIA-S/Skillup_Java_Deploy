@@ -62,7 +62,8 @@ public class HomeAdmin {
         Integer idRol = null;
 
         try{
-            idRol = Integer.parseInt(rol);
+            boolean hasNombre = nombre != null && !nombre.trim().isEmpty();
+            boolean hasIdentificacion = identificacion != null && !identificacion.trim().isEmpty();
             
             String searchIdentificacion = (hasIdentificacion) ? identificacion.trim() : null;
             String searchNombre = (hasNombre) ? nombre.trim() : null;
