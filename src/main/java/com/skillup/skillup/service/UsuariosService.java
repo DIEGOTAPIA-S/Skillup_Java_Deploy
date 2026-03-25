@@ -39,6 +39,7 @@ public class UsuariosService {
         usuario.setContrasena(passwordEncriptado);
         System.out.println("DEBUG: Guardado en DB OK. Intentando enviar correo...");
 
+
         try {
             emailService.sendWelcomeEmail(
                     usuario.getCorreo(),
