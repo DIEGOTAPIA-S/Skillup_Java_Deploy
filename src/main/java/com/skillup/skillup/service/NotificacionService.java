@@ -30,20 +30,27 @@ public class NotificacionService {
         try {
 
             int rolEstudiante = 2;
-
             List<Usuario> estudiantes = usuariosRepository.findByIdRol(rolEstudiante);
 
-            for (Usuario estud : estudiantes) {
+            System.out.println("DEBUG NOTIFICACIÓN: Se encontraron " + estudiantes.size() + " estudiantes.");
 
+            for (Usuario estud : estudiantes) {
                 String email = estud.getCorreo();
 
                 if (email != null && !email.isBlank()) {
-
+                    System.out.println("DEBUG NOTIFICACIÓN: Enviando a -> " + email);
                     emailService.sendHtmlEmail(
                             email,
                             request.getSubject(),
                             request.getHtmlBody()
                     );
+                    
+                    // Pequeña pausa para no saturar la API de Resend (Modo gratuito: 5 req/sec)
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
 
