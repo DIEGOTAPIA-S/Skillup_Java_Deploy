@@ -1,10 +1,14 @@
 package com.skillup.skillup.service;
 
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +23,9 @@ public class EmailService {
     @Value("${RESEND_API_KEY:}")
     private String resendApiKey;
 
+    @Autowired(required = false)
+    private JavaMailSender mailSender;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     public String loadHtmlTemplate(String templateName) {
@@ -30,7 +37,6 @@ public class EmailService {
                 byte[] bytes = inputStream.readAllBytes();
                 return new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
             }
-
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar la plantilla: " + templateName, e);
         }
@@ -38,16 +44,23 @@ public class EmailService {
 
     @Async
     public void sendHtmlEmail(String to, String subject, String htmlBody) {
-        if (resendApiKey == null || resendApiKey.isEmpty()) {
-            System.err.println("ERROR: RESEND_API_KEY no configurada en Render. No se puede enviar correo.");
-            return;
+        // PRIORIDAD 1: Si hay API Key de Resend, usarla (Ideal para Render/Nube)
+        if (resendApiKey != null && !resendApiKey.isEmpty()) {
+            sendViaResend(to, subject, htmlBody);
+        } 
+        // PRIORIDAD 2: Si no hay API Key pero hay MailSender configurado, usar SMTP (Ideal para Local/Railway)
+        else if (mailSender != null) {
+            sendViaSmtp(to, subject, htmlBody);
+        } 
+        else {
+            System.err.println("ERROR: No hay método de envío configurado (Resend o SMTP).");
         }
+    }
 
+    private void sendViaResend(String to, String subject, String htmlBody) {
         try {
-            System.out.println("Enviando correo vía Resend API a: " + to);
-
+            System.out.println("Enviando vía RESEND API a: " + to);
             String url = "https://api.resend.com/emails";
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setBearerAuth(resendApiKey);
@@ -60,11 +73,24 @@ public class EmailService {
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
             restTemplate.postForEntity(url, request, String.class);
-
-            System.out.println("¡Correo enviado con éxito vía API!");
-
+            System.out.println("¡Éxito con Resend!");
         } catch (Exception e) {
-            System.err.println("Error al enviar correo vía Resend: " + e.getMessage());
+            System.err.println("Error Resend: " + e.getMessage());
+        }
+    }
+
+    private void sendViaSmtp(String to, String subject, String htmlBody) {
+        try {
+            System.out.println("Enviando vía SMTP (Gmail/Outlook) a: " + to);
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+            mailSender.send(message);
+            System.out.println("¡Éxito con SMTP!");
+        } catch (Exception e) {
+            System.err.println("Error SMTP: " + e.getMessage());
         }
     }
 
