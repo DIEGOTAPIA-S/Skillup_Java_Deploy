@@ -28,6 +28,9 @@ public class RegistrarseService {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private EmailService emailService;
+
     private static final List<String> DOMINIOS_PERMITIDOS = Arrays.asList(
             "gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com", "skillup.com"
     );
@@ -142,6 +145,14 @@ public class RegistrarseService {
         try {
             Usuario guardado = registrarseRepository.save(usuario);
             System.out.println("USUARIO GUARDADO EXITOSAMENTE CON ID: " + guardado.getIdentificacion());
+            
+            // Enviar correo de bienvenida
+            try {
+                emailService.sendWelcomeEmail(guardado.getCorreo(), guardado.getNombre());
+            } catch (Exception ex) {
+                System.err.println("Error enviando correo de bienvenida: " + ex.getMessage());
+            }
+            
         } catch (Exception e) {
             System.err.println("ERROR CRÍTICO AL GUARDAR USUARIO: " + e.getMessage());
             e.printStackTrace();
