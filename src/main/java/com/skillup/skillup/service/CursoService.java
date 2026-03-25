@@ -57,7 +57,7 @@ public class CursoService {
     //Esto obtiene todos los cursos
     @Transactional(readOnly = true)
     public List<Curso> obtenerTodos() {
-        return cursoRepository.findAll();
+        return cursoRepository.findAllWithModulos();
     }
 
     @Transactional

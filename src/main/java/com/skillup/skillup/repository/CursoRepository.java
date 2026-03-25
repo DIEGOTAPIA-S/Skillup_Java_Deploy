@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
     boolean existsByNombre(String nombre);
     Optional<Curso> findByNombre(String nombre);
+    @Query("SELECT DISTINCT c FROM Curso c LEFT JOIN FETCH c.modulos")
+    List<Curso> findAllWithModulos();
 
 
 
