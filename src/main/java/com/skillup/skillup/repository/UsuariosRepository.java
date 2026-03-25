@@ -17,7 +17,7 @@ public interface UsuariosRepository extends JpaRepository<Usuario, String> {
     Optional<Usuario> findByIdentificacion(String identificacion);
 
     @Query("SELECT u FROM Usuario u WHERE u.idRol = :idRol AND " +
-           "(:identificacion IS NULL OR u.identificacion LIKE %:identificacion%) AND " +
+           "(:identificacion IS NULL OR u.identificacion LIKE CONCAT('%', :identificacion, '%')) AND " +
            "(:nombre IS NULL OR LOWER(u.nombre) LIKE LOWER(CONCAT('%', :nombre, '%')))")
     List<Usuario> buscarUsuarios(@Param("idRol") Integer idRol, 
                                 @Param("identificacion") String identificacion, 
