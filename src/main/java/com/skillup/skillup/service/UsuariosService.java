@@ -3,6 +3,7 @@ package com.skillup.skillup.service;
 import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class UsuariosService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public List<Usuario> findAll() {
         return (List<Usuario>)usuariosRepository.findAll();
@@ -29,8 +33,10 @@ public class UsuariosService {
 
     @Transactional
     public Usuario save(Usuario usuario) {
+
         System.out.println("DEBUG: UsuariosService intentando guardar en DB...");
-        Usuario nuevo = usuariosRepository.save(usuario);
+        String passwordEncriptado = passwordEncoder.encode(usuario.getContrasena());
+        usuario.setContrasena(passwordEncriptado);
         System.out.println("DEBUG: Guardado en DB OK. Intentando enviar correo...");
 
         try {
@@ -44,7 +50,7 @@ public class UsuariosService {
             // No relanzamos para que no haga rollback si falla solo el correo
         }
 
-        return nuevo;
+        return usuariosRepository.save(usuario);
     }
 
     @Transactional
