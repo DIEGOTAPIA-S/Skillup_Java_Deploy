@@ -238,14 +238,14 @@
 
     function prepararNuevoContenido() {
         limpiarFormulario();
-        
+
         // Volver la acción a CREAR
         document.getElementById('formCrearContenido').action = '/administrador/contenidos/crear';
-        
+
         document.getElementById('tituloFormulario').textContent = '➕ Nuevo Contenido';
         document.getElementById('btnGuardar').textContent = 'Guardar';
         mostrarFormulario();
-        
+
         // Scroll al formulario
         document.getElementById('formularioContenido').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -257,7 +257,7 @@
         document.getElementById('btnGuardar').textContent = 'Guardar';
         document.getElementById('descripcionFinal').value = '';
         pdfUrlSubido = null;
-        
+
         ocultarFormulario();
         actualizarPreview();
     }
@@ -320,7 +320,7 @@
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowfullscreen></iframe>
                             <div class="flex justify-center">
-                                <a href="${url}" target="_blank" 
+                                <a href="${url}" target="_blank"
                                    class="text-xs text-purple-600 hover:text-purple-800 hover:underline flex items-center gap-1">
                                     📺 Abrir en pestaña nueva si no carga
                                 </a>
@@ -339,7 +339,7 @@
         if (tipoActual === 'link') {
             const url = document.getElementById('linkUrl').value;
             document.getElementById('descripcionFinal').value = url;
-            
+
             if (url && url.startsWith('http')) {
                 document.getElementById('previewContenido').innerHTML =
                     `<a href="${url}" target="_blank"
@@ -445,7 +445,7 @@
         // Configurar el formulario para edición (CAMBIO CRÍTICO DE URL)
         const form = document.getElementById('formCrearContenido');
         form.action = `/administrador/contenidos/actualizar/${id}`;
-        
+
         document.getElementById('tituloInput').value = titulo;
         document.querySelector('[name="orden"]').value = orden;
         document.getElementById('descripcionFinal').value = descripcion;
@@ -467,7 +467,7 @@
         // UI Feedback
         document.getElementById('tituloFormulario').textContent = '✏️ Editando Contenido';
         document.getElementById('btnGuardar').textContent = 'Actualizar Contenido';
-        
+
         mostrarFormulario();
         actualizarPreview();
 
@@ -485,7 +485,7 @@
         document.getElementById('btnGuardar').textContent = 'Guardar';
         document.getElementById('descripcionFinal').value = '';
         pdfUrlSubido = null;
-        
+
         ocultarFormulario();
         actualizarPreview();
     }
