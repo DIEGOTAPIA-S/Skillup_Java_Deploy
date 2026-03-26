@@ -151,8 +151,15 @@
                     </div>
                 </div>
 
-                <!-- Botón de evaluación -->
-                <div th:if="${puedeHacerEvaluacion}" class="mt-6">
+                <!-- Botón de evaluación o Certificado -->
+                <div th:if="${cursoAprobado}" class="mt-6">
+                    <a th:href="@{/api/reportes/certificado/{id}(id=${idEvaluacion})}"
+                       class="block w-full bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800 text-white text-center font-bold py-3 rounded-lg shadow-lg transition transform hover:scale-105">
+                        📜 Descargar Certificado
+                    </a>
+                </div>
+
+                <div th:if="${!cursoAprobado and puedeHacerEvaluacion}" class="mt-6">
                     <a th:href="@{/estudiante/evaluacion/realizar/{id}(id=${curso.id})}"
                        class="block w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-center font-bold py-3 rounded-lg shadow-lg transition transform hover:scale-105">
                         🎓 Realizar Evaluación
@@ -164,8 +171,24 @@
         <!-- CONTENIDO PRINCIPAL -->
         <div class="lg:col-span-3">
 
+            <!-- Alerta de Certificado Listo -->
+            <div th:if="${cursoAprobado}"
+                 class="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl shadow-xl p-6 mb-6 text-white fade-in">
+                <div class="flex items-center gap-4">
+                    <div class="text-5xl">📜</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold mb-1">¡Felicidades! Certificación Disponible</h3>
+                        <p class="text-purple-100">Has completado el curso satisfactoriamente. Tu certificado ya está disponible para descargar.</p>
+                    </div>
+                    <a th:href="@{/api/reportes/certificado/{id}(id=${idEvaluacion})}"
+                       class="bg-white text-purple-700 px-6 py-3 rounded-lg font-bold shadow-md hover:bg-purple-50 transition transform hover:scale-105">
+                        Descargar PDF
+                    </a>
+                </div>
+            </div>
+
             <!-- Alerta de evaluación -->
-            <div th:if="${puedeHacerEvaluacion}"
+            <div th:if="${puedeHacerEvaluacion and !cursoAprobado}"
                  class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl shadow-xl p-6 mb-6 text-white fade-in">
                 <div class="flex items-center gap-4">
                     <div class="text-5xl">🎓</div>
