@@ -50,7 +50,9 @@ public class ReporteJasperController {
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            String errorMsg = "Error: " + e.getMessage();
+            return new ResponseEntity<>(errorMsg.getBytes(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

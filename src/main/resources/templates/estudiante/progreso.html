@@ -200,7 +200,7 @@
 
                         <!-- Si ya evaluó -->
                         <a th:if="${info.yaHizoEvaluacion and info.evaluacion != null}"
-                           th:href="@{/estudiante/evaluacion/resultado/{id}(id=${info.evaluacion.id})}"
+                           th:href="@{/estudiante/evaluacion/detalle/{id}(id=${info.evaluacion.id})}"
                            class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 px-4 rounded-lg transition">
                             👁️ Ver Resultado
                         </a>
