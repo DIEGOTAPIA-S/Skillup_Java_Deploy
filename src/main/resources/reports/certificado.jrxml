@@ -5,14 +5,12 @@
     <parameter name="NOMBRE_CURSO" class="java.lang.String"/>
     <parameter name="FECHA_CERTIFICADO" class="java.lang.String"/>
     <background splitType="Stretch">
-        <band height="555">
-            <element kind="rectangle" uuid="b2948f41-b4df-43ae-8312-695fae667cac" x="0" y="0" width="802" height="555" radius="20">
-                <pen lineWidth="8.0" lineColor="#9333EA"/>
-            </element>
-            <element kind="rectangle" uuid="f2948f41-b4df-43ae-8312-695fae667cad" x="15" y="15" width="772" height="525" radius="15">
-                <pen lineWidth="2.0" lineColor="#D8B4FE"/>
-            </element>
-        </band>
+        <element kind="rectangle" uuid="b2948f41-b4df-43ae-8312-695fae667cac" x="0" y="0" width="802" height="555" radius="20">
+            <pen lineWidth="8.0" lineColor="#9333EA"/>
+        </element>
+        <element kind="rectangle" uuid="f2948f41-b4df-43ae-8312-695fae667cad" x="15" y="15" width="772" height="525" radius="15">
+            <pen lineWidth="2.0" lineColor="#D8B4FE"/>
+        </element>
     </background>
     <title height="555" splitType="Stretch">
         <element kind="staticText" uuid="7c782054-7484-43a8-ad6d-e6d86b1ce3c3" x="0" y="60" width="802" height="40" fontSize="30.0" bold="true" hTextAlign="Center">
