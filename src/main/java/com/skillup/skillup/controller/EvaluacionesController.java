@@ -25,7 +25,7 @@ public class EvaluacionesController {
     @GetMapping("/evaluador/formularioevaluacion")
     public String mostrarFormulario(Model model) {
         model.addAttribute("cursos", cursoService.obtenerTodos());
-        return "/evaluador/formularioevaluacion"; // nombre del HTML
+        return "evaluador/formularioevaluacion"; // nombre del HTML
     }
 
     @PostMapping("/evaluador/crearEvaluacion")
