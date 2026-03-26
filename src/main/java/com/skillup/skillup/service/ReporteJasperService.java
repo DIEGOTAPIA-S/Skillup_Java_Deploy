@@ -15,9 +15,47 @@ import java.util.stream.Collectors;
 public class ReporteJasperService {
 
     private final CursoRepository cursoRepository;
+    
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.skillup.skillup.repository.EvaluacionRepository evaluacionRepository;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.skillup.skillup.repository.UsuariosRepository usuariosRepository;
 
     public ReporteJasperService(CursoRepository cursoRepository) {
         this.cursoRepository = cursoRepository;
+    }
+
+    public byte[] generarCertificadoPdf(Integer idEvaluacion) {
+        try {
+            com.skillup.skillup.model.Evaluacion eval = evaluacionRepository.findById(idEvaluacion)
+                    .orElseThrow(() -> new RuntimeException("Evaluación no encontrada"));
+
+            com.skillup.skillup.model.Usuario student = usuariosRepository.findById(eval.getIdUsuario().toString())
+                    .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
+
+            Map<String, Object> parameters = new java.util.HashMap<>();
+            parameters.put("NOMBRE_ESTUDIANTE", (student.getNombre() + " " + student.getApellido1() + " " + (student.getApellido2() != null ? student.getApellido2() : "")).toUpperCase());
+            parameters.put("NOMBRE_CURSO", eval.getCurso().getNombre().toUpperCase());
+            
+            java.time.LocalDateTime fecha = eval.getFechaRevision() != null ? eval.getFechaRevision() : java.time.LocalDateTime.now();
+            String fechaFormateada = fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", java.util.Locale.forLanguageTag("es-ES")));
+            parameters.put("FECHA_CERTIFICADO", fechaFormateada);
+
+            InputStream reporteStream = getClass().getResourceAsStream("/reports/certificado.jrxml");
+
+            if (reporteStream == null) {
+                throw new RuntimeException("No se encontró el archivo certificado.jrxml");
+            }
+
+            JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generando el certificado PDF: " + e.getMessage(), e);
+        }
     }
 
     public byte[] generarReporteCursosPdf(Map<String, Object> parametros) {

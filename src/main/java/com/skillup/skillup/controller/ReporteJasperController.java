@@ -1,15 +1,11 @@
 package com.skillup.skillup.controller;
 
-
 import com.skillup.skillup.service.ReporteJasperService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,35 +22,35 @@ public class ReporteJasperController {
         this.reporteJasperService = reporteJasperService;
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/cursos/pdf")
     public ResponseEntity<byte[]> descargarReporteCursos() {
-
-        //  Preparar parámetros del reporte
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("TITULO", "Informe de Inscripciones por Curso");
+        parametros.put("FECHA_REPORTE", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
 
-        //  Formatear fecha actual
-        String fechaActual = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        parametros.put("FECHA_REPORTE", fechaActual);
-
-        //  Generar PDF (el servicio obtiene los datos internamente)
         byte[] pdfBytes = reporteJasperService.generarReporteCursosPdf(parametros);
 
-        //  Configurar headers para descarga directa
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-
-        // Nombre del archivo con timestamp
-        String nombreArchivo = "reporte_cursos_" +
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) +
-                ".pdf";
-
+        String nombreArchivo = "reporte_cursos_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".pdf";
         headers.setContentDispositionFormData("attachment", nombreArchivo);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
-        // Retornar el PDF
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/certificado/{id}")
+    public ResponseEntity<byte[]> descargarCertificado(@PathVariable Integer id) {
+        try {
+            byte[] pdfBytes = reporteJasperService.generarCertificadoPdf(id);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "Certificado_SkillUp.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

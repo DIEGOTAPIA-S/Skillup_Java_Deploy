@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.3.final -->
+<jasperReport name="certificado" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a90dcaa-4384-485c-8995-b6dc5ca2f89f">
+    <parameter name="NOMBRE_ESTUDIANTE" class="java.lang.String"/>
+    <parameter name="NOMBRE_CURSO" class="java.lang.String"/>
+    <parameter name="FECHA_CERTIFICADO" class="java.lang.String"/>
+    <background splitType="Stretch">
+        <band height="555">
+            <element kind="rectangle" uuid="b2948f41-b4df-43ae-8312-695fae667cac" x="0" y="0" width="802" height="555" radius="20">
+                <pen lineWidth="8.0" lineColor="#9333EA"/>
+            </element>
+            <element kind="rectangle" uuid="f2948f41-b4df-43ae-8312-695fae667cad" x="15" y="15" width="772" height="525" radius="15">
+                <pen lineWidth="2.0" lineColor="#D8B4FE"/>
+            </element>
+        </band>
+    </background>
+    <title height="555" splitType="Stretch">
+        <element kind="staticText" uuid="7c782054-7484-43a8-ad6d-e6d86b1ce3c3" x="0" y="60" width="802" height="40" fontSize="30.0" bold="true" hTextAlign="Center">
+            <text><![CDATA[SKILLUP PLATFORM]]></text>
+        </element>
+        <element kind="staticText" uuid="aee9d72b-75dc-411e-9c7b-270b678df001" x="0" y="110" width="802" height="30" fontSize="18.0" hTextAlign="Center">
+            <text><![CDATA[Otorga el presente]]></text>
+        </element>
+        <element kind="staticText" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f892" x="0" y="140" width="802" height="70" fontSize="45.0" bold="true" hTextAlign="Center" forecolor="#7E22CE">
+            <text><![CDATA[CERTIFICADO DE ÉXITO]]></text>
+        </element>
+        <element kind="staticText" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f893" x="0" y="230" width="802" height="25" fontSize="16.0" hTextAlign="Center">
+            <text><![CDATA[Se concede con orgullo a:]]></text>
+        </element>
+        <element kind="textField" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f894" x="0" y="260" width="802" height="60" fontSize="36.0" bold="true" hTextAlign="Center">
+            <expression><![CDATA[$P{NOMBRE_ESTUDIANTE}]]></expression>
+        </element>
+        <element kind="staticText" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f895" x="0" y="330" width="802" height="25" fontSize="14.0" hTextAlign="Center">
+            <text><![CDATA[Por haber completado satisfactoriamente el curso de formación en:]]></text>
+        </element>
+        <element kind="textField" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f896" x="0" y="360" width="802" height="50" fontSize="28.0" bold="true" hTextAlign="Center" forecolor="#4C1D95">
+            <expression><![CDATA[$P{NOMBRE_CURSO}]]></expression>
+        </element>
+        <element kind="textField" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f897" x="0" y="420" width="802" height="30" fontSize="14.0" hTextAlign="Center" forecolor="#6B7280">
+            <expression><![CDATA["Expedido el día " + $P{FECHA_CERTIFICADO}]]></expression>
+        </element>
+        <element kind="line" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f898" x="150" y="490" width="200" height="1">
+            <pen lineWidth="1.0" lineColor="#9CA3AF"/>
+        </element>
+        <element kind="staticText" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f899" x="150" y="495" width="200" height="20" fontSize="10.0" hTextAlign="Center">
+            <text><![CDATA[Director Académico]]></text>
+        </element>
+        <element kind="line" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f900" x="450" y="490" width="200" height="1">
+            <pen lineWidth="1.0" lineColor="#9CA3AF"/>
+        </element>
+        <element kind="staticText" uuid="9a90dcaa-4384-485c-8995-b6dc5ca2f901" x="450" y="495" width="200" height="20" fontSize="10.0" hTextAlign="Center">
+            <text><![CDATA[Firma del Evaluador]]></text>
+        </element>
+    </title>
+</jasperReport>
