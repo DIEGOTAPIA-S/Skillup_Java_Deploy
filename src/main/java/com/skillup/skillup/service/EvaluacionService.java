@@ -37,6 +37,10 @@ public class EvaluacionService {
         Curso curso = cursoRepository.findById(formDTO.getIdCurso())
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
+        if (formDTO.getPreguntas() == null) {
+            return;
+        }
+
         for (EvaluacionFormDTO.PreguntaDTO p : formDTO.getPreguntas()) {
             PreguntaEvaluacion pregunta = new PreguntaEvaluacion();
             pregunta.setCurso(curso);

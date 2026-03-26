@@ -30,17 +30,23 @@
             <tbody>
             <tr th:each="pregunta : ${preguntas}">
                 <td class="border px-4 py-2" th:text="${pregunta.id}"></td>
-                <td class="border px-4 py-2" th:text="${pregunta.curso.nombre}"></td>
+                <td class="border px-4 py-2" th:text="${pregunta.curso?.nombre ?: 'N/A'}"></td>
                 <td class="border px-4 py-2" th:text="${pregunta.pregunta}"></td>
                 <td class="border px-4 py-2" th:text="${pregunta.respuestaCorrecta}"></td>
             </tr>
             </tbody>
         </table>
 
-        <a href="/evaluador/formularioevaluacion"
-           class="mt-4 inline-block bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600">
-            Crear Nueva Evaluación
-        </a>
+        <div class="mt-8 flex gap-4">
+            <a th:href="@{/evaluador/formularioevaluacion}"
+               class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-bold shadow-md transition">
+                ➕ Crear Nueva Evaluación
+            </a>
+            <a th:href="@{/evaluador/inicio}" 
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-bold transition">
+                ← Volver al Inicio
+            </a>
+        </div>
 
     </div>
 </main>
