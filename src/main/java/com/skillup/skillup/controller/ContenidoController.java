@@ -135,7 +135,7 @@ public class ContenidoController {
             response.put("success", true);
             response.put("url", "/uploads/pdfs/" + nombreSeguro);
             return ResponseEntity.ok(response);
-        }catch (Exception e){
+        }catch (IOException e){
             response.put("success", false);
             response.put("message", "Error: " + e.getMessage());
             return ResponseEntity.internalServerError().body(response);

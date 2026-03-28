@@ -84,7 +84,9 @@
                   titulo, orden, contenido_texto, contenido_pdf, contenido_link, contenido_video
                 -->
                 <form id="mainForm" method="POST" th:action="@{/administrador/contenidos/crear}" class="space-y-4">
-                    <input type="hidden" name="idModulo" th:value="${modulo.id}">
+                    <input type="hidden" name="idModulo" id="fIdModulo" th:value="${modulo.id}">
+                    <!-- idContenido solo se usa al editar; el JS lo rellena con abrirFormEditar() -->
+                    <input type="hidden" name="idContenido" id="fIdContenido" value="">
 
                     <!-- Título + Orden -->
                     <div class="grid grid-cols-3 gap-3">
@@ -221,6 +223,7 @@
                 <div class="flex gap-1.5 shrink-0">
                     <button class="text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2.5 py-1.5 rounded-lg transition"
                             th:data-id="${c.id}"
+                            th:data-id-modulo="${modulo.id}"
                             th:data-titulo="${c.titulo}"
                             th:data-orden="${c.orden}"
                             th:data-texto="${c.contenidoTexto}"
@@ -520,15 +523,18 @@
         const d = btn.dataset;
         resetForm();
 
+        // Cambia la action a /actualizar y pone el id en el hidden field
         $('mainForm').action       = `/administrador/contenidos/actualizar/${d.id}`;
+        $('fIdContenido').value    = d.id;
+        $('fIdModulo').value       = d.idModulo || $('fIdModulo').value;
         $('formTitle').textContent = 'Editar contenido';
         $('btnLabel').textContent  = 'Actualizar contenido';
 
-        $('fTitulo').value = d.titulo  || '';
-        $('fOrden').value  = d.orden   || '1';
-        $('fTexto').value  = d.texto   || '';
-        $('fLink').value   = d.link    || '';
-        $('fVideo').value  = d.video   || '';
+        $('fTitulo').value = d.titulo || '';
+        $('fOrden').value  = d.orden  || '1';
+        $('fTexto').value  = d.texto  || '';
+        $('fLink').value   = d.link   || '';
+        $('fVideo').value  = d.video  || '';
 
         if (d.pdf) {
             pdfUrl = d.pdf;
@@ -561,10 +567,11 @@
 
     function resetForm() {
         $('mainForm').reset();
+        $('mainForm').action    = '/administrador/contenidos/crear';
+        $('fIdContenido').value = '';
         $('fPdf').value = '';
         pdfUrl = null;
         $('pdfStatus').classList.add('hidden');
-        // Clear all live preview blocks
         ['liveTextoBlock','livePdfBlock','liveLinkBlock','liveVideoBlock'].forEach(id => $(id).classList.add('hidden'));
         $('liveVideoWrap').innerHTML = '';
         $('livePlaceholder').classList.remove('hidden');
