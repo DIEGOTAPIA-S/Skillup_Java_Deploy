@@ -16,78 +16,98 @@
     <p class="text-center text-lg text-gray-600 mb-12">Selecciona la acción que deseas realizar</p>
 
     <!-- Tarjetas de acciones -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 
-        <!-- Ver Estudiantes -->
+        <!-- VER ESTUDIANTES -->
         <a th:href="@{/evaluador/listaestudiantes}"
-           class="bg-purple-50 hover:bg-purple-200 border border-purple-300 rounded-xl text-center p-8 shadow-md transition duration-300">
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
             <div class="text-5xl mb-4">🎓</div>
-            <h2 class="text-xl font-bold text-purple-800">Ver Estudiantes</h2>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Ver Estudiantes</h2>
             <p class="text-sm text-gray-600">Lista de estudiantes inscritos.</p>
         </a>
 
-        <!-- Mis Evaluaciones -->
+        <!-- MIS EVALUACIONES -->
         <a th:href="@{/evaluador/misevaluaciones}"
-           class="bg-purple-50 hover:bg-purple-200 border border-purple-300 rounded-xl text-center p-8 shadow-md transition duration-300">
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
             <div class="text-5xl mb-4">📄</div>
-            <h2 class="text-xl font-bold text-purple-800">Mis Evaluaciones</h2>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Mis Evaluaciones</h2>
             <p class="text-sm text-gray-600">Consulta tus evaluaciones realizadas.</p>
         </a>
 
-        <!-- Registrar Evaluación -->
+        <!-- CREAR EVALUACION -->
         <a th:href="@{/evaluador/formularioevaluacion}"
-           class="bg-purple-50 hover:bg-purple-200 border border-purple-300 rounded-xl text-center p-8 shadow-md transition duration-300">
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
             <div class="text-5xl mb-4">✏️</div>
-            <h2 class="text-xl font-bold text-purple-800">Crear Evaluación</h2>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Crear Evaluación</h2>
             <p class="text-sm text-gray-600">Crea las evaluaciones de los cursos.</p>
         </a>
 
+        <!-- FILTRO DE CURSOS -->
         <a th:href="@{/evaluador/cursosEval}"
-           class="cursor-pointer w-full h-44 flex flex-col items-center justify-center text-center
-          rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
-          hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl transition">
-            <div class="text-5xl mb-2">📚</div>
-            <h3 class="text-lg font-bold text-purple-800">Cursos</h3>
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
+            <div class="text-5xl mb-4">📚</div>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Cursos</h2>
+            <p class="text-sm text-gray-600">Consulta los cursos disponibles.</p>
         </a>
 
-        <!--  Revisar Evaluaciones Pendientes -->
+        <!-- REVISAR EVALUACIONES -->
         <a th:href="@{/evaluador/evaluaciones/pendientes}"
-           class="cursor-pointer w-full h-44 flex flex-col items-center justify-center text-center
-          rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
-          hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl transition">
+           class="relative flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
 
-            <!-- Badge de notificación (si hay pendientes) -->
+            <!-- Badge -->
             <span th:if="${evaluacionesPendientes > 0}"
-                  class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
-                <span th:text="${evaluacionesPendientes}">0</span> nueva(s)
-            </span>
+                  class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+            <span th:text="${evaluacionesPendientes}">0</span>
+        </span>
 
             <div class="text-5xl mb-4">🔍</div>
-            <h2 class="text-xl font-bold text-purple-800">Revisar Evaluaciones</h2>
-            <p class="text-sm text-gray-600 mt-2">Califica evaluaciones pendientes de estudiantes.</p>
-
-            <!-- Contador -->
-            <div th:if="${evaluacionesPendientes > 0}" class="mt-4">
-                <p class="text-2xl font-bold text-purple-600">
-                    <span th:text="${evaluacionesPendientes}">0</span>
-                </p>
-                <p class="text-xs text-gray-500">Pendientes de revisar</p>
-            </div>
-            <div th:if="${evaluacionesPendientes == 0}" class="mt-4">
-                <p class="text-sm text-green-600 font-semibold">✓ Sin pendientes</p>
-            </div>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Revisar Evaluaciones</h2>
+            <p class="text-sm text-gray-600">Califica evaluaciones pendientes.</p>
         </a>
 
-        <!-- Historial de Evaluaciones Revisadas -->
+        <!-- OTORGAR CERTIFICADOS -->
+        <a th:href="@{/evaluador/listaestudiantescertificados}"
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
+            <div class="text-5xl mb-4">📜</div>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Certificados</h2>
+            <p class="text-sm text-gray-600">Otorga certificados a estudiantes.</p>
+        </a>
+
+        <!-- HISTORIAL DE EVALUACIONES -->
         <a th:href="@{/evaluador/evaluaciones/historial}"
-           class="cursor-pointer w-full h-44 flex flex-col items-center justify-center text-center
-          rounded-xl p-6 border border-purple-300 bg-purple-50 shadow-md
-          hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl transition">
+           class="flex flex-col items-center justify-center text-center
+              h-56 p-6 rounded-2xl
+              bg-purple-50 border border-purple-300
+              shadow-md transition duration-300
+              hover:bg-purple-200 hover:border-purple-500 hover:shadow-xl">
             <div class="text-5xl mb-4">📊</div>
-            <h2 class="text-xl font-bold text-purple-800">Historial</h2>
-            <p class="text-sm text-gray-600 mt-2">Ver todas las evaluaciones revisadas.</p>
+            <h2 class="text-lg font-bold text-purple-800 mb-2">Historial</h2>
+            <p class="text-sm text-gray-600">Consulta evaluaciones revisadas.</p>
         </a>
-
 
     </div>
 
