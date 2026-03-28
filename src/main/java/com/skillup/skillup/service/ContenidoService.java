@@ -26,30 +26,34 @@ public class ContenidoService {
 
     // Crear nuevo contenido
     @Transactional
-    public Contenido crearContenido(Integer idModulo, String titulo, String descripcion, Integer orden) {
+    public Contenido crearContenido(Integer idModulo, String titulo, Integer orden, String contenidoTexto, String contenidoVideo, String contenidoPdf, String contenidoLink) {
         Modulo modulo = moduloRepository.findById(idModulo)
-                .orElseThrow(() -> new RuntimeException("Módulo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Módulo no encontrado: " + idModulo));
 
         Contenido contenido = new Contenido();
         contenido.setModulo(modulo);
-        contenido.setTitulo(titulo);
-        contenido.setDescripcion(descripcion);
+        contenido.setTitulo(titulo.trim());
         contenido.setOrden(orden != null ? orden : 1);
+        contenido.setContenidoTexto(blankToNull(contenidoTexto));
+        contenido.setContenidoVideo(blankToNull(contenidoVideo));
+        contenido.setContenidoPdf(blankToNull(contenidoPdf));
+        contenido.setContenidoLink(blankToNull(contenidoLink));
 
         return contenidoRepository.save(contenido);
     }
 
     // Actualizar contenido
     @Transactional
-    public Contenido actualizarContenido(Integer idContenido, String titulo, String descripcion, Integer orden) {
+    public Contenido actualizarContenido(Integer idContenido, String titulo, Integer orden, String contenidoTexto, String contenidoVideo, String contenidoPdf, String contenidoLink) {
         Contenido contenido = contenidoRepository.findById(idContenido)
-                .orElseThrow(() -> new RuntimeException("Contenido no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Contenido no encontrado: " + idContenido));
 
-        contenido.setTitulo(titulo);
-        contenido.setDescripcion(descripcion);
-        if (orden != null) {
-            contenido.setOrden(orden);
-        }
+        contenido.setTitulo(titulo.trim());
+        if(orden != null) contenido.setOrden(orden);
+        contenido.setContenidoTexto(blankToNull(contenidoTexto));
+        contenido.setContenidoVideo(blankToNull(contenidoVideo));
+        contenido.setContenidoPdf(blankToNull(contenidoPdf));
+        contenido.setContenidoLink(blankToNull(contenidoLink));
 
         return contenidoRepository.save(contenido);
     }
@@ -63,6 +67,10 @@ public class ContenidoService {
     // Obtener un contenido por ID
     public Contenido obtenerContenidoPorId(Integer idContenido) {
         return contenidoRepository.findById(idContenido)
-                .orElseThrow(() -> new RuntimeException("Contenido no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Contenido no encontrado: " + idContenido));
+    }
+
+    private String blankToNull(String s){
+        return(s == null || s.isBlank()) ? null : s.trim();
     }
 }

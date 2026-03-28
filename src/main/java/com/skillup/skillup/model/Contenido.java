@@ -21,6 +21,18 @@ public class Contenido {
     @Column(name = "DESCRIPCION", columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(name = "contenido_texto", columnDefinition = "TEXT")
+    private String contenidoTexto;
+
+    @Column(name = "contenido_pdf", length = 500)
+    private String contenidoPdf;
+
+    @Column(name = "contenido_link", length = 500)
+    private String contenidoLink;
+
+    @Column(name = "contenido_video", length = 500)
+    private String contenidoVideo;
+
     @Column(name = "ORDEN")
     private Integer orden = 1;
 
@@ -59,6 +71,18 @@ public class Contenido {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public String getContenidoTexto() { return contenidoTexto; }
+    public void setContenidoTexto(String contenidoTexto) { this.contenidoTexto = contenidoTexto; }
+
+    public String getContenidoPdf() { return contenidoPdf; }
+    public void setContenidoPdf(String contenidoPdf) { this.contenidoPdf = contenidoPdf; }
+
+    public String getContenidoLink() { return contenidoLink; }
+    public void setContenidoLink(String contenidoLink) { this.contenidoLink = contenidoLink; }
+
+    public String getContenidoVideo() { return contenidoVideo; }
+    public void setContenidoVideo(String contenidoVideo) { this.contenidoVideo = contenidoVideo; }
 
     public Integer getOrden() {
         return orden;
