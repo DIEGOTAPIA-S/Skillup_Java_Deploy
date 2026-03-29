@@ -232,7 +232,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private void crearUsuarioSiNoExiste(String id, String nombre, String apellido, String pass, Integer rol,
             String correo) {
-        if (!registrarseRepository.existsByIdentificacion(id)) {
+        if (!registrarseRepository.existsByIdentificacion(id) && !registrarseRepository.existsByCorreo(correo)) {
             Usuario u = new Usuario();
             u.setIdentificacion(id);
             u.setNombre(nombre);
