@@ -258,5 +258,34 @@ public class EstudianteEvaluacionController {
         }
     }
 
+    @GetMapping("/certificados")
+    public String misCertificados(HttpSession session, Model model) {
+        try {
+            String identificacion = (String) session.getAttribute("roles_sistema");
+
+            if (identificacion == null) {
+                return "redirect:/login";
+            }
+
+            Integer idUsuario = Integer.parseInt(identificacion);
+
+            List<Evaluacion> todasEvaluaciones = evaluacionService.obtenerEvaluacionesEstudiante(idUsuario);
+
+            // Filtrar solo las evaluaciones aprobadas (con certificado disponible)
+            List<Evaluacion> certificados = todasEvaluaciones.stream()
+                    .filter(e -> "APROBADA".equals(e.getEstado()))
+                    .collect(java.util.stream.Collectors.toList());
+
+            model.addAttribute("certificados", certificados);
+            model.addAttribute("title", "Mis Certificados");
+
+            return "estudiante/certificados";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Error: " + e.getMessage());
+            return "redirect:/estudiante/lobby";
+        }
+    }
+
 
 }

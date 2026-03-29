@@ -13,9 +13,17 @@
 <main class="max-w-7xl mx-auto px-6 py-12">
 
     <div class="mb-8">
+        <a th:href="@{/estudiante/lobby}"
+           class="inline-flex items-center gap-2 text-gray-600 hover:text-purple-600 font-medium mb-4 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Volver al Inicio
+        </a>
         <h1 class="text-4xl font-bold text-gray-900">📊 Mi Progreso</h1>
         <p class="text-gray-600 mt-2">Visualiza tu avance en los cursos y evaluaciones</p>
     </div>
+
 
     <!-- Si no tiene cursos inscritos -->
     <div th:if="${totalCursos == 0}" class="bg-white rounded-xl shadow-md p-10 text-center">
