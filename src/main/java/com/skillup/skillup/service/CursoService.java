@@ -59,6 +59,7 @@ public class CursoService {
     }
 
 
+    @Transactional(readOnly = true)
     public Curso obtenerCursoEntity(Integer id) {
         return obtenerCursoConModulos(id);
     }
