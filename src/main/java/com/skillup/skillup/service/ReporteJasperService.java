@@ -91,16 +91,24 @@ public class ReporteJasperService {
             System.out.println("Total Inscripciones: " + totalInscripciones + " (Tipo: " + totalInscripciones.getClass().getName() + ")");
             System.out.println("Cantidad de cursos en lista: " + datosCursos.size());
 
-            //  Cargar plantilla
+            //  Cargar plantilla binaria persistente
             InputStream reporteStream =
-                    getClass().getResourceAsStream("/reports/reporte_cursos.jrxml");
+                    getClass().getResourceAsStream("/reports/reporte_cursos.jasper");
 
             if (reporteStream == null) {
-                throw new RuntimeException("No se encontró el archivo reporte_cursos.jrxml");
+                // Alternativa: compilar al vuelo en desarrollo si .jasper no existe
+                reporteStream = getClass().getResourceAsStream("/reports/reporte_cursos.jrxml");
+                if (reporteStream == null) {
+                    throw new RuntimeException("No se encontró el archivo reporte_cursos.jasper ni .jrxml");
+                }
+                JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+                JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datosCursos);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
+                return JasperExportManager.exportReportToPdf(jasperPrint);
             }
 
-            //  Compilar
-            JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+            //  Cargar directamente el reporte binario ya compilado .jasper
+            JasperReport jasperReport = (JasperReport) net.sf.jasperreports.engine.util.JRLoader.loadObject(reporteStream);
 
             //  DataSource
             JRBeanCollectionDataSource dataSource =
@@ -113,7 +121,7 @@ public class ReporteJasperService {
             //  Exportar
             return JasperExportManager.exportReportToPdf(jasperPrint);
 
-        } catch (JRException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error generando el reporte Jasper: " + e.getMessage(), e);
         }
     }
