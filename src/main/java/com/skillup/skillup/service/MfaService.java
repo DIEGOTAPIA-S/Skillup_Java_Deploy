@@ -45,10 +45,13 @@ public class MfaService {
      * Valida si el código TOTP de 6 dígitos ingresado por el usuario es correcto.
      */
     public boolean isCodeValid(String secret, String code) {
-        CodeVerifier verifier = new DefaultCodeVerifier(
+        DefaultCodeVerifier verifier = new DefaultCodeVerifier(
                 new DefaultCodeGenerator(),
                 new SystemTimeProvider()
         );
+        // Al usar setAllowedTimePeriodDiscrepancy(2) permitimos códigos de 2 periodos atrás
+        // y 2 periodos adelante (±60s). Esto soluciona problemas de hora en el celular.
+        verifier.setAllowedTimePeriodDiscrepancy(2);
         return verifier.isValidCode(secret, code);
     }
 }

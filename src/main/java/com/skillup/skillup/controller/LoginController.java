@@ -17,16 +17,16 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/reset-jorge")
+    @GetMapping("/reset-mfa")
     @org.springframework.web.bind.annotation.ResponseBody
-    public String resetJorgeMfa() {
-        com.skillup.skillup.model.Usuario usuario = registrarseRepository.findByCorreo("jorge.s@skillup.com");
+    public String resetMfa(@org.springframework.web.bind.annotation.RequestParam String correo) {
+        com.skillup.skillup.model.Usuario usuario = registrarseRepository.findByCorreo(correo);
         if (usuario != null) {
             usuario.setMfaSecret(null);
             registrarseRepository.save(usuario);
-            return "Éxito: MFA de jorge.s@skillup.com reseteado. Ya puedes loguearte y te pedirá configurar el Autenticador de nuevo.";
+            return "Éxito: MFA de " + correo + " reseteado. Ya puedes loguearte y configurar el Autenticador de nuevo.";
         }
-        return "Error: No se encontró al usuario.";
+        return "Error: No se encontró al usuario con correo: " + correo;
     }
 
 }
