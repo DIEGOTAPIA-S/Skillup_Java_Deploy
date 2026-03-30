@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado - SkillUp Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: landscape;
+            margin: 0;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+            body { 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                background: white !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                min-height: 100vh !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .cert-container { 
+                width: 280mm !important;
+                height: 185mm !important; /* Altura segura para evitar saltos */
+                max-width: none !important;
+                border: none !important; 
+                box-shadow: none !important; 
+                margin: 0 !important; 
+                padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                box-sizing: border-box !important;
+            }
+            .cert-border {
+                border: 12px solid #7C3AED !important;
+                height: 185mm !important;
+                width: 280mm !important;
+                border-radius: 0.5rem !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+                position: relative !important;
+            }
+            .cert-inner-border {
+                height: calc(185mm - 28px) !important;
+                width: calc(280mm - 28px) !important;
+                margin: 0 !important;
+                position: absolute !important;
+                top: 14px !important;
+                left: 14px !important;
+                padding: 20px !important;
+                border: 1.5px solid #DDD6FE !important;
+            }
+        }
+        .cert-border {
+            border: 12px solid #7C3AED;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .cert-inner-border {
+            border: 2px solid #DDD6FE;
+            margin: 14px;
+            border-radius: 0.5rem;
+            height: calc(100% - 28px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center py-10 px-4 min-h-screen">
+
+    <!-- Botonera superior -->
+    <div class="max-w-4xl w-full flex justify-between mb-6 no-print">
+        <a th:href="@{/estudiante/certificados}" class="text-purple-700 hover:text-purple-900 font-bold flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Volver a mis certificados
+        </a>
+        <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2-2v4h10z"/></svg>
+            Imprimir o Guardar PDF
+        </button>
+    </div>
+
+    <!-- Contenedor del Certificado (Formato Landscape) -->
+    <div class="cert-container max-w-4xl w-full aspect-[1.414/1] bg-white shadow-2xl cert-border overflow-hidden p-0 relative">
+        <div class="cert-inner-border p-8 flex flex-col items-center justify-between text-center relative">
+            
+            <!-- SkillUp Academy Header -->
+            <div class="mt-0">
+                <h1 class="text-4xl font-extrabold text-purple-700 mb-1">SkillUp Academy</h1>
+                <div class="w-48 h-0.5 bg-purple-200 mx-auto"></div>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <p class="text-gray-400 text-xs uppercase tracking-widest leading-none">Certifica a</p>
+                <h2 class="text-4xl font-black text-gray-800 leading-tight" th:text="${nombreEstudiante}">SANTIAGO CASTAÑEDA</h2>
+                <div class="w-40 h-0.5 bg-purple-100 mx-auto"></div>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <p class="text-gray-500 text-sm leading-none">Por haber completado satisfactoriamente el curso de:</p>
+                <h3 class="text-2xl font-bold text-purple-600 leading-tight" th:text="${nombreCurso}">JAVA SPRING BOOT MASTER</h3>
+                <p class="text-gray-400 text-[10px] italic" th:text="'Expedido el día ' + ${fechaCertificado}">Expedido el día 30 de marzo de 2026</p>
+            </div>
+
+            <!-- Logo -->
+            <div class="my-0">
+                <img th:src="@{/images/LogoSkillup.png}" alt="Logo SkillUp" class="h-14 mx-auto">
+            </div>
+
+            <!-- Firmas -->
+            <div class="grid grid-cols-2 gap-32 w-full px-16 mb-2">
+                <div class="text-center border-t border-gray-300 pt-1 relative">
+                    <!-- Firma manuscrita simulada (Estilo Caveat - Discreta) -->
+                    <span class="absolute -top-7 left-0 w-full text-center font-['Caveat'] text-2xl text-blue-900 opacity-90 pointer-events-none -rotate-2 select-none">
+                        Diego Tapia S.
+                    </span>
+                    <p class="text-lg font-bold italic text-purple-800 leading-none">Diego Tapia Salazar</p>
+                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter">Director Académico · SkillUp Academy</p>
+                </div>
+                <div class="text-center border-t border-gray-300 pt-1">
+                    <p class="text-lg font-bold italic text-purple-800 leading-none">Evaluador SkillUp</p>
+                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter">Firma del Evaluador · SkillUp Academy</p>
+                </div>
+            </div>
+
+            <!-- Pie de página (Posicionado absoluto para que no cree segunda hoja) -->
+            <div class="absolute bottom-2 left-0 w-full text-center border-t border-purple-50 pt-1 px-12">
+                <p class="text-[7px] text-purple-300 uppercase tracking-widest font-medium">SKILLUP ACADEMY · WWW.SKILLUP.ACADEMY · FORMACIÓN PROFESIONAL DE CALIDAD</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mensaje de ayuda no imprimible -->
+    <p class="mt-6 text-gray-500 text-xs no-print">
+        Tip: Si deseas descargarlo, elige <b>"Guardar como PDF"</b> en el destino de tu impresora.
+    </p>
+
+</body>
+</html>

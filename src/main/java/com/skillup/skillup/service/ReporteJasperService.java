@@ -24,6 +24,9 @@ public class ReporteJasperService {
 
     public ReporteJasperService(CursoRepository cursoRepository) {
         this.cursoRepository = cursoRepository;
+        // Configurar JasperReports para usar el compilador Janino (no requiere javac)
+        net.sf.jasperreports.engine.DefaultJasperReportsContext.getInstance()
+            .setProperty("net.sf.jasperreports.compiler.java", "net.sf.jasperreports.compilers.JRJaninoCompiler");
     }
 
     public byte[] generarCertificadoPdf(Integer idEvaluacion) {
