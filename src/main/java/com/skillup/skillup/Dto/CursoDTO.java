@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.Set;
+import java.util.List;
 
 public class CursoDTO {
 
@@ -15,7 +15,7 @@ public class CursoDTO {
     private String imagenUrl;
 
     @Valid
-    private Set<ModuloDTO> modulos;
+    private List<ModuloDTO> modulos;
 
     public CursoDTO() {}
 
@@ -40,11 +40,11 @@ public class CursoDTO {
         this.nombre = nombre;
     }
 
-    public Set<ModuloDTO> getModulos() {
+    public List<ModuloDTO> getModulos() {
         return modulos;
     }
 
-    public void setModulos(Set<ModuloDTO> modulos) {
+    public void setModulos(List<ModuloDTO> modulos) {
         this.modulos = modulos;
     }
 }

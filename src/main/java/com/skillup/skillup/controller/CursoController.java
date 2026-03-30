@@ -43,6 +43,9 @@ public class CursoController {
     private ProgresoModuloRepository progresoModuloRepository;
 
     @Autowired
+    private com.skillup.skillup.repository.EvaluacionRepository evaluacionRepository;
+
+    @Autowired
     private EvaluacionService evaluacionService;
 
     @GetMapping("/cursos")
@@ -96,10 +99,20 @@ public class CursoController {
 
                 boolean puedeHacerEvaluacion = progresoService.puedeHacerEvaluacion(idUsuario, idCurso);
 
+                // Verificar si el curso está aprobado (Certificado listo)
+                java.util.Optional<com.skillup.skillup.model.Evaluacion> evalOpt = 
+                    evaluacionRepository.findByIdUsuarioAndCurso_Id(idUsuario, idCurso);
+                
+                boolean cursoAprobado = evalOpt.isPresent() && "APROBADA".equals(evalOpt.get().getEstado());
+
                 // Agregar datos al modelo
                 model.addAttribute("curso", curso);
                 model.addAttribute("porcentajeAvance", Math.round(porcentajeAvance));
                 model.addAttribute("puedeHacerEvaluacion", puedeHacerEvaluacion);
+                model.addAttribute("cursoAprobado", cursoAprobado);
+                if (cursoAprobado) {
+                    model.addAttribute("idEvaluacion", evalOpt.get().getId());
+                }
                 model.addAttribute("totalModulos", totalModulos);
                 model.addAttribute("modulosCompletados", modulosCompletados);
 

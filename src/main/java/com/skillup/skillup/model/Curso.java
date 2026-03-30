@@ -2,8 +2,8 @@ package com.skillup.skillup.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cursos")
@@ -24,7 +24,8 @@ public class Curso {
     private String imagenUrl;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Modulo> modulos = new HashSet<>();
+    @OrderBy("orden ASC")
+    private List<Modulo> modulos = new ArrayList<>();
 
     public Curso() {}
 
@@ -61,11 +62,11 @@ public class Curso {
         this.imagenUrl = imagenUrl;
     }
 
-    public Set<Modulo> getModulos() {
+    public List<Modulo> getModulos() {
         return modulos;
     }
 
-    public void setModulos(Set<Modulo> modulos) {
+    public void setModulos(List<Modulo> modulos) {
         this.modulos = modulos;
     }
 }

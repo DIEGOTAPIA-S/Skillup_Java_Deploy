@@ -28,9 +28,9 @@ public class CursoMapper {
         curso.setDescripcion(dto.getDescripcion());
 
         if (dto.getModulos() != null && !dto.getModulos().isEmpty()) {
-            Set<Modulo> modulos = dto.getModulos().stream()
+            List<Modulo> modulos = dto.getModulos().stream()
                     .map(moduloDTO -> toModuloEntity(moduloDTO, curso))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
             curso.setModulos(modulos);
         }
 
@@ -85,9 +85,9 @@ public class CursoMapper {
 
 
         if (entity.getModulos() != null && !entity.getModulos().isEmpty()) {
-            Set<ModuloDTO> modulosDTO = entity.getModulos().stream()
+            List<ModuloDTO> modulosDTO = entity.getModulos().stream()
                     .map(this::toModuloDTO)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
             dto.setModulos(modulosDTO);
         }
 
