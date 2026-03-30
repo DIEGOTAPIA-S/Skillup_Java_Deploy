@@ -17,7 +17,7 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
 
 
 
-    @Query("SELECT DISTINCT c FROM Curso c LEFT JOIN FETCH c.modulos m LEFT JOIN FETCH m.contenidos WHERE c.id = :id")
+    @Query("SELECT DISTINCT c FROM Curso c LEFT JOIN FETCH c.modulos m WHERE c.id = :id")
     Optional<Curso> findByIdWithModulosAndContenidos(@Param("id") Integer id);
 
     @Query(value =

@@ -45,8 +45,17 @@ public class CursoService {
     // Esto devuelve la entidad Curso con modulos (para las vistas)
     @Transactional(readOnly = true)
     public Curso obtenerCursoConModulos(Integer id) {
-        return cursoRepository.findByIdWithModulosAndContenidos(id)
+        Curso curso = cursoRepository.findByIdWithModulosAndContenidos(id)
                 .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado con ID: " + id));
+        // Forzar inicialización de contenidos para que estén disponibles on-view (sin OSIV)
+        if (curso.getModulos() != null) {
+            curso.getModulos().forEach(m -> {
+                if (m.getContenidos() != null) {
+                    m.getContenidos().size();
+                }
+            });
+        }
+        return curso;
     }
 
 
