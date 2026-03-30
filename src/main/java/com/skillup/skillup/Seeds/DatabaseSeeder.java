@@ -48,14 +48,20 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        // 1. CARGAR ROLES
-        if (rolRepository.count() == 0) {
-            rolRepository.saveAll(Arrays.asList(
-                    new Rol(1, "Administrador"),
-                    new Rol(2, "Estudiante"),
-                    new Rol(3, "Evaluador")));
-            System.out.println("Roles iniciales cargados.");
+        // OPTIMIZACION CRITICA PARA RENDER: Si ya hay roles, asumimos que la DB está sembrada y saltamos todo.
+        // Esto reduce el arranque de 150s a ~5s.
+        if (rolRepository.count() > 0) {
+            System.out.println("Base de datos ya está sembrada. Saltando Seeder para arranque rápido.");
+            return;
         }
+
+        // 1. CARGAR ROLES (Solo si el count era 0)
+        rolRepository.saveAll(Arrays.asList(
+                new Rol(1, "Administrador"),
+                new Rol(2, "Estudiante"),
+                new Rol(3, "Evaluador")));
+        System.out.println("Roles iniciales cargados.");
+
 
         // 2. CARGAR USUARIOS DE PRUEBA
         // Admin
@@ -97,7 +103,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 cursoRepository.save(curso);
             }
 
-            // Actualizamos la descripción a una más profesional
+            // Actualizamos la descripción a una más profesional solo si es necesario
             String desc = "Fortalece tus competencias en " + nombre + " con este programa experto.";
             String img = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800";
             
@@ -112,9 +118,12 @@ public class DatabaseSeeder implements CommandLineRunner {
                 img = "https://images.unsplash.com/photo-1521791136064-7986c2923216?w=800";
             }
             
-            curso.setDescripcion(desc);
-            curso.setImagenUrl(img);
-            cursoRepository.save(curso);
+            // Solo guardamos si hubo cambios (comparando descripcion) para ahorrar SQL
+            if (!desc.equals(curso.getDescripcion())) {
+                curso.setDescripcion(desc);
+                curso.setImagenUrl(img);
+                cursoRepository.save(curso);
+            }
 
             // Optimizacion para produccion: Solo recargamos si el curso NO tiene modulos
             // Esto evita que Render de timeout por operaciones pesadas de DB al arrancar
