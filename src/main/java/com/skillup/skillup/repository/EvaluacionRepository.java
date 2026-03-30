@@ -15,6 +15,8 @@ public interface EvaluacionRepository extends JpaRepository<Evaluacion, Integer>
     // Buscar evaluaciones por ID de usuario (Integer)
     List<Evaluacion> findByIdUsuario(Integer idUsuario);
 
+    void deleteByIdUsuario(Integer idUsuario);
+
     // Buscar evaluaciones por estado
     List<Evaluacion> findByEstado(String estado);
 

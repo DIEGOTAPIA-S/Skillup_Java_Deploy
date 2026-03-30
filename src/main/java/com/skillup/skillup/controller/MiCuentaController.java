@@ -184,7 +184,7 @@ MiCuentaController {
                 return "redirect:/estudiante/mi-cuenta";
             }
 
-            // ✅ Actualizar contraseña (sin encriptar - texto plano)
+            // ✅ Actualizar contraseña 
             String nuevaPasswordEncriptada = passwordEncoder.encode(passwordNueva);
             usuario.setContrasena(nuevaPasswordEncriptada);
 
@@ -195,6 +195,40 @@ MiCuentaController {
         }
 
         return "redirect:/estudiante/mi-cuenta";
+    }
+
+    // ========== ELIMINAR CUENTA (BORRADO EN CASCADA) ==========
+    @PostMapping("/eliminar-cuenta")
+    @org.springframework.transaction.annotation.Transactional
+    public String eliminarCuenta(HttpSession session, RedirectAttributes redirectAttributes) {
+        try {
+            String identificacion = (String) session.getAttribute("roles_sistema");
+            if (identificacion == null) return "redirect:/login";
+
+            Integer idUsuario = Integer.parseInt(identificacion);
+
+            // 1. Borrar progreso de módulos (Manual)
+            progresoModuloRepository.deleteByIdUsuario(idUsuario);
+
+            // 2. Borrar evaluaciones (Respuestas se borran por CascadeType.ALL en Evaluacion)
+            evaluacionRepository.deleteByIdUsuario(idUsuario);
+
+            // 3. Borrar inscripciones
+            inscripcionRepository.deleteByUsuario_Identificacion(identificacion);
+
+            // 4. Borrar el usuario
+            usuariosRepository.deleteById(identificacion);
+
+            // 5. Limpiar sesión
+            session.invalidate();
+
+            return "redirect:/login?msg=cuenta_eliminada";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "❌ No se pudo eliminar la cuenta: " + e.getMessage());
+            return "redirect:/estudiante/mi-cuenta";
+        }
     }
 
     // ========== MÉTODO AUXILIAR PARA FORMATEAR FECHAS ==========

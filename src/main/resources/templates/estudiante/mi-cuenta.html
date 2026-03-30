@@ -380,11 +380,13 @@
                             Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate.
                         </p>
 
-                        <button type="button"
-                                onclick="confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.') && alert('Función no implementada')"
-                                class="border-2 border-red-600 text-red-600 hover:bg-red-50 font-semibold px-6 py-2 rounded-xl transition-all">
-                            Eliminar Mi Cuenta
-                        </button>
+                        <form th:action="@{/estudiante/mi-cuenta/eliminar-cuenta}" method="post" 
+                              onsubmit="return confirm('¿Estás SEGURO de que deseas eliminar tu cuenta permanentemente? Se perderán todos tus cursos y certificados. No hay vuelta atrás.');">
+                            <button type="submit" 
+                                    class="border-2 border-red-600 text-red-600 hover:bg-red-50 font-semibold px-6 py-3 rounded-xl transition-all transform hover:scale-105">
+                                Eliminar Mi Cuenta
+                            </button>
+                        </form>
                     </div>
 
                 </div>

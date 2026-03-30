@@ -29,4 +29,8 @@ public interface ProgresoModuloRepository extends JpaRepository<ProgresoModulo, 
     @Transactional
     @Query("DELETE FROM ProgresoModulo pm WHERE pm.modulo.id = :idModulo")
     void deleteByModuloId(@Param("idModulo") Integer idModulo);
+
+    @Modifying
+    @Transactional
+    void deleteByIdUsuario(Integer idUsuario);
 }

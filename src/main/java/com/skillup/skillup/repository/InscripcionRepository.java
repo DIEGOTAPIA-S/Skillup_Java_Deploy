@@ -23,4 +23,6 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Intege
 
     @Query(value = "SELECT * FROM inscripciones WHERE IDENTIFICACION = :identificacion", nativeQuery = true)
     List<Inscripcion> findByIdentificacion(@Param("identificacion") Integer identificacion);
+
+    void deleteByUsuario_Identificacion(String identificacion);
 }
