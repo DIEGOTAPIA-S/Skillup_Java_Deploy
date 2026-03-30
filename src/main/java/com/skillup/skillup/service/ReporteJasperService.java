@@ -42,19 +42,22 @@ public class ReporteJasperService {
             String fechaFormateada = fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", java.util.Locale.forLanguageTag("es-ES")));
             parameters.put("FECHA_CERTIFICADO", fechaFormateada);
 
-            InputStream reporteStream = getClass().getResourceAsStream("/reports/certificado.jrxml");
+            InputStream reporteStream = getClass().getResourceAsStream("/reports/certificado.jasper");
 
             if (reporteStream == null) {
-                throw new RuntimeException("No se encontró el archivo certificado.jrxml");
+                // Alternativa: compilar al vuelo si estamos en entorno local, pero asume
+                // que certificado.jasper existe en producción
+                reporteStream = getClass().getResourceAsStream("/reports/certificado.jrxml");
+                if (reporteStream == null) {
+                    throw new RuntimeException("No se encontró el archivo certificado.jasper ni .jrxml");
+                }
+                JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+                return JasperExportManager.exportReportToPdf(jasperPrint);
             }
 
-            // Forzar compilador Janino para entornos sin JDK completo (Render, Docker, etc.)
-            net.sf.jasperreports.engine.DefaultJasperReportsContext ctx =
-                    net.sf.jasperreports.engine.DefaultJasperReportsContext.getInstance();
-            ctx.setProperty("net.sf.jasperreports.compiler.java",
-                    "net.sf.jasperreports.engine.design.JRJaninoCompiler");
-
-            JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+            // Cargar directamente el reporte binario ya compilado .jasper
+            JasperReport jasperReport = (JasperReport) net.sf.jasperreports.engine.util.JRLoader.loadObject(reporteStream);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
             return JasperExportManager.exportReportToPdf(jasperPrint);
