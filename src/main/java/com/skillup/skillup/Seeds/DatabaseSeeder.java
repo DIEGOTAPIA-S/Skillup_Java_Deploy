@@ -116,29 +116,20 @@ public class DatabaseSeeder implements CommandLineRunner {
             curso.setImagenUrl(img);
             cursoRepository.save(curso);
 
-            // Evitar duplicados: Limpiamos y recargamos solo los 3 cursos principales del demo
+            // Optimizacion para produccion: Solo recargamos si el curso NO tiene modulos
+            // Esto evita que Render de timeout por operaciones pesadas de DB al arrancar
             if (nombre.equals("Inteligencia Emocional") || 
                 nombre.equals("Liderazgo Efectivo") || 
                 nombre.equals("Comunicación Asertiva")) {
                 
-                List<Modulo> modulosExistentes = moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId());
+                long conteoModulos = moduloRepository.countByCurso_Id(curso.getId());
                 
-                // LIMPIAR DEPENDENCIAS (Evita error de FK en Railway)
-                for (Modulo m : modulosExistentes) {
-                    // 1. Borrar progreso de este módulo
-                    progresoModuloRepository.deleteByModuloId(m.getId());
-                    // 2. Borrar contenidos de este módulo (aunque tiene cascade, lo hacemos explícito para asegurar orden)
-                    contenidoRepository.deleteAll(contenidoRepository.findByModulo_IdOrderByOrdenAsc(m.getId()));
+                if (conteoModulos == 0) {
+                    System.out.println("Sembrando modulos para: " + nombre);
+                    if (nombre.equals("Inteligencia Emocional")) seedInteligenciaEmocional(curso);
+                    else if (nombre.equals("Liderazgo Efectivo")) seedLiderazgoEfectivo(curso);
+                    else if (nombre.equals("Comunicación Asertiva")) seedComunicacionAsertiva(curso);
                 }
-                
-                // Asegurar que las eliminaciones se envíen a la BD antes de borrar los módulos
-                moduloRepository.flush(); 
-                moduloRepository.deleteAll(modulosExistentes);
-                moduloRepository.flush();
-                
-                if (nombre.equals("Inteligencia Emocional")) seedInteligenciaEmocional(curso);
-                else if (nombre.equals("Liderazgo Efectivo")) seedLiderazgoEfectivo(curso);
-                else if (nombre.equals("Comunicación Asertiva")) seedComunicacionAsertiva(curso);
             } else {
                 // Para los demás cursos, si no tienen módulos, ponemos la estructura genérica
                 if (moduloRepository.findByCurso_IdOrderByOrdenAsc(curso.getId()).isEmpty()) {

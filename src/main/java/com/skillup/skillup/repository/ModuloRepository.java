@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ModuloRepository extends JpaRepository<Modulo, Integer> {
     List<Modulo> findByCurso_IdOrderByOrdenAsc(Integer idCurso);
+
+    long countByCurso_Id(Integer idCurso);
 }
