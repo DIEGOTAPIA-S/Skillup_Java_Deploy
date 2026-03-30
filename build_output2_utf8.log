@@ -1,0 +1,136 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.skillup:skillup >-------------------------
+[INFO] Building skillup 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ skillup ---
+[INFO] Copying 79 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ skillup ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- exec:3.6.3:java (default-cli) @ skillup ---
+Compilando: src/main/resources/reports/certificado.jrxml
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+[WARNING] 
+net.sf.jasperreports.engine.JRException: Errors were encountered when compiling report expressions class file:
+C:\Users\SANTIA~1\AppData\Local\Temp\certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df.java:18: error: cannot find symbol
+public class certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df extends JREvaluator
+                                                                                                  ^
+  symbol: class JREvaluator
+C:\Users\SANTIA~1\AppData\Local\Temp\certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df.java:25: error: cannot find symbol
+    private JRFillParameter parameter_FECHA_CERTIFICADO = null;
+            ^
+  symbol:   class JRFillParameter
+  location: class certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df
+C:\Users\SANTIA~1\AppData\Local\Temp\certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df.java:4: error: package net.sf.jasperreports.engine does not exist
+import net.sf.jasperreports.engine.*;
+^
+C:\Users\SANTIA~1\AppData\Local\Temp\certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df.java:5: error: package net.sf.jasperreports.engine.fill does not exist
+import net.sf.jasperreports.engine.fill.*;
+^
+C:\Users\SANTIA~1\AppData\Local\Temp\certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df.java:48: error: cannot find symbol
+        parameter_FECHA_CERTIFICADO = (JRFillParameter)pm.get("FECHA_CERTIFICADO");
+                                       ^
+  symbol:   class JRFillParameter
+  location: class certificado_d65350794118fca04d9e832daa4a9a556d0971fd6707eb9e4341adfe0ad9c0df
+5 errors
+.
+    at net.sf.jasperreports.engine.design.JRAbstractCompiler.compileReport (JRAbstractCompiler.java:234)
+    at net.sf.jasperreports.engine.JasperCompileManager.compile (JasperCompileManager.java:350)
+    at net.sf.jasperreports.engine.JasperCompileManager.compileToFile (JasperCompileManager.java:266)
+    at net.sf.jasperreports.engine.JasperCompileManager.compileToFile (JasperCompileManager.java:248)
+    at net.sf.jasperreports.engine.JasperCompileManager.compileReportToFile (JasperCompileManager.java:547)
+    at com.skillup.skillup.CompileJasperReport.main (CompileJasperReport.java:10)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod (AbstractExecJavaBase.java:402)
+    at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod (ExecJavaMojo.java:142)
+    at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader (AbstractExecJavaBase.java:377)
+    at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0 (AbstractExecJavaBase.java:287)
+    at java.lang.Thread.run (Thread.java:1583)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.826 s
+[INFO] Finished at: 2026-03-29T19:42:44-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Error executing Maven.
+---------------------------------------------------
+constituent[0]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/conf/logging/
+constituent[1]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/aopalliance-1.0.jar
+constituent[2]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/asm-9.8.jar
+constituent[3]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/commons-cli-1.9.0.jar
+constituent[4]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/commons-codec-1.18.0.jar
+constituent[5]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/error_prone_annotations-2.38.0.jar
+constituent[6]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/failureaccess-1.0.3.jar
+constituent[7]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/gson-2.13.1.jar
+constituent[8]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/guava-33.4.8-jre.jar
+constituent[9]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/guice-5.1.0-classes.jar
+constituent[10]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/httpclient-4.5.14.jar
+constituent[11]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/httpcore-4.4.16.jar
+constituent[12]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/jansi-2.4.2.jar
+constituent[13]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/javax.annotation-api-1.3.2.jar
+constituent[14]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/javax.inject-1.jar
+constituent[15]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/jcl-over-slf4j-1.7.36.jar
+constituent[16]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/jspecify-1.0.0.jar
+constituent[17]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-artifact-3.9.11.jar
+constituent[18]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-builder-support-3.9.11.jar
+constituent[19]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-compat-3.9.11.jar
+constituent[20]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-core-3.9.11.jar
+constituent[21]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-embedder-3.9.11.jar
+constituent[22]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-model-3.9.11.jar
+constituent[23]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-model-builder-3.9.11.jar
+constituent[24]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-plugin-api-3.9.11.jar
+constituent[25]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-repository-metadata-3.9.11.jar
+constituent[26]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-api-1.9.24.jar
+constituent[27]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-connector-basic-1.9.24.jar
+constituent[28]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-impl-1.9.24.jar
+constituent[29]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-named-locks-1.9.24.jar
+constituent[30]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-provider-3.9.11.jar
+constituent[31]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-spi-1.9.24.jar
+constituent[32]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-transport-file-1.9.24.jar
+constituent[33]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-transport-http-1.9.24.jar
+constituent[34]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-transport-wagon-1.9.24.jar
+constituent[35]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-resolver-util-1.9.24.jar
+constituent[36]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-settings-3.9.11.jar
+constituent[37]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-settings-builder-3.9.11.jar
+constituent[38]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-shared-utils-3.4.2.jar
+constituent[39]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/maven-slf4j-provider-3.9.11.jar
+constituent[40]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/org.eclipse.sisu.inject-0.9.0.M4.jar
+constituent[41]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/org.eclipse.sisu.plexus-0.9.0.M4.jar
+constituent[42]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/plexus-cipher-2.0.jar
+constituent[43]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/plexus-component-annotations-2.2.0.jar
+constituent[44]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/plexus-interpolation-1.28.jar
+constituent[45]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/plexus-sec-dispatcher-2.0.jar
+constituent[46]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/plexus-utils-3.6.0.jar
+constituent[47]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/slf4j-api-1.7.36.jar
+constituent[48]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/wagon-file-3.5.3.jar
+constituent[49]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/wagon-http-3.5.3.jar
+constituent[50]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/wagon-http-shared-3.5.3.jar
+constituent[51]: file:/C:/Users/Santiago%20Casta±eda/.m2/wrapper/dists/apache-maven-3.9.11/d6d3cbd4012d4c1d840e93277aca316c/lib/wagon-provider-api-3.5.3.jar
+---------------------------------------------------
+.\mvnw.cmd : Exception in 
+thread "main" 
+En línea: 1 Carácter: 1
++ .\mvnw.cmd compile 
+exec:java -D'exec.mainClass=
+com.skillup.skillup.Co ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Excep  
+  tion in thread "main" :   
+ String) [], RemoteExcep    
+tion
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+Exception: net.sf.jasperrepo
+rts.engine.JRRuntimeExceptio
+n thrown from the 
+UncaughtExceptionHandler in 
+thread "main"

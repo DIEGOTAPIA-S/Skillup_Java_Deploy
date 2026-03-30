@@ -3,6 +3,7 @@
     <parameter name="NOMBRE_ESTUDIANTE" class="java.lang.String"/>
     <parameter name="NOMBRE_CURSO" class="java.lang.String"/>
     <parameter name="FECHA_CERTIFICADO" class="java.lang.String"/>
+    <parameter name="LOGO_IMAGE" class="java.io.InputStream"/>
     <background height="555" splitType="Stretch">
         <element kind="rectangle" uuid="ba000001-cccc-cccc-cccc-cccccccccccc" x="0" y="0" width="802" height="555" radius="14" backcolor="#FFFFFF" mode="Opaque">
             <pen lineWidth="0.0"/>
@@ -60,7 +61,7 @@
 
         <!-- === LOGO CENTRAL un poco más grande === -->
         <element kind="image" uuid="da000010-dddd-dddd-dddd-dddddddddddd" x="341" y="276" width="120" height="96" scaleImage="RetainShape" hImageAlign="Center">
-            <expression><![CDATA["src/main/resources/static/images/LogoSkillup.png"]]></expression>
+            <expression><![CDATA[$P{LOGO_IMAGE}]]></expression>
         </element>
 
         <!-- === FIRMAS más abajo === -->

@@ -1,6 +1,5 @@
 package com.skillup.skillup.controller;
 
-
 import com.skillup.skillup.model.Rol;
 import com.skillup.skillup.model.Usuario;
 import com.skillup.skillup.repository.RolRepository;
@@ -59,20 +58,17 @@ public class HomeAdmin {
         }
 
         List<Usuario> usuariosFiltrados;
-        Integer idRol = null;
 
-        try{
-            idRol = Integer.parseInt(rol);
-            boolean hasNombre = nombre != null && !nombre.trim().isEmpty();
-            boolean hasIdentificacion = identificacion != null && !identificacion.trim().isEmpty();
+        try {
+            Integer idRol = Integer.parseInt(rol);
             
-            String searchIdentificacion = (hasIdentificacion) ? identificacion.trim() : null;
-            String searchNombre = (hasNombre) ? nombre.trim() : null;
+            String searchNombre = (nombre != null && !nombre.trim().isEmpty()) ? nombre.trim() : null;
+            String searchIdentificacion = (identificacion != null && !identificacion.trim().isEmpty()) ? identificacion.trim() : null;
 
             usuariosFiltrados = usuariosRepository.buscarUsuarios(idRol, searchIdentificacion, searchNombre);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             usuariosFiltrados = Collections.emptyList();
-            System.err.println("Error al obtener el rol "+rol);
+            System.err.println("Error al obtener el rol " + rol);
         }
 
         List<Rol> roles = rolRepository.findAll();

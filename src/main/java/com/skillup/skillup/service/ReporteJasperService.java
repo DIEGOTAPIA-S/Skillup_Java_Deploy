@@ -42,6 +42,10 @@ public class ReporteJasperService {
             String fechaFormateada = fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", java.util.Locale.forLanguageTag("es-ES")));
             parameters.put("FECHA_CERTIFICADO", fechaFormateada);
 
+            // Cargar el logo desde el classpath para que funcione en Render
+            InputStream logoStream = getClass().getResourceAsStream("/static/images/LogoSkillup.png");
+            parameters.put("LOGO_IMAGE", logoStream);
+
             InputStream reporteStream = getClass().getResourceAsStream("/reports/certificado.jasper");
 
             if (reporteStream == null) {
