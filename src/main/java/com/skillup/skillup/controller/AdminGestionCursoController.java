@@ -43,8 +43,9 @@ public class AdminGestionCursoController {
             return "administrador/modulosCursos";
 
         } catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("error", "Error: " + e.getMessage());
-            return "redirect:/administrador/listarCursos";
+            return "redirect:/administrador/cursos/listar";
         }
     }
 }
