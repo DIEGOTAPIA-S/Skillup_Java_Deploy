@@ -48,6 +48,12 @@ public class ReporteJasperService {
                 throw new RuntimeException("No se encontró el archivo certificado.jrxml");
             }
 
+            // Forzar compilador Janino para entornos sin JDK completo (Render, Docker, etc.)
+            net.sf.jasperreports.engine.DefaultJasperReportsContext ctx =
+                    net.sf.jasperreports.engine.DefaultJasperReportsContext.getInstance();
+            ctx.setProperty("net.sf.jasperreports.compiler.java",
+                    "net.sf.jasperreports.engine.design.JRJaninoCompiler");
+
             JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
