@@ -130,26 +130,24 @@
 </header>
 
 <script>
-    // Mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function() {
+    function initMobileMenu() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                mobileMenuButton.classList.toggle('menu-open');
-            });
+        if (!mobileMenuButton || !mobileMenu) return;
 
-            // Cerrar menú al hacer click en un enlace
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenuButton.classList.remove('menu-open');
-                });
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.classList.toggle('menu-open');
+        });
+
+        // Cerrar menú al hacer click en un enlace
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuButton.classList.remove('menu-open');
             });
-        }
+        });
 
         // Smooth scroll para enlaces internos
         document.querySelectorAll('.smooth-scroll').forEach(anchor => {
@@ -158,20 +156,22 @@
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
-                    // Ajustar offset por el navbar fixed
                     const navbarHeight = 80;
                     const targetPosition = targetElement.offsetTop - navbarHeight;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    // Cerrar menú móvil si está abierto
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     mobileMenu.classList.add('hidden');
                     mobileMenuButton.classList.remove('menu-open');
                 }
             });
         });
-    });
+    }
+
+    // Funciona tanto si el DOM ya cargó como si no
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileMenu);
+    } else {
+        initMobileMenu();
+    }
 </script>
 
 </body>
