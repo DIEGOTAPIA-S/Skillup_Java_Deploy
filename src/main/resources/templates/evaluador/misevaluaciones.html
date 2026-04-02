@@ -4,54 +4,167 @@
     <meta charset="UTF-8">
     <title>Mis Evaluaciones</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pregunta-card {
+            opacity: 0;
+            transform: translateY(18px);
+            animation: slideIn 0.45s ease forwards;
+        }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .opcion-correcta {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #16a34a;
+        }
+        .opcion-normal {
+            background: #fafafa;
+            border-color: #e5e7eb;
+        }
+    </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-gray-50">
 
-<!-- Header fijo arriba -->
 <header class="w-full bg-purple-700 text-white">
     <div th:replace="~{layouts/headerEvaluador :: headerEvaluador}"></div>
 </header>
 
-<!-- Contenido principal -->
-<main class="flex-grow bg-gray-100 p-8 overflow-auto">
-    <div class="max-w-6xl mx-auto">
+<main class="flex-grow p-6 md:p-10">
+    <div class="max-w-3xl mx-auto">
 
-        <h1 class="text-3xl font-bold mb-6 text-purple-700 text-center">Mis Evaluaciones</h1>
+        <!-- Encabezado -->
+        <div class="mb-8 text-center">
+            <p class="text-xs font-semibold tracking-widest uppercase text-purple-400 mb-1">Panel del evaluador</p>
+            <h1 class="text-4xl font-bold text-purple-800 mb-3">Mis Evaluaciones</h1>
+            <p class="text-gray-500 text-sm">Evaluaciones agrupadas por curso</p>
+        </div>
 
-        <table class="min-w-full bg-white shadow-md rounded-lg">
-            <thead>
-            <tr>
-                <th class="px-4 py-2">ID</th>
-                <th class="px-4 py-2">Curso</th>
-                <th class="px-4 py-2">Pregunta</th>
-                <th class="px-4 py-2">Respuesta Correcta</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="pregunta : ${preguntas}">
-                <td class="border px-4 py-2" th:text="${pregunta.id}"></td>
-                <td class="border px-4 py-2" th:text="${pregunta.curso?.nombre ?: 'N/A'}"></td>
-                <td class="border px-4 py-2" th:text="${pregunta.pregunta}"></td>
-                <td class="border px-4 py-2" th:text="${pregunta.respuestaCorrecta}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Divisor decorativo -->
+        <div class="flex items-center gap-3 mb-8">
+            <div class="flex-1 h-px bg-purple-200"></div>
+            <div class="flex gap-1">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-300"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-300"></div>
+            </div>
+            <div class="flex-1 h-px bg-purple-200"></div>
+        </div>
 
-        <div class="mt-8 flex gap-4">
+        <!-- Grupos por curso -->
+        <div class="space-y-10"
+             th:if="${evaluacionesPorCurso != null and !evaluacionesPorCurso.isEmpty()}">
+
+            <div th:each="entrada : ${evaluacionesPorCurso}">
+
+                <!-- Cabecera del curso -->
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-purple-700 flex items-center justify-center shadow flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-lg font-bold text-purple-800" th:text="${entrada.key}">Nombre del curso</h2>
+                        <p class="text-xs text-gray-400"
+                           th:text="${#lists.size(entrada.value)} + ' pregunta(s)'">0 preguntas</p>
+                    </div>
+                    <!-- Badge contador -->
+                    <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full"
+                          th:text="${#lists.size(entrada.value)} + ' Pregs'">0 Pregs.</span>
+                </div>
+
+                <!-- Línea bajo el curso -->
+                <div class="h-px bg-purple-100 mb-5"></div>
+
+                <!-- Preguntas del curso -->
+                <div class="space-y-4">
+                    <div th:each="pregunta, iterStat : ${entrada.value}"
+                         class="pregunta-card bg-white rounded-2xl shadow-sm border border-purple-100 overflow-hidden"
+                         th:style="'animation-delay:' + ${iterStat.index * 60} + 'ms'">
+
+                        <!-- Cabecera pregunta -->
+                        <div class="flex items-start gap-4 px-6 pt-5 pb-3">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-purple-600 to-purple-400 flex items-center justify-center text-white font-bold text-xs shadow">
+                                <span th:text="${iterStat.count}">1</span>
+                            </div>
+                            <p class="flex-1 pt-0.5 text-gray-800 font-semibold leading-snug text-sm"
+                               th:text="${pregunta.pregunta}">Enunciado de la pregunta</p>
+                        </div>
+
+                        <!-- Opciones -->
+                        <div class="px-6 pb-5 space-y-2">
+
+                            <div th:classappend="${pregunta.respuestaCorrecta == 'A'} ? 'opcion-correcta border-green-400' : 'opcion-normal border-gray-200'"
+                                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-all">
+                                <span th:classappend="${pregunta.respuestaCorrecta == 'A'} ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'"
+                                      class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">A</span>
+                                <span class="text-sm text-gray-700 flex-1" th:text="${pregunta.opcionA}">Opción A</span>
+                                <svg th:if="${pregunta.respuestaCorrecta == 'A'}" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                            <div th:classappend="${pregunta.respuestaCorrecta == 'B'} ? 'opcion-correcta border-green-400' : 'opcion-normal border-gray-200'"
+                                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-all">
+                                <span th:classappend="${pregunta.respuestaCorrecta == 'B'} ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'"
+                                      class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">B</span>
+                                <span class="text-sm text-gray-700 flex-1" th:text="${pregunta.opcionB}">Opción B</span>
+                                <svg th:if="${pregunta.respuestaCorrecta == 'B'}" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                            <div th:classappend="${pregunta.respuestaCorrecta == 'C'} ? 'opcion-correcta border-green-400' : 'opcion-normal border-gray-200'"
+                                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-all">
+                                <span th:classappend="${pregunta.respuestaCorrecta == 'C'} ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'"
+                                      class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">C</span>
+                                <span class="text-sm text-gray-700 flex-1" th:text="${pregunta.opcionC}">Opción C</span>
+                                <svg th:if="${pregunta.respuestaCorrecta == 'C'}" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                            <div th:classappend="${pregunta.respuestaCorrecta == 'D'} ? 'opcion-correcta border-green-400' : 'opcion-normal border-gray-200'"
+                                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-all">
+                                <span th:classappend="${pregunta.respuestaCorrecta == 'D'} ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'"
+                                      class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">D</span>
+                                <span class="text-sm text-gray-700 flex-1" th:text="${pregunta.opcionD}">Opción D</span>
+                                <svg th:if="${pregunta.respuestaCorrecta == 'D'}" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Estado vacío -->
+        <div th:if="${evaluacionesPorCurso == null or evaluacionesPorCurso.isEmpty()}"
+             class="text-center py-20 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-purple-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="font-medium">No hay evaluaciones creadas aún</p>
+            <p class="text-sm mt-1">Crea tu primera evaluación para verla aquí</p>
+        </div>
+
+        <!-- Acciones -->
+        <div class="mt-10 flex flex-wrap gap-3 justify-center">
             <a th:href="@{/evaluador/formularioevaluacion}"
-               class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-bold shadow-md transition">
-                ➕ Crear Nueva Evaluación
+               class="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition-all duration-150 flex items-center gap-2">
+                <span>➕</span> Crear Nueva Evaluación
             </a>
-            <a th:href="@{/evaluador/inicio}" 
-               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-bold transition">
-                ← Volver al Inicio
+            <a th:href="@{/evaluador/inicio}"
+               class="bg-white hover:bg-gray-50 active:scale-95 text-gray-600 border border-gray-200 px-6 py-3 rounded-xl font-semibold transition-all duration-150 flex items-center gap-2">
+                <span>←</span> Volver al Inicio
             </a>
         </div>
 
     </div>
 </main>
-
-
 
 </body>
 </html>

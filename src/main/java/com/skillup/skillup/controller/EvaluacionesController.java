@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -37,7 +39,15 @@ public class EvaluacionesController {
     @GetMapping("/evaluador/misevaluaciones")
     public String verMisEvaluaciones(Model model) {
         List<PreguntaEvaluacion> preguntas = evaluacionService.obtenerTodasLasPreguntas();
-        model.addAttribute("preguntas", preguntas);
+
+        Map<String, List<PreguntaEvaluacion>> agrupadas = preguntas.stream()
+                .collect(Collectors.groupingBy(p ->
+                        p.getCurso() != null ? p.getCurso() .getNombre() : "Sin curso"));
+
+
+        model.addAttribute("evaluacionesPorCurso", agrupadas);
+
+
         return "evaluador/misevaluaciones";
     }
 
